@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sara Abia, Designer & Strategist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #f4ede0;
+    --paper: #ede2cc;
+    --ink: #1a1814;
+    --terracotta: #c0492b;
+    --terracotta-deep: #8a3220;
+    --sage: #6b7f5a;
+    --ochre: #d4a437;
+    --rule: #1a181428;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--terracotta); color: var(--cream); }
+
+  /* paper texture */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(192,73,43,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(107,127,90,0.04) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ============ NAV ============ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 1.4rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: rgba(244, 237, 224, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-mark {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
+  }
+  .nav-mark em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .nav-links a {
+    color: var(--ink);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 3px;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0; height: 1px;
+    background: var(--terracotta);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    padding: 9rem 3rem 4rem;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: center;
+    z-index: 1;
+  }
+  .hero-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--terracotta);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-meta span:first-child::before {
+    content: '◆';
+    margin-right: 0.6rem;
+    color: var(--ochre);
+  }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(3.5rem, 9vw, 8.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.4s forwards;
+  }
+  .hero-title .em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--terracotta);
+  }
+  .hero-title .ampersand {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--sage);
+  }
+  .hero-sub {
+    max-width: 620px;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+  .hero-sub em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--terracotta-deep);
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s forwards;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.95rem 1.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background: var(--ink);
+    color: var(--cream);
+    transform: translate(-2px, -2px);
+    box-shadow: 4px 4px 0 var(--terracotta);
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .btn-primary:hover {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+    color: var(--cream);
+  }
+
+  /* hero ornament */
+  .hero-ornament {
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    width: 280px;
+    height: 280px;
+    opacity: 0.7;
+    animation: spinSlow 60s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes spinSlow {
+    from { transform: translateY(-50%) rotate(0deg); }
+    to { transform: translateY(-50%) rotate(360deg); }
+  }
+
+  /* ============ MARQUEE ============ */
+  .marquee {
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 1.1rem 0;
+    position: relative;
+    z-index: 1;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: scroll 40s linear infinite;
+    white-space: nowrap;
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+  .marquee-track span {
+    display: inline-flex;
+    align-items: center;
+    gap: 3rem;
+  }
+  .marquee-track .dot {
+    color: var(--terracotta);
+  }
+  .marquee-track em {
+    font-style: italic;
+    color: var(--ochre);
+  }
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ============ SECTION HEADER ============ */
+  section {
+    padding: 7rem 3rem;
+    position: relative;
+    z-index: 1;
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--terracotta);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 30px;
+    height: 1px;
+    background: var(--terracotta);
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    margin-bottom: 4rem;
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  /* ============ ABOUT ============ */
+  .about {
+    background: var(--paper);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .about-portrait {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: var(--terracotta);
+    overflow: hidden;
+    border: 1px solid var(--ink);
+  }
+  .about-portrait svg {
+    width: 100%;
+    height: 100%;
+  }
+  .about-portrait::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--ink);
+    transform: translate(12px, 12px);
+    z-index: -1;
+  }
+  .about-text p {
+    font-size: 1.18rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    max-width: 560px;
+  }
+  .about-text p:first-child::first-letter {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 4.5rem;
+    float: left;
+    line-height: 0.85;
+    margin: 0.1em 0.15em -0.1em 0;
+    color: var(--terracotta);
+  }
+  .about-text em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--terracotta-deep);
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
+  }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 2.8rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .stat-num em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+  }
+
+  /* ============ WORK ============ */
+  .work-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .case {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 5rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .case:last-child { border-bottom: 1px solid var(--rule); }
+  .case-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--terracotta);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+  }
+  .case-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+  .case-title em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+  .case-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.8rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+  }
+  .case-meta span {
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--rule);
+  }
+  .case-summary {
+    font-size: 1.08rem;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+    max-width: 540px;
+  }
+  .case-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 4px;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+  }
+  .case-link:hover {
+    color: var(--terracotta);
+    border-color: var(--terracotta);
+    gap: 1rem;
+  }
+  .case-visual {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    border: 1px solid var(--ink);
+    transition: transform 0.5s ease;
+  }
+  .case-visual:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--ink);
+  }
+  .case:nth-child(even) .case-text { order: 2; }
+  .case:nth-child(even) .case-visual { order: 1; }
+
+  /* ============ PROCESS ============ */
+  .process {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .process .section-label { color: var(--ochre); }
+  .process .section-label::before { background: var(--ochre); }
+  .process .section-title em { color: var(--ochre); }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .process-card {
+    border-top: 1px solid rgba(244, 237, 224, 0.2);
+    padding-top: 1.5rem;
+  }
+  .process-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 3rem;
+    color: var(--ochre);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .process-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+  .process-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    opacity: 0.8;
+  }
+
+  /* ============ TOOLKIT ============ */
+  .toolkit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    margin-top: 2rem;
+  }
+  .toolkit-col h4 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--terracotta);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .toolkit-col ul {
+    list-style: none;
+  }
+  .toolkit-col li {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .toolkit-col li::before {
+    content: ', ';
+    color: var(--terracotta);
+    margin-right: 0.7rem;
+  }
+
+  /* ============ CONTACT ============ */
+  .contact {
+    background: var(--terracotta);
+    color: var(--cream);
+    text-align: center;
+    padding: 9rem 3rem;
+  }
+  .contact-pre {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ochre);
+    margin-bottom: 2rem;
+  }
+  .contact-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 2.5rem;
+  }
+  .contact-title em {
+    font-style: italic;
+    color: var(--ochre);
+  }
+  .contact-email {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    color: var(--cream);
+    text-decoration: none;
+    border-bottom: 1px solid var(--cream);
+    padding-bottom: 6px;
+    transition: all 0.3s;
+  }
+  .contact-email:hover {
+    color: var(--ochre);
+    border-color: var(--ochre);
+  }
+  .contact-meta {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .contact-meta a {
+    color: var(--cream);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+    transition: all 0.3s;
+  }
+  .contact-meta a:hover { border-color: var(--ochre); color: var(--ochre); }
+
+  /* ============ FOOTER ============ */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 2.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  footer .ochre { color: var(--ochre); }
+
+  /* ============ MODAL ============ */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 24, 20, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 200;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 4rem 2rem;
+    overflow-y: auto;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--cream);
+    max-width: 880px;
+    width: 100%;
+    border: 1px solid var(--ink);
+    padding: 4rem 4rem 5rem;
+    position: relative;
+    animation: modalIn 0.4s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 40px; height: 40px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 1.2rem;
+    transition: all 0.3s;
+  }
+  .modal-close:hover {
+    background: var(--ink);
+    color: var(--cream);
+    transform: rotate(90deg);
+  }
+  .modal-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--terracotta);
+    margin-bottom: 1rem;
+  }
+  .modal-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .modal-title em { font-style: italic; color: var(--terracotta); }
+  .modal-sub {
+    font-size: 1.1rem;
+    color: var(--terracotta-deep);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .modal-section {
+    margin-bottom: 2.5rem;
+  }
+  .modal-section h3 {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--terracotta);
+    margin-bottom: 1rem;
+  }
+  .modal-section p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .modal-section p em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--terracotta-deep);
+  }
+  .modal-impact {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 2rem;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+  .impact-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 2.4rem;
+    line-height: 1;
+    color: var(--terracotta);
+    margin-bottom: 0.5rem;
+  }
+  .impact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ============ MOBILE ============ */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.2rem; font-size: 0.7rem; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero-ornament { display: none; }
+    section { padding: 4.5rem 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-stats { grid-template-columns: 1fr; }
+    .case { grid-template-columns: 1fr; gap: 2rem; padding: 3rem 0; }
+    .case:nth-child(even) .case-text { order: 1; }
+    .case:nth-child(even) .case-visual { order: 0; }
+    .process-grid { grid-template-columns: 1fr; }
+    .toolkit-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .contact { padding: 5rem 1.5rem; }
+    .contact-meta { flex-direction: column; gap: 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    .modal { padding: 3rem 1.5rem; }
+    .modal-impact { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="nav-mark">Sara <em>Abia</em></div>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="hero-meta">
+    <span>Portfolio · 2026</span>
+    <span>Los Angeles · USC</span>
+  </div>
+  <h1 class="hero-title">
+    Designer<br/>
+    <span class="ampersand">&</span> <span class="em">Strategist</span>
+  </h1>
+  <p class="hero-sub">
+    I design products, brands, and decisions at the intersection of <em>data, story, and craft</em>. Currently studying Digital Social Media at USC after a BSc in Data Science from Warwick, and shipping work that lives in the real world.
+  </p>
+  <div class="hero-cta">
+    <a href="#work" class="btn btn-primary">View Work →</a>
+    <a href="#contact" class="btn">Get in Touch</a>
+  </div>
+
+  <!-- Ornament -->
+  <svg class="hero-ornament" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <g id="petal">
+        <path d="M100,100 Q108,50 100,10 Q92,50 100,100 Z" fill="none" stroke="#1a1814" stroke-width="0.7"/>
+      </g>
+    </defs>
+    <circle cx="100" cy="100" r="98" fill="none" stroke="#1a1814" stroke-width="0.5"/>
+    <circle cx="100" cy="100" r="70" fill="none" stroke="#c0492b" stroke-width="0.5" stroke-dasharray="2 3"/>
+    <circle cx="100" cy="100" r="40" fill="none" stroke="#1a1814" stroke-width="0.5"/>
+    <use href="#petal" transform="rotate(0 100 100)"/>
+    <use href="#petal" transform="rotate(45 100 100)"/>
+    <use href="#petal" transform="rotate(90 100 100)"/>
+    <use href="#petal" transform="rotate(135 100 100)"/>
+    <use href="#petal" transform="rotate(180 100 100)"/>
+    <use href="#petal" transform="rotate(225 100 100)"/>
+    <use href="#petal" transform="rotate(270 100 100)"/>
+    <use href="#petal" transform="rotate(315 100 100)"/>
+    <circle cx="100" cy="100" r="6" fill="#c0492b"/>
+    <circle cx="100" cy="100" r="2" fill="#d4a437"/>
+  </svg>
+</header>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>
+      Human-Centered Design <span class="dot">●</span> <em>Brand Strategy</em> <span class="dot">●</span> Product Thinking <span class="dot">●</span> <em>Data &amp; Insights</em> <span class="dot">●</span> AI &amp; LLMs <span class="dot">●</span> <em>Visual Systems</em> <span class="dot">●</span> Editorial Design <span class="dot">●</span> 
+    </span>
+    <span>
+      Human-Centered Design <span class="dot">●</span> <em>Brand Strategy</em> <span class="dot">●</span> Product Thinking <span class="dot">●</span> <em>Data &amp; Insights</em> <span class="dot">●</span> AI &amp; LLMs <span class="dot">●</span> <em>Visual Systems</em> <span class="dot">●</span> Editorial Design <span class="dot">●</span> 
+    </span>
+  </div>
+</div>
+
+<!-- ============ ABOUT ============ -->
+<section class="about" id="about">
+  <div class="section-label">01, About</div>
+  <div class="about-grid">
+    <div class="about-portrait">
+      <!-- Abstract designer portrait -->
+      <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="500" fill="#c0492b"/>
+        <!-- Sun arc -->
+        <circle cx="200" cy="200" r="120" fill="#d4a437" opacity="0.85"/>
+        <circle cx="200" cy="200" r="120" fill="none" stroke="#1a1814" stroke-width="1"/>
+        <!-- Geometric figure suggesting a person -->
+        <ellipse cx="200" cy="280" rx="55" ry="65" fill="#1a1814"/>
+        <rect x="125" y="340" width="150" height="180" fill="#1a1814"/>
+        <!-- Decorative lines -->
+        <line x1="40" y1="40" x2="120" y2="40" stroke="#f4ede0" stroke-width="1"/>
+        <line x1="40" y1="50" x2="80" y2="50" stroke="#f4ede0" stroke-width="1"/>
+        <line x1="280" y1="460" x2="360" y2="460" stroke="#f4ede0" stroke-width="1"/>
+        <line x1="320" y1="470" x2="360" y2="470" stroke="#f4ede0" stroke-width="1"/>
+        <!-- Small details -->
+        <circle cx="60" cy="450" r="3" fill="#f4ede0"/>
+        <circle cx="75" cy="450" r="3" fill="#f4ede0"/>
+        <circle cx="90" cy="450" r="3" fill="#f4ede0"/>
+        <text x="200" y="490" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="#f4ede0" letter-spacing="3">SA · 2026</text>
+      </svg>
+    </div>
+    <div class="about-text">
+      <p>
+        I'm a designer who came up through data. After a <em>BSc in Data Science</em> at the University of Warwick, I'm now pursuing an MSc in Digital Social Media at USC, chasing the part of design that lives where research, story, and product converge.
+      </p>
+      <p>
+        I co-founded a boutique hotel during the pandemic and ran every part of the guest experience: website, brand, booking flow, in-room collateral, the whole thing. I won "Best Design" at Goldman Sachs for a UX challenge, shipped a consumer site through Kode with Klossy, and now lead strategy &amp; analytics on a live consumer-brand campaign at USC.
+      </p>
+      <p>
+        I think the best design comes from <em>understanding people deeply, then sweating the details</em>. I'm trilingual (English, French, Arabic), an active builder with AI tooling, and genuinely happiest when I'm jumping between a Figma file and a customer interview.
+      </p>
+      <div class="about-stats">
+        <div>
+          <div class="stat-num"><em>4</em>yrs</div>
+          <div class="stat-label">Building products</div>
+        </div>
+        <div>
+          <div class="stat-num"><em>3</em></div>
+          <div class="stat-label">Languages spoken</div>
+        </div>
+        <div>
+          <div class="stat-num"><em>40</em>%</div>
+          <div class="stat-label">Revenue lift, riad</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WORK ============ -->
+<section id="work">
+  <div class="section-label">02, Selected Work</div>
+  <h2 class="section-title">Four projects I'm proud of, and what each one taught me about <em>shipping for real people</em>.</h2>
+
+  <div class="work-list">
+
+    <!-- Case 1: Riad -->
+    <div class="case">
+      <div class="case-text">
+        <div class="case-num">CASE 01 / 04</div>
+        <h3 class="case-title">A boutique hotel, <em>rebuilt around the guest</em></h3>
+        <div class="case-meta">
+          <span>Brand · Web · UX</span>
+          <span>2020 to 2024</span>
+          <span>Solo + Co-founder</span>
+        </div>
+        <p class="case-summary">
+          When COVID-19 collapsed our family riad's bookings, I redesigned the entire guest experience, website, brand, booking flow, in-room collateral, using guest reviews as my primary research tool. Reservations climbed 30% and revenue 40%, while our rating reached 4.8/5.
+        </p>
+        <button class="case-link" onclick="openModal('riad')">Read case study →</button>
+      </div>
+      <div class="case-visual">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="300" fill="#ede2cc"/>
+          <!-- Sun -->
+          <circle cx="200" cy="120" r="55" fill="#d4a437"/>
+          <!-- Arched doorway/window -->
+          <path d="M150,180 L150,90 Q150,50 200,50 Q250,50 250,90 L250,180 Z" fill="#c0492b" stroke="#1a1814" stroke-width="1.5"/>
+          <path d="M165,180 L165,95 Q165,65 200,65 Q235,65 235,95 L235,180 Z" fill="#8a3220"/>
+          <line x1="200" y1="65" x2="200" y2="180" stroke="#1a1814" stroke-width="1"/>
+          <!-- Tile pattern bottom -->
+          <g fill="#1a1814">
+            <rect x="0" y="220" width="400" height="2"/>
+            <rect x="0" y="260" width="400" height="2"/>
+          </g>
+          <g stroke="#c0492b" stroke-width="1" fill="none">
+            <pattern id="tiles" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+              <rect width="20" height="20" fill="#ede2cc"/>
+              <path d="M0,10 L10,0 L20,10 L10,20 Z" fill="#c0492b" opacity="0.4"/>
+            </pattern>
+            <rect x="0" y="222" width="400" height="38" fill="url(#tiles)"/>
+          </g>
+          <!-- Mini meta -->
+          <text x="20" y="285" font-family="DM Mono, monospace" font-size="8" fill="#1a1814" letter-spacing="2">RIAD · MARRAKECH · 4.8★</text>
+          <text x="380" y="285" text-anchor="end" font-family="DM Mono, monospace" font-size="8" fill="#1a1814" letter-spacing="2">+40% REVENUE</text>
+          <!-- Palm fronds -->
+          <g stroke="#6b7f5a" stroke-width="1.5" fill="none" stroke-linecap="round">
+            <path d="M50,200 Q40,180 30,170"/>
+            <path d="M50,200 Q45,180 50,160"/>
+            <path d="M50,200 Q60,180 65,165"/>
+            <path d="M50,200 Q60,185 75,180"/>
+            <line x1="50" y1="200" x2="50" y2="220"/>
+            <path d="M350,200 Q340,180 330,170"/>
+            <path d="M350,200 Q345,180 350,160"/>
+            <path d="M350,200 Q360,180 365,165"/>
+            <path d="M350,200 Q360,185 375,180"/>
+            <line x1="350" y1="200" x2="350" y2="220"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Case 2: Goldman Sachs Expense Tracker -->
+    <div class="case">
+      <div class="case-text">
+        <div class="case-num">CASE 02 / 04</div>
+        <h3 class="case-title">An expense tracker that <em>won "Best Design"</em></h3>
+        <div class="case-meta">
+          <span>Product · UX · Prototype</span>
+          <span>Goldman Sachs · 2022</span>
+          <span>Lead Designer</span>
+        </div>
+        <p class="case-summary">
+          During Goldman Sachs' Technical Product Development challenge, I led the UX design of a consumer-facing personal expense tracker. We won "Best Design" from a panel of industry-leading investors, recognition for translating user needs into something they actually wanted to use.
+        </p>
+        <button class="case-link" onclick="openModal('goldman')">Read case study →</button>
+      </div>
+      <div class="case-visual">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="300" fill="#1a1814"/>
+          <!-- Phone frame -->
+          <rect x="120" y="40" width="160" height="240" rx="20" fill="#f4ede0" stroke="#c0492b" stroke-width="2"/>
+          <!-- Notch -->
+          <rect x="170" y="50" width="60" height="6" rx="3" fill="#1a1814"/>
+          <!-- Screen content -->
+          <text x="135" y="85" font-family="DM Mono, monospace" font-size="7" fill="#1a1814" letter-spacing="1">SPENT THIS WEEK</text>
+          <text x="135" y="115" font-family="Fraunces, serif" font-size="22" font-style="italic" fill="#c0492b">$284.50</text>
+          <!-- Bar chart -->
+          <g fill="#c0492b">
+            <rect x="135" y="150" width="14" height="40"/>
+            <rect x="155" y="135" width="14" height="55"/>
+            <rect x="175" y="160" width="14" height="30"/>
+            <rect x="195" y="125" width="14" height="65"/>
+            <rect x="215" y="145" width="14" height="45"/>
+            <rect x="235" y="155" width="14" height="35"/>
+            <rect x="255" y="140" width="14" height="50"/>
+          </g>
+          <line x1="130" y1="195" x2="270" y2="195" stroke="#1a1814" stroke-width="0.5"/>
+          <!-- Categories -->
+          <g font-family="DM Mono, monospace" font-size="7" fill="#1a1814">
+            <text x="135" y="220">FOOD</text>
+            <text x="265" y="220" text-anchor="end">$94</text>
+            <text x="135" y="235">TRANSIT</text>
+            <text x="265" y="235" text-anchor="end">$48</text>
+            <text x="135" y="250">SHOPPING</text>
+            <text x="265" y="250" text-anchor="end">$142</text>
+          </g>
+          <!-- Best design badge -->
+          <g transform="translate(40, 130)">
+            <circle cx="0" cy="0" r="35" fill="#d4a437"/>
+            <circle cx="0" cy="0" r="32" fill="none" stroke="#1a1814" stroke-width="0.5"/>
+            <text y="-3" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#1a1814">Best</text>
+            <text y="9" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#1a1814">Design</text>
+          </g>
+          <text x="200" y="295" text-anchor="middle" font-family="DM Mono, monospace" font-size="7" fill="#f4ede0" letter-spacing="2">GOLDMAN SACHS · 2022</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Case 3: Kode with Klossy -->
+    <div class="case">
+      <div class="case-text">
+        <div class="case-num">CASE 03 / 04</div>
+        <h3 class="case-title">A consumer site about <em>sustainable fashion</em></h3>
+        <div class="case-meta">
+          <span>Web · Frontend · IA</span>
+          <span>Kode with Klossy · 2023</span>
+          <span>Designer + Dev</span>
+        </div>
+        <p class="case-summary">
+          I led ideation, wireframing, and full-cycle development of "My Sustainable Guide", a consumer-facing site educating people about ethical fashion choices. Built end-to-end in HTML, CSS, and JavaScript. Received 90% approval from scholars, instructors, and Karlie Kloss.
+        </p>
+        <button class="case-link" onclick="openModal('klossy')">Read case study →</button>
+      </div>
+      <div class="case-visual">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="300" fill="#6b7f5a"/>
+          <!-- Browser frame -->
+          <rect x="40" y="40" width="320" height="220" fill="#f4ede0" stroke="#1a1814" stroke-width="1.5"/>
+          <rect x="40" y="40" width="320" height="22" fill="#ede2cc" stroke="#1a1814" stroke-width="1.5"/>
+          <circle cx="55" cy="51" r="3" fill="#c0492b"/>
+          <circle cx="65" cy="51" r="3" fill="#d4a437"/>
+          <circle cx="75" cy="51" r="3" fill="#6b7f5a"/>
+          <text x="200" y="55" text-anchor="middle" font-family="DM Mono, monospace" font-size="7" fill="#1a1814">mysustainableguide.com</text>
+          <!-- Hero text -->
+          <text x="60" y="105" font-family="Fraunces, serif" font-style="italic" font-size="22" fill="#1a1814">Wear</text>
+          <text x="120" y="105" font-family="Fraunces, serif" font-size="22" fill="#c0492b">better.</text>
+          <text x="60" y="128" font-family="DM Mono, monospace" font-size="7" fill="#1a1814" letter-spacing="1">A FIELD GUIDE TO ETHICAL FASHION</text>
+          <!-- Garment cards -->
+          <g>
+            <rect x="60" y="155" width="80" height="85" fill="#c0492b"/>
+            <rect x="60" y="155" width="80" height="85" fill="none" stroke="#1a1814" stroke-width="1"/>
+            <path d="M75,175 L75,210 L125,210 L125,175 L115,170 L110,180 L90,180 L85,170 Z" fill="#f4ede0"/>
+            <text x="100" y="232" text-anchor="middle" font-family="DM Mono, monospace" font-size="6" fill="#f4ede0">ORGANIC</text>
+          </g>
+          <g>
+            <rect x="160" y="155" width="80" height="85" fill="#d4a437"/>
+            <rect x="160" y="155" width="80" height="85" fill="none" stroke="#1a1814" stroke-width="1"/>
+            <circle cx="200" cy="190" r="20" fill="#1a1814"/>
+            <circle cx="200" cy="190" r="14" fill="#d4a437"/>
+            <text x="200" y="232" text-anchor="middle" font-family="DM Mono, monospace" font-size="6" fill="#1a1814">CIRCULAR</text>
+          </g>
+          <g>
+            <rect x="260" y="155" width="80" height="85" fill="#1a1814"/>
+            <rect x="260" y="155" width="80" height="85" fill="none" stroke="#1a1814" stroke-width="1"/>
+            <path d="M275,200 L300,175 L325,200 L325,225 L275,225 Z" fill="#f4ede0"/>
+            <text x="300" y="232" text-anchor="middle" font-family="DM Mono, monospace" font-size="6" fill="#f4ede0">LOCAL</text>
+          </g>
+          <text x="200" y="285" text-anchor="middle" font-family="DM Mono, monospace" font-size="7" fill="#f4ede0" letter-spacing="2">90% APPROVAL · KARLIE KLOSS</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Case 4: Marimix -->
+    <div class="case">
+      <div class="case-text">
+        <div class="case-num">CASE 04 / 04</div>
+        <h3 class="case-title">A consumer brand campaign, <em>shipped live</em></h3>
+        <div class="case-meta">
+          <span>Brand · Strategy · Analytics</span>
+          <span>Marimix × USC · 2025 to Present</span>
+          <span>Strategy Lead</span>
+        </div>
+        <p class="case-summary">
+          As Strategy &amp; Analytics Lead on a live USC client engagement with Marimix (a consumer snack brand), I work alongside designers and brand leads to manage real ad spend across Reddit and brand-owned channels, translating campaign data into creative direction, audience targeting, and budget allocation across the funnel.
+        </p>
+        <button class="case-link" onclick="openModal('marimix')">Read case study →</button>
+      </div>
+      <div class="case-visual">
+        <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="400" height="300" fill="#f4ede0"/>
+          <!-- Snack package -->
+          <g transform="translate(140, 50)">
+            <path d="M0,10 L120,10 L115,200 L5,200 Z" fill="#c0492b" stroke="#1a1814" stroke-width="1.5"/>
+            <!-- Brand mark -->
+            <text x="60" y="55" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="22" fill="#f4ede0">marimix</text>
+            <!-- Decorative line -->
+            <line x1="20" y1="65" x2="100" y2="65" stroke="#f4ede0" stroke-width="0.5"/>
+            <text x="60" y="85" text-anchor="middle" font-family="DM Mono, monospace" font-size="6" fill="#f4ede0" letter-spacing="2">SNACK MIX</text>
+            <!-- Illustration: nuts/snacks -->
+            <circle cx="35" cy="130" r="10" fill="#d4a437"/>
+            <ellipse cx="60" cy="135" rx="12" ry="8" fill="#8a3220"/>
+            <circle cx="85" cy="125" r="8" fill="#d4a437"/>
+            <ellipse cx="45" cy="155" rx="9" ry="7" fill="#6b7f5a"/>
+            <circle cx="75" cy="160" r="9" fill="#d4a437"/>
+            <ellipse cx="60" cy="180" rx="10" ry="6" fill="#8a3220"/>
+            <!-- Net weight -->
+            <text x="60" y="195" text-anchor="middle" font-family="DM Mono, monospace" font-size="5" fill="#f4ede0" letter-spacing="1">NET WT 6OZ</text>
+          </g>
+          <!-- Chart fragments -->
+          <g transform="translate(30, 60)">
+            <text font-family="DM Mono, monospace" font-size="7" fill="#1a1814" letter-spacing="1">CTR</text>
+            <text y="14" font-family="Fraunces, serif" font-style="italic" font-size="20" fill="#c0492b">2.4%</text>
+            <line x1="0" y1="22" x2="60" y2="22" stroke="#1a1814" stroke-width="0.5"/>
+          </g>
+          <g transform="translate(30, 130)">
+            <text font-family="DM Mono, monospace" font-size="7" fill="#1a1814" letter-spacing="1">REACH</text>
+            <text y="14" font-family="Fraunces, serif" font-style="italic" font-size="20" fill="#c0492b">182K</text>
+            <line x1="0" y1="22" x2="60" y2="22" stroke="#1a1814" stroke-width="0.5"/>
+          </g>
+          <g transform="translate(310, 80)">
+            <circle cx="20" cy="20" r="20" fill="none" stroke="#6b7f5a" stroke-width="3"/>
+            <path d="M20,0 A20,20 0 0,1 40,20 L20,20 Z" fill="#6b7f5a"/>
+            <text x="20" y="55" text-anchor="middle" font-family="DM Mono, monospace" font-size="6" fill="#1a1814">REDDIT</text>
+          </g>
+          <g transform="translate(310, 160)">
+            <circle cx="20" cy="20" r="20" fill="none" stroke="#d4a437" stroke-width="3"/>
+            <path d="M20,0 A20,20 0 0,1 38,30 L20,20 Z" fill="#d4a437"/>
+            <text x="20" y="55" text-anchor="middle" font-family="DM Mono, monospace" font-size="6" fill="#1a1814">OWNED</text>
+          </g>
+          <text x="200" y="285" text-anchor="middle" font-family="DM Mono, monospace" font-size="7" fill="#1a1814" letter-spacing="2">LIVE CAMPAIGN · USC × MARIMIX</text>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="process" id="process">
+  <div class="section-label">03, How I Work</div>
+  <h2 class="section-title">A loose <em>four-step rhythm</em>, repeated until the work is right.</h2>
+  <div class="process-grid">
+    <div class="process-card">
+      <div class="process-num">i.</div>
+      <h3 class="process-title">Listen</h3>
+      <p class="process-text">Customer interviews, reviews, support tickets, raw data. The work starts here, not in Figma. Context is the moat.</p>
+    </div>
+    <div class="process-card">
+      <div class="process-num">ii.</div>
+      <h3 class="process-title">Frame</h3>
+      <p class="process-text">Turn the noise into a question worth answering. What is the actual job to be done? What does success look like?</p>
+    </div>
+    <div class="process-card">
+      <div class="process-num">iii.</div>
+      <h3 class="process-title">Ship</h3>
+      <p class="process-text">Wireframe, prototype, build, deploy. Move fast, but not at the expense of details. Everything should feel considered.</p>
+    </div>
+    <div class="process-card">
+      <div class="process-num">iv.</div>
+      <h3 class="process-title">Learn</h3>
+      <p class="process-text">Measure what matters. Talk to people. Iterate. The first version is rarely the right one, that's why we ship.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOOLKIT ============ -->
+<section>
+  <div class="section-label">04, Toolkit</div>
+  <h2 class="section-title">What I work with, <em>day to day</em>.</h2>
+  <div class="toolkit-grid">
+    <div class="toolkit-col">
+      <h4>Design &amp; Prototyping</h4>
+      <ul>
+        <li>Figma</li>
+        <li>Adobe Photoshop</li>
+        <li>Canva</li>
+        <li>Wireframing &amp; flows</li>
+        <li>Visual systems</li>
+      </ul>
+    </div>
+    <div class="toolkit-col">
+      <h4>Build &amp; Code</h4>
+      <ul>
+        <li>HTML, CSS, JavaScript</li>
+        <li>Python (Pandas, Scikit-learn)</li>
+        <li>SQL · Tableau · R</li>
+        <li>Java</li>
+      </ul>
+    </div>
+    <div class="toolkit-col">
+      <h4>Strategy &amp; AI</h4>
+      <ul>
+        <li>User research</li>
+        <li>Brand &amp; campaign strategy</li>
+        <li>LLM prompting</li>
+        <li>Agentic workflows</li>
+        <li>AI-assisted ideation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="contact-pre">05, Let's Talk</div>
+  <h2 class="contact-title">Open to <em>summer 2026</em><br/>internships &amp; collabs.</h2>
+  <a href="mailto:saraabia2002@gmail.com" class="contact-email">saraabia2002@gmail.com</a>
+  <div class="contact-meta">
+    <a href="mailto:saraabia2002@gmail.com">Email</a>
+    <a href="tel:+16267310863">+1 (626) 731 0863</a>
+    <span>Los Angeles, CA</span>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div>© 2026 Sara Abia</div>
+  <div>Designed &amp; built by <span class="ochre">SA</span></div>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const cases = {
+  riad: {
+    meta: 'CASE 01 · BRAND, WEB, UX · 2020 to 2024',
+    title: 'A boutique hotel, <em>rebuilt around the guest</em>',
+    sub: 'Redesigning Riad Deux Palmiers from the ground up during a global tourism collapse.',
+    sections: [
+      { h: 'Context', p: 'Riad Deux Palmiers is our family-owned boutique hotel in Marrakech. When COVID-19 collapsed international tourism in 2020, we faced a choice: shut down, or rebuild for a future where guests would expect more, better information, smoother booking, more thoughtful in-person experience. I co-founded the operation and took ownership of the entire guest-facing surface.' },
+      { h: 'Approach', p: 'I treated <em>guest reviews and direct conversations as primary research</em>. I read every Booking.com and Expedia review going back two years, mapped the complaints and the praise, and let those patterns shape the redesign. The first thing I rebuilt was the website, clearer photography, an honest description of the rooms, and a booking flow that surfaced what guests actually wanted to know first (Wi-Fi, breakfast, transit) instead of marketing copy.' },
+      { h: 'Design Decisions', p: 'I worked in Figma and Photoshop to design the digital marketing assets, social posts, and landing-page mockups. In parallel, I redesigned the in-room collateral, welcome cards, the breakfast menu, the local recommendations guide, to match the brand. The whole system is built on a small, warm palette that reflects the riad itself: terracotta, cream, ochre, sage. The same palette runs through this portfolio.' },
+      { h: 'What I Learned', p: 'When you own the whole experience, you learn quickly that <em>design is mostly about details no one consciously notices</em>. The 4.8/5 rating did not come from one big idea. It came from a hundred small ones, readable signage, a clearer breakfast card, a faster reply on WhatsApp.' }
+    ],
+    impact: [
+      { num: '+40%', label: 'Revenue lift' },
+      { num: '+30%', label: 'Reservations' },
+      { num: '4.8/5', label: 'Customer rating' }
+    ]
+  },
+  goldman: {
+    meta: 'CASE 02 · PRODUCT, UX, PROTOTYPE · GOLDMAN SACHS · 2022',
+    title: 'An expense tracker that <em>won "Best Design"</em>',
+    sub: 'A consumer-facing financial product designed in a one-week sprint, and recognized by a panel of investors.',
+    sections: [
+      { h: 'Context', p: 'During Goldman Sachs\' Engineering Summer Program, my team was given a Technical Product Development brief: design and prototype a consumer-facing personal expense tracker. The challenge was to ship something genuinely useful in a week, with real engineering trade-offs, presented to a panel of industry-leading investors.' },
+      { h: 'My Role', p: 'I led product strategy and UX design. I ran a quick round of user interviews with peers about how they actually track spending (most do not), and we built the product around what people <em>need to feel</em>, not just what they need to see. The core insight: people do not want a financial dashboard; they want a quick read on whether they are okay this week.' },
+      { h: 'Design Decisions', p: 'The home screen leads with one number: what you have spent this week. Categories are collapsed by default and only expand on tap. Charts use a single accent color so the eye knows where to land. We sweated typography, used generous spacing, and removed every secondary feature that did not serve the primary "am I okay?" question.' },
+      { h: 'Outcome', p: 'We won the <em>"Best Design" prize</em> from the investor panel, with feedback specifically calling out the focus and restraint of the interface. Beyond the award, the project taught me how much of product design is about subtraction, the discipline to remove features that add complexity without adding value.' }
+    ],
+    impact: [
+      { num: '1st', label: 'Best Design award' },
+      { num: '7d', label: 'From brief to demo' },
+      { num: '30+', label: 'Engineering connects' }
+    ]
+  },
+  klossy: {
+    meta: 'CASE 03 · WEB, FRONTEND, IA · KODE WITH KLOSSY · 2023',
+    title: 'A consumer site about <em>sustainable fashion</em>',
+    sub: 'Designing and shipping My Sustainable Guide end-to-end in two weeks, as a Kode with Klossy scholar.',
+    sections: [
+      { h: 'Context', p: 'Kode with Klossy is a competitive scholarship program that brings together young women in tech for an intensive build sprint. My team\'s brief was to ship a consumer-facing website on a topic we cared about. We chose <em>sustainable fashion</em>, a category full of jargon and greenwashing, where most consumers genuinely do not know how to make better choices.' },
+      { h: 'Approach', p: 'I led ideation and information architecture. We started by mapping the questions a curious shopper actually asks: "Is this material good?" "Is this brand legit?" "What do these labels mean?" Those questions became our top-level navigation. The whole site is structured around answering them, not around lecturing.' },
+      { h: 'Design Decisions', p: 'I wireframed the flows, designed the visual system (an editorial palette of green, ochre, ink), and led full-cycle development in HTML, CSS, and JavaScript. Cards became the primary unit, each one a digestible answer to one of those starter questions. We kept the language warm and non-judgmental, because shame is a terrible motivator for sustained behavior change.' },
+      { h: 'Outcome', p: 'The final iteration received <em>90% approval</em> from scholars, instructors, and Karlie Kloss herself in our pitch. More importantly, it taught me how to take a project from a vague idea through ideation, design, build, and presentation in under two weeks, a cadence I have used on every project since.' }
+    ],
+    impact: [
+      { num: '90%', label: 'Approval rate' },
+      { num: '14d', label: 'From idea to ship' },
+      { num: 'E2E', label: 'Design + build' }
+    ]
+  },
+  marimix: {
+    meta: 'CASE 04 · BRAND, STRATEGY, ANALYTICS · USC × MARIMIX · 2025 to PRESENT',
+    title: 'A consumer brand campaign, <em>shipped live</em>',
+    sub: 'Strategy & Analytics Lead on a live client engagement through USC\'s AdTech & AI Trends program.',
+    sections: [
+      { h: 'Context', p: 'Marimix is a consumer snack brand. Through USC\'s DSM 529 (AdTech Innovations & AI Trends), my team is running a live campaign with real ad spend across Reddit and brand-owned channels, not a case study, an actual engagement with KPIs the client expects us to hit.' },
+      { h: 'My Role', p: 'As <em>Strategy &amp; Analytics Lead</em>, I sit between the creative and analytics workstreams. I translate campaign performance data into recommendations the design and brand leads can act on: which audience segments are converting, which messaging is landing, where to reallocate budget across the funnel. I also help shape the creative briefs so the work we ship is grounded in what we are actually learning.' },
+      { h: 'Approach', p: 'I built a shared performance dashboard the whole team uses, so creative decisions are made with the data visible, not pulled out as a post-hoc justification. The rhythm is: ship a creative variant, watch the numbers for 48 hours, gather around the dashboard, decide what to do next. Iteration speed matters more than perfect first-time creative.' },
+      { h: 'Outcome', p: 'The campaign is ongoing. The most important outcome so far is procedural: the team genuinely uses the dashboard, and creative recommendations are now grounded in audience data rather than gut. This is the <em>data-meets-design loop</em> I want to keep building.' }
+    ],
+    impact: [
+      { num: 'Live', label: 'Real ad spend' },
+      { num: '2', label: 'Channels active' },
+      { num: '∞', label: 'Iteration loops' }
+    ]
+  }
+};
+
+function openModal(key) {
+  const c = cases[key];
+  const body = document.getElementById('modal-body');
+  body.innerHTML = `
+    <div class="modal-meta">${c.meta}</div>
+    <h2 class="modal-title">${c.title}</h2>
+    <p class="modal-sub">${c.sub}</p>
+    ${c.sections.map(s => `<div class="modal-section"><h3>${s.h}</h3><p>${s.p}</p></div>`).join('')}
+    <div class="modal-impact">
+      ${c.impact.map(i => `<div><div class="impact-num">${i.num}</div><div class="impact-label">${i.label}</div></div>`).join('')}
+    </div>
+  `;
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+
+</body>
+</html>
