@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Where Does My Donation Go? — World Central Kitchen, 2024</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f5f1ea;
+    --bg-warm: #ede5d4;
+    --paper: #faf6ec;
+    --hairline: #d4cdb8;
+    --hairline-strong: #b8b09a;
+    --ink: #1a1814;
+    --ink-soft: #4a463e;
+    --mute: #807a6c;
+    --accent: #c8553d;
+    --accent-soft: #e89481;
+    --program: #c8553d;
+    --management: #6b8e6f;
+    --fundraising: #d4a357;
+    --food: #c8553d;
+    --logistics: #d97757;
+    --salaries: #6b8e6f;
+    --supplies: #8a6d4a;
+    --travel: #d4a357;
+    --tech: #6b3a5e;
+    --other: #7a756c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter Tight', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--ink); color: var(--bg); }
+  a { color: inherit; text-decoration: none; }
+
+  /* TOP BAR */
+  .topbar {
+    position: sticky;
+    top: 0; z-index: 50;
+    background: rgba(245, 241, 234, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--hairline);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .topbar .left {
+    display: flex; align-items: center; gap: 1.5rem;
+  }
+  .back-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--mute);
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--accent); }
+  .topbar-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+  .topbar .right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--mute);
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+  }
+  .topbar .live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .topbar .live-pill .dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* HERO */
+  .hero {
+    padding: 6rem 2rem 3rem;
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--mute);
+    margin-bottom: 1.8rem;
+    letter-spacing: 0.04em;
+  }
+  .hero-eyebrow .sep { color: var(--accent); margin: 0 0.5rem; }
+  .hero-title {
+    font-weight: 500;
+    font-size: clamp(2.6rem, 6.5vw, 5.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    max-width: 1200px;
+  }
+  .hero-title em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.4rem;
+    color: var(--ink-soft);
+    line-height: 1.4;
+    max-width: 920px;
+    margin-bottom: 3rem;
+  }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    border-top: 1px solid var(--hairline);
+    padding-top: 1.8rem;
+  }
+  .hero-meta .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+  }
+  .hero-meta .val {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 5rem 2rem;
+    border-top: 1px solid var(--hairline);
+  }
+  .section-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+  }
+  .section-eyebrow .right { color: var(--mute); }
+  .section-title {
+    font-weight: 500;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    max-width: 920px;
+    margin-bottom: 3rem;
+  }
+  .section-title em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+  .section-intro {
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 820px;
+    margin-bottom: 3rem;
+  }
+  .section-intro em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  /* CALCULATOR */
+  .calc-wrap {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 3rem;
+  }
+  .calc-row {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .calc-input-block .calc-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+  }
+  .calc-display {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+  }
+  .calc-currency {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 2.5rem;
+    color: var(--mute);
+  }
+  .calc-amount {
+    font-weight: 500;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .calc-slider {
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    background: var(--hairline);
+    border-radius: 100px;
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+  .calc-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 3px solid var(--paper);
+    box-shadow: 0 2px 8px rgba(26, 24, 20, 0.15);
+    transition: transform 0.15s ease;
+  }
+  .calc-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  .calc-slider::-moz-range-thumb {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 3px solid var(--paper);
+    box-shadow: 0 2px 8px rgba(26, 24, 20, 0.15);
+  }
+  .calc-presets {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+  .calc-preset {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--ink);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .calc-preset:hover, .calc-preset.active {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  /* Output side: stacked bars */
+  .calc-output {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .breakdown-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 90px;
+    gap: 0.8rem;
+    align-items: center;
+  }
+  .breakdown-name {
+    font-size: 0.85rem;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .breakdown-name .desc {
+    font-family: 'JetBrains Mono', monospace;
+    display: block;
+    font-size: 0.65rem;
+    color: var(--mute);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+  }
+  .breakdown-bar {
+    height: 32px;
+    background: var(--hairline);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  .breakdown-fill {
+    height: 100%;
+    transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    display: flex;
+    align-items: center;
+    padding: 0 0.7rem;
+  }
+  .breakdown-fill.program { background: var(--program); }
+  .breakdown-fill.management { background: var(--management); }
+  .breakdown-fill.fundraising { background: var(--fundraising); }
+  .breakdown-pct {
+    color: var(--bg);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+  .breakdown-amount {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--ink);
+    font-weight: 500;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .calc-meals {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--hairline);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.5rem;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .calc-meals .num {
+    font-style: normal;
+    font-weight: 500;
+    font-family: 'Inter Tight', sans-serif;
+    color: var(--accent);
+    font-size: 2rem;
+    letter-spacing: -0.03em;
+  }
+  .calc-meals .footnote {
+    display: block;
+    margin-top: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 0.7rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+  }
+
+  /* FLOW SECTION */
+  .flow-section { background: var(--bg-warm); }
+  .flow-svg-wrap {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 2.5rem 2rem;
+    overflow-x: auto;
+  }
+  .flow-svg-wrap svg {
+    width: 100%;
+    height: auto;
+    min-width: 720px;
+    display: block;
+  }
+  .flow-legend {
+    margin-top: 2rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+  }
+  .flow-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .flow-legend-item .swatch {
+    width: 12px; height: 12px;
+    border-radius: 2px;
+  }
+
+  /* PROGRAM BREAKDOWN */
+  .program-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  .program-card {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 1.8rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .program-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+  .program-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    height: 3px; width: 100%;
+    background: var(--accent);
+  }
+  .program-card.food::before { background: var(--food); }
+  .program-card.logistics::before { background: var(--logistics); }
+  .program-card.subcontract::before { background: var(--salaries); }
+  .program-card.travel::before { background: var(--travel); }
+  .program-card.salaries::before { background: var(--tech); }
+  .program-card.supplies::before { background: var(--supplies); }
+  .program-card.other::before { background: var(--other); }
+  .program-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--mute);
+    margin-bottom: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+  .program-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+  .program-amount {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 2rem;
+    color: var(--ink);
+    line-height: 1;
+    margin: 0.6rem 0 0.2rem;
+    letter-spacing: -0.02em;
+  }
+  .program-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+  }
+  .program-desc {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  /* COMPARISON YOY */
+  .yoy-section { }
+  .yoy-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+  .yoy-card {
+    background: var(--paper);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    padding: 2rem;
+  }
+  .yoy-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.2rem;
+  }
+  .yoy-numbers {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .yoy-current {
+    font-family: 'Inter Tight', sans-serif;
+    font-weight: 500;
+    font-size: 2.4rem;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .yoy-prev {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--mute);
+  }
+  .yoy-delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+  .yoy-delta.up {
+    background: rgba(107, 142, 111, 0.15);
+    color: var(--management);
+  }
+  .yoy-delta.down {
+    background: rgba(200, 85, 61, 0.15);
+    color: var(--accent);
+  }
+  .yoy-delta.flat {
+    background: rgba(212, 163, 87, 0.15);
+    color: #b88838;
+  }
+  .yoy-context {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    margin-top: 1rem;
+  }
+
+  /* INSIGHT */
+  .insight-block {
+    margin-top: 4rem;
+    padding: 3rem 3rem;
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 4px;
+    position: relative;
+  }
+  .insight-block::before {
+    content: '"';
+    position: absolute;
+    top: -1rem; left: 1.5rem;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 6rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .insight-block .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+    margin-left: 4rem;
+  }
+  .insight-block p {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.6rem;
+    line-height: 1.4;
+    margin-left: 4rem;
+    max-width: 920px;
+  }
+  .insight-block p em {
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  /* METHODOLOGY */
+  .method {
+    background: var(--bg-warm);
+  }
+  .method-text {
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 820px;
+    margin-bottom: 1.5rem;
+  }
+  .method-text strong { color: var(--ink); font-weight: 600; }
+  .method-text em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .method-sources {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--hairline);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .method-sources a {
+    color: var(--accent);
+    border-bottom: 1px dashed var(--hairline-strong);
+    padding-bottom: 1px;
+    transition: border-color 0.2s ease;
+  }
+  .method-sources a:hover { border-color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 4rem 2rem 2rem;
+    text-align: center;
+  }
+  .footer-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    margin-bottom: 2rem;
+    line-height: 1.3;
+  }
+  .footer-title em { color: var(--accent); }
+  .footer-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.8rem;
+    background: var(--bg);
+    color: var(--ink);
+    border-radius: 100px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    margin: 0 0.4rem;
+  }
+  .footer-cta.outline {
+    background: transparent;
+    color: var(--bg);
+    border: 1px solid rgba(245, 241, 234, 0.3);
+  }
+  .footer-cta:hover {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+  .footer-meta {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(245, 241, 234, 0.15);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    color: rgba(245, 241, 234, 0.5);
+    letter-spacing: 0.02em;
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .topbar { padding: 0.8rem 1rem; }
+    .hero { padding: 4rem 1rem 2rem; }
+    .hero-meta { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    section { padding: 3rem 1rem; }
+    .calc-wrap { padding: 1.8rem 1.2rem; }
+    .calc-row { grid-template-columns: 1fr; gap: 2.5rem; }
+    .breakdown-row { grid-template-columns: 80px 1fr; }
+    .breakdown-amount { display: none; }
+    .program-grid { grid-template-columns: 1fr; }
+    .yoy-grid { grid-template-columns: 1fr; }
+    .insight-block { padding: 2rem 1.4rem; }
+    .insight-block::before { left: 0.5rem; font-size: 4rem; }
+    .insight-block .label, .insight-block p { margin-left: 2rem; }
+    .insight-block p { font-size: 1.2rem; }
+    footer { padding: 3rem 1rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="left">
+    <a href="./index.html" class="back-link">← /work</a>
+    <span class="topbar-title">where does my donation go?</span>
+  </div>
+  <div class="right">
+    <span class="live-pill"><span class="dot"></span>FY2024 AUDITED</span>
+    <span>WCK · Form 990</span>
+    <span id="clock">—</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-eyebrow">
+    ./projects <span class="sep">/</span> donation-flow <span class="sep">/</span> world central kitchen, 2024
+  </div>
+
+  <h1 class="hero-title">
+    Where does <em>my donation</em> go,<br/>
+    when I give to World Central Kitchen?
+  </h1>
+
+  <p class="hero-sub">
+    A transparency tool built from WCK's 2024 audited financial statements. Move the slider to see how a real donation flows through the organization, all the way down to plates of food served on the frontlines of crisis.
+  </p>
+
+  <div class="hero-meta">
+    <div>
+      <div class="label">[FISCAL YEAR]</div>
+      <div class="val">Jan — Dec 2024</div>
+    </div>
+    <div>
+      <div class="label">[TOTAL EXPENSES]</div>
+      <div class="val">$313,089,919</div>
+    </div>
+    <div>
+      <div class="label">[MEALS SERVED]</div>
+      <div class="val">109+ million</div>
+    </div>
+    <div>
+      <div class="label">[COUNTRIES]</div>
+      <div class="val">20</div>
+    </div>
+  </div>
+</header>
+
+<!-- CALCULATOR -->
+<section>
+  <div class="section-eyebrow">
+    <span>[01] / DONATION CALCULATOR</span>
+    <span class="right">INTERACTIVE</span>
+  </div>
+
+  <h2 class="section-title">
+    Pick an <em>amount.</em><br/>
+    Watch where it goes.
+  </h2>
+
+  <div class="calc-wrap">
+    <div class="calc-row">
+      <div class="calc-input-block">
+        <div class="calc-label">[YOUR DONATION]</div>
+        <div class="calc-display">
+          <span class="calc-currency">$</span>
+          <span class="calc-amount" id="amount">100</span>
+        </div>
+        <input type="range" min="10" max="10000" value="100" step="10" class="calc-slider" id="slider"/>
+        <div class="calc-presets">
+          <button class="calc-preset" data-val="25">$25</button>
+          <button class="calc-preset active" data-val="100">$100</button>
+          <button class="calc-preset" data-val="500">$500</button>
+          <button class="calc-preset" data-val="1000">$1,000</button>
+          <button class="calc-preset" data-val="5000">$5,000</button>
+        </div>
+      </div>
+
+      <div class="calc-output">
+        <div class="breakdown-row">
+          <div class="breakdown-name">Programs<span class="desc">EMERGENCY RELIEF</span></div>
+          <div class="breakdown-bar"><div class="breakdown-fill program" id="bar-program"><span class="breakdown-pct" id="pct-program">90.0%</span></div></div>
+          <div class="breakdown-amount" id="amt-program">$90.04</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Management<span class="desc">OPERATIONS &amp; OVERHEAD</span></div>
+          <div class="breakdown-bar"><div class="breakdown-fill management" id="bar-management"><span class="breakdown-pct" id="pct-management">5.7%</span></div></div>
+          <div class="breakdown-amount" id="amt-management">$5.72</div>
+        </div>
+        <div class="breakdown-row">
+          <div class="breakdown-name">Fundraising<span class="desc">TO RAISE NEXT YEAR'S FUNDS</span></div>
+          <div class="breakdown-bar"><div class="breakdown-fill fundraising" id="bar-fundraising"><span class="breakdown-pct" id="pct-fundraising">4.2%</span></div></div>
+          <div class="breakdown-amount" id="amt-fundraising">$4.24</div>
+        </div>
+
+        <div class="calc-meals">
+          That's roughly <span class="num" id="meals">261</span> meals served on the frontlines of crisis.
+          <span class="footnote">[BASED ON FY2024 RATIO: 109M MEALS ÷ $281.9M PROGRAM SPEND ≈ 0.387 MEALS/$1 OF PROGRAM]</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW DIAGRAM -->
+<section class="flow-section">
+  <div class="section-eyebrow">
+    <span>[02] / THE FULL FLOW</span>
+    <span class="right">$313M IN, MILLIONS OF MEALS OUT</span>
+  </div>
+
+  <h2 class="section-title">
+    Where every dollar <em>actually</em> went<br/>
+    in 2024.
+  </h2>
+
+  <p class="section-intro">
+    A flow diagram of WCK's full FY2024 expense statement. <em>Total expenses: $313.1 million.</em> Roughly 90 cents of every dollar reached programs, the highest ratio in WCK's history and well above the 75% benchmark CharityWatch uses for "highly efficient" relief organizations.
+  </p>
+
+  <div class="flow-svg-wrap">
+    <svg viewBox="0 0 1200 540" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <!-- Source node (Total Expenses) -->
+      <g>
+        <rect x="20" y="180" width="180" height="180" rx="3" fill="#1a1814"/>
+        <text x="110" y="220" text-anchor="middle" fill="#f5f1ea" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="2">[TOTAL EXPENSES]</text>
+        <text x="110" y="260" text-anchor="middle" fill="#f5f1ea" font-family="Inter Tight, sans-serif" font-weight="500" font-size="22" letter-spacing="-0.02em">$313.1M</text>
+        <text x="110" y="290" text-anchor="middle" fill="#c8553d" font-family="Fraunces, serif" font-style="italic" font-size="14">FY2024</text>
+        <text x="110" y="330" text-anchor="middle" fill="#f5f1ea" opacity="0.6" font-family="JetBrains Mono, monospace" font-size="9">audited · Sep 2025</text>
+      </g>
+
+      <!-- Three function-level streams (Sankey-ish) -->
+      <!-- Program: 90.04% -->
+      <path d="M 200 180 C 380 180 380 50 560 50 L 560 230 C 380 230 380 270 200 270 Z" fill="#c8553d" opacity="0.85"/>
+      <!-- Management: 5.72% -->
+      <path d="M 200 270 C 380 270 380 250 560 250 L 560 282 C 380 282 380 290 200 290 Z" fill="#6b8e6f" opacity="0.85"/>
+      <!-- Fundraising: 4.24% -->
+      <path d="M 200 290 C 380 290 380 295 560 295 L 560 320 C 380 320 380 360 200 360 Z" fill="#d4a357" opacity="0.85"/>
+
+      <!-- Function nodes -->
+      <g>
+        <rect x="560" y="50" width="170" height="180" rx="3" fill="#c8553d"/>
+        <text x="645" y="84" text-anchor="middle" fill="#f5f1ea" font-family="JetBrains Mono, monospace" font-size="10" letter-spacing="1.5">PROGRAMS</text>
+        <text x="645" y="116" text-anchor="middle" fill="#f5f1ea" font-family="Inter Tight, sans-serif" font-weight="500" font-size="22" letter-spacing="-0.02em">$281.9M</text>
+        <text x="645" y="138" text-anchor="middle" fill="#f5f1ea" font-family="Fraunces, serif" font-style="italic" font-size="13" opacity="0.95">90.04%</text>
+        <text x="645" y="170" text-anchor="middle" fill="#f5f1ea" opacity="0.85" font-family="Inter Tight, sans-serif" font-size="11">emergency relief</text>
+        <text x="645" y="190" text-anchor="middle" fill="#f5f1ea" opacity="0.85" font-family="Inter Tight, sans-serif" font-size="11">domestic + global</text>
+        <text x="645" y="218" text-anchor="middle" fill="#f5f1ea" opacity="0.7" font-family="JetBrains Mono, monospace" font-size="9">→ 109M+ meals served</text>
+      </g>
+
+      <g>
+        <rect x="560" y="250" width="170" height="32" rx="3" fill="#6b8e6f"/>
+        <text x="572" y="270" fill="#f5f1ea" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5">MGMT &amp; GENERAL</text>
+        <text x="718" y="270" text-anchor="end" fill="#f5f1ea" font-family="Inter Tight, sans-serif" font-weight="500" font-size="13">$17.9M · 5.7%</text>
+      </g>
+
+      <g>
+        <rect x="560" y="295" width="170" height="25" rx="3" fill="#d4a357"/>
+        <text x="572" y="312" fill="#1a1814" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5">FUNDRAISING</text>
+        <text x="718" y="312" text-anchor="end" fill="#1a1814" font-family="Inter Tight, sans-serif" font-weight="500" font-size="12">$13.3M · 4.2%</text>
+      </g>
+
+      <!-- Program-only sub-flows (top-5 expenses inside Programs) -->
+      <!-- Food: $189.3M -->
+      <path d="M 730 50 C 880 50 880 30 1030 30 L 1030 145 C 880 145 880 110 730 110 Z" fill="#c8553d"/>
+      <!-- Logistics: $34.1M -->
+      <path d="M 730 110 C 880 110 880 145 1030 145 L 1030 167 C 880 167 880 137 730 137 Z" fill="#d97757"/>
+      <!-- Subcontractors: $20.4M -->
+      <path d="M 730 137 C 880 137 880 167 1030 167 L 1030 184 C 880 184 880 153 730 153 Z" fill="#8a6d4a"/>
+      <!-- Activation, supplies: $12.4M -->
+      <path d="M 730 153 C 880 153 880 184 1030 184 L 1030 196 C 880 196 880 162 730 162 Z" fill="#a87c52"/>
+      <!-- Other program expenses: $25.7M -->
+      <path d="M 730 162 C 880 162 880 196 1030 196 L 1030 230 C 880 230 880 230 730 230 Z" fill="#7a756c"/>
+
+      <!-- Right-side detail labels -->
+      <g font-family="Inter Tight, sans-serif">
+        <g>
+          <rect x="1030" y="30" width="160" height="115" rx="3" fill="#c8553d"/>
+          <text x="1045" y="58" fill="#f5f1ea" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing="1.5">FOOD &amp; INGREDIENTS</text>
+          <text x="1045" y="92" fill="#f5f1ea" font-weight="500" font-size="22" letter-spacing="-0.02em">$189.3M</text>
+          <text x="1045" y="115" fill="#f5f1ea" font-family="Fraunces, serif" font-style="italic" font-size="13" opacity="0.95">60.5% of total</text>
+          <text x="1045" y="135" fill="#f5f1ea" opacity="0.8" font-size="10">the meals themselves</text>
+        </g>
+
+        <g>
+          <rect x="1030" y="145" width="160" height="22" rx="3" fill="#d97757"/>
+          <text x="1042" y="160" fill="#f5f1ea" font-family="JetBrains Mono, monospace" font-size="8.5" letter-spacing="1.2">LOGISTICS &amp; FREIGHT</text>
+          <text x="1180" y="160" text-anchor="end" fill="#f5f1ea" font-weight="500" font-size="11">$34.1M</text>
+        </g>
+
+        <g>
+          <rect x="1030" y="167" width="160" height="17" rx="3" fill="#8a6d4a"/>
+          <text x="1042" y="179" fill="#f5f1ea" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1.2">SUBCONTRACTORS</text>
+          <text x="1180" y="179" text-anchor="end" fill="#f5f1ea" font-weight="500" font-size="10">$20.4M</text>
+        </g>
+
+        <g>
+          <rect x="1030" y="184" width="160" height="12" rx="3" fill="#a87c52"/>
+          <text x="1042" y="193" fill="#f5f1ea" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="1">SUPPLIES &amp; EQUIP.</text>
+          <text x="1180" y="193" text-anchor="end" fill="#f5f1ea" font-weight="500" font-size="9">$12.4M</text>
+        </g>
+
+        <g>
+          <rect x="1030" y="196" width="160" height="34" rx="3" fill="#7a756c"/>
+          <text x="1042" y="212" fill="#f5f1ea" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1.2">SALARIES, TRAVEL,</text>
+          <text x="1042" y="222" fill="#f5f1ea" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1.2">TECH, OFFICE, OTHER</text>
+        </g>
+      </g>
+
+      <!-- arrow / process indicator -->
+      <g>
+        <text x="612" y="500" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="14" fill="#807a6c">a flow built from wck.org's 2024 audited statement of functional expenses</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="flow-legend">
+    <div class="flow-legend-item"><span class="swatch" style="background: #c8553d;"></span>Programs (Emergency Relief)</div>
+    <div class="flow-legend-item"><span class="swatch" style="background: #6b8e6f;"></span>Management &amp; General</div>
+    <div class="flow-legend-item"><span class="swatch" style="background: #d4a357;"></span>Fundraising</div>
+    <div class="flow-legend-item"><span class="swatch" style="background: #8a6d4a;"></span>Sub-categories</div>
+  </div>
+</section>
+
+<!-- PROGRAM EXPENSE BREAKDOWN -->
+<section>
+  <div class="section-eyebrow">
+    <span>[03] / INSIDE PROGRAMS</span>
+    <span class="right">$281.9M, BROKEN OUT</span>
+  </div>
+
+  <h2 class="section-title">
+    Inside the <em>90 cents</em> that go to programs.
+  </h2>
+
+  <p class="section-intro">
+    The largest single category isn't overhead, salaries, or marketing. It's <em>food itself</em>. Sixty-one cents of every program dollar buys ingredients that become meals served in disaster zones.
+  </p>
+
+  <div class="program-grid">
+    <div class="program-card food">
+      <div class="program-rank">[01] LARGEST</div>
+      <div class="program-name">Food &amp; Ingredients</div>
+      <div class="program-amount">$189.3M</div>
+      <div class="program-pct">67.2% of programs</div>
+      <div class="program-desc">Raw ingredients and prepared meals distributed in disaster zones across 20 countries.</div>
+    </div>
+    <div class="program-card logistics">
+      <div class="program-rank">[02]</div>
+      <div class="program-name">Freight &amp; Logistics</div>
+      <div class="program-amount">$34.1M</div>
+      <div class="program-pct">12.1% of programs</div>
+      <div class="program-desc">Moving food and equipment to active relief zones, often within hours of an event.</div>
+    </div>
+    <div class="program-card subcontract">
+      <div class="program-rank">[03]</div>
+      <div class="program-name">Subcontractors</div>
+      <div class="program-amount">$20.4M</div>
+      <div class="program-pct">7.2% of programs</div>
+      <div class="program-desc">Local kitchens, food trucks, and partner organizations on the ground.</div>
+    </div>
+    <div class="program-card supplies">
+      <div class="program-rank">[04]</div>
+      <div class="program-name">Activation &amp; Supplies</div>
+      <div class="program-amount">$12.4M</div>
+      <div class="program-pct">4.4% of programs</div>
+      <div class="program-desc">Cooking equipment, packaging, and materials for setting up emergency kitchens.</div>
+    </div>
+    <div class="program-card travel">
+      <div class="program-rank">[05]</div>
+      <div class="program-name">Travel</div>
+      <div class="program-amount">$5.8M</div>
+      <div class="program-pct">2.1% of programs</div>
+      <div class="program-desc">Deploying staff to active relief zones, often on short notice.</div>
+    </div>
+    <div class="program-card salaries">
+      <div class="program-rank">[06]</div>
+      <div class="program-name">Salaries &amp; Benefits</div>
+      <div class="program-amount">$5.9M</div>
+      <div class="program-pct">2.1% of programs</div>
+      <div class="program-desc">Field staff, kitchen leads, and operations teams running active deployments.</div>
+    </div>
+    <div class="program-card other">
+      <div class="program-rank">[07]</div>
+      <div class="program-name">Occupancy</div>
+      <div class="program-amount">$7.5M</div>
+      <div class="program-pct">2.7% of programs</div>
+      <div class="program-desc">Emergency kitchens, warehouses, and field bases in disaster zones.</div>
+    </div>
+    <div class="program-card other">
+      <div class="program-rank">[08+]</div>
+      <div class="program-name">All Other Program Costs</div>
+      <div class="program-amount">$6.5M</div>
+      <div class="program-pct">2.3% of programs</div>
+      <div class="program-desc">Tech, professional fees, insurance, depreciation, and grants combined.</div>
+    </div>
+  </div>
+</section>
+
+<!-- YEAR OVER YEAR -->
+<section class="yoy-section">
+  <div class="section-eyebrow">
+    <span>[04] / 2024 VS 2023</span>
+    <span class="right">YEAR OVER YEAR</span>
+  </div>
+
+  <h2 class="section-title">
+    What <em>changed</em> from last year.
+  </h2>
+
+  <p class="section-intro">
+    WCK grew significantly in 2024, driven by responses in Gaza, Ukraine, Spain (DANA flooding), and Morocco. Spending grew, but the program-to-overhead ratio actually <em>improved</em>.
+  </p>
+
+  <div class="yoy-grid">
+    <div class="yoy-card">
+      <div class="yoy-card-label">[TOTAL EXPENSES]</div>
+      <div class="yoy-numbers">
+        <div class="yoy-current">$313.1M</div>
+        <div class="yoy-prev">vs $271.5M in 2023</div>
+      </div>
+      <span class="yoy-delta up">↑ +15.3%</span>
+      <p class="yoy-context">Increased deployment scale, particularly in Gaza, Ukraine, and Spain. Total revenues also grew 37%, contributing to a $24.8M net asset increase.</p>
+    </div>
+
+    <div class="yoy-card">
+      <div class="yoy-card-label">[PROGRAM SPEND %]</div>
+      <div class="yoy-numbers">
+        <div class="yoy-current">90.0%</div>
+        <div class="yoy-prev">vs 90.0% in 2023</div>
+      </div>
+      <span class="yoy-delta flat">→ +0.1pp</span>
+      <p class="yoy-context">Program ratio held steady year over year. CharityWatch's "highly efficient" benchmark for emergency relief organizations is 75%. WCK clears it by 15 points.</p>
+    </div>
+
+    <div class="yoy-card">
+      <div class="yoy-card-label">[FOOD AS % OF PROGRAMS]</div>
+      <div class="yoy-numbers">
+        <div class="yoy-current">67.2%</div>
+        <div class="yoy-prev">vs 72.5% in 2023</div>
+      </div>
+      <span class="yoy-delta down">↓ −5.3pp</span>
+      <p class="yoy-context">Food share of program spend dropped slightly as logistics and subcontractor costs grew, reflecting more complex distribution operations in active conflict zones.</p>
+    </div>
+  </div>
+
+  <div class="insight-block">
+    <div class="label">[KEY INSIGHT]</div>
+    <p>WCK is one of the rare relief organizations where the largest single line item is <em>literally food.</em> Most large humanitarian groups spend more on logistics, salaries, or grants than on the relief item itself. Here, ingredients make up <em>60.5% of every dollar spent</em>, the most direct ratio I've found in any major US relief 990 from 2024.</p>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="method">
+  <div class="section-eyebrow">
+    <span>[05] / METHODOLOGY</span>
+    <span class="right">HOW THIS WAS BUILT</span>
+  </div>
+
+  <h2 class="section-title">
+    How this was <em>actually</em> built.
+  </h2>
+
+  <p class="method-text">
+    All numbers come from <strong>WCK's 2024 audited consolidated financial statements</strong>, prepared by Grant Thornton LLP (Arlington, VA), released on September 25, 2025. I parsed the audited Statement of Functional Expenses, which separates spending into the three IRS-required functional categories (programs, management &amp; general, fundraising), and then drilled into the natural-expense classification within Programs (food, freight, salaries, etc.) to build the second-level breakdown.
+  </p>
+
+  <p class="method-text">
+    The <em>meals-per-dollar</em> ratio in the calculator is calculated as <strong>WCK's reported 109+ million meals served in 2024 ÷ $281,892,063 in program expenses ≈ 0.387 meals per program dollar.</strong> This is a directional figure based on the organization's own reporting, not a unit-cost claim.
+  </p>
+
+  <p class="method-text">
+    I built the dashboard in HTML, CSS, and vanilla JavaScript. No external libraries, no chart packages. The Sankey-style flow is hand-drawn SVG sized to actual proportions of the 2024 expense data. The donation calculator updates in real time as you move the slider, with bar fills animating via CSS transitions.
+  </p>
+
+  <div class="method-sources">
+    <div>[SOURCE 01] <a href="https://wck.org/wp-content/uploads/2025/10/aNaWeZ5xUNkB1Jnz_2024WorldCentralKitchenFS.pdf" target="_blank" rel="noopener">WCK 2024 Consolidated Financial Statements (PDF)</a></div>
+    <div>[SOURCE 02] <a href="https://projects.propublica.org/nonprofits/organizations/273521132" target="_blank" rel="noopener">ProPublica Nonprofit Explorer · WCK Form 990s</a></div>
+    <div>[SOURCE 03] <a href="https://www.charitywatch.org/charities/world-central-kitchen" target="_blank" rel="noopener">CharityWatch · WCK Top-Rated Profile</a></div>
+    <div>[SOURCE 04] <a href="https://www.charitynavigator.org/ein/273521132" target="_blank" rel="noopener">Charity Navigator · WCK 4-Star Rating</a></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-title">
+    Built independently. <em>Want to support the actual work?</em>
+  </div>
+  <a href="https://wck.org/donate" target="_blank" rel="noopener" class="footer-cta">Donate to WCK ↗</a>
+  <a href="./index.html" class="footer-cta outline">← Back to portfolio</a>
+
+  <div class="footer-meta">
+    a sara abia project · 2026 · this is an independent transparency tool, not affiliated with world central kitchen
+  </div>
+</footer>
+
+<script>
+// Clock
+function tick() {
+  const now = new Date();
+  const opts = { timeZone: 'America/Los_Angeles', hour: '2-digit', minute: '2-digit', hour12: false };
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', opts) + ' LA';
+}
+tick(); setInterval(tick, 30000);
+
+// Donation Calculator
+const slider = document.getElementById('slider');
+const amountEl = document.getElementById('amount');
+const presets = document.querySelectorAll('.calc-preset');
+
+const RATIOS = {
+  program: 0.9004,
+  management: 0.0572,
+  fundraising: 0.0424
+};
+const MEALS_PER_PROGRAM_DOLLAR = 109_000_000 / 281_892_063;
+
+function fmt(n) {
+  return n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtInt(n) {
+  return Math.round(n).toLocaleString('en-US');
+}
+
+function update(amt) {
+  amountEl.textContent = amt.toLocaleString('en-US');
+  const program = amt * RATIOS.program;
+  const management = amt * RATIOS.management;
+  const fundraising = amt * RATIOS.fundraising;
+
+  // bars - widths reflect % share, but always max 100% of container
+  document.getElementById('bar-program').style.width = (RATIOS.program * 100) + '%';
+  document.getElementById('bar-management').style.width = (RATIOS.management * 100) + '%';
+  document.getElementById('bar-fundraising').style.width = (RATIOS.fundraising * 100) + '%';
+
+  document.getElementById('amt-program').textContent = '$' + fmt(program);
+  document.getElementById('amt-management').textContent = '$' + fmt(management);
+  document.getElementById('amt-fundraising').textContent = '$' + fmt(fundraising);
+
+  // meals
+  const meals = program * MEALS_PER_PROGRAM_DOLLAR;
+  document.getElementById('meals').textContent = fmtInt(meals);
+}
+
+slider.addEventListener('input', e => {
+  update(parseInt(e.target.value));
+  // sync presets
+  presets.forEach(p => p.classList.toggle('active', parseInt(p.dataset.val) === parseInt(e.target.value)));
+});
+
+presets.forEach(p => {
+  p.addEventListener('click', () => {
+    const v = parseInt(p.dataset.val);
+    slider.value = v;
+    update(v);
+    presets.forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+  });
+});
+
+update(100);
+</script>
+
+</body>
+</html>

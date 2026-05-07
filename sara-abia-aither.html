@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sara Abia ⏤ Designer & Strategist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --surface: #111111;
+    --surface-2: #1a1a1a;
+    --hairline: #2a2a2a;
+    --paper: #fafafa;
+    --paper-dim: #b5b5b5;
+    --paper-mute: #6b6b6b;
+    --accent: #3a5fff;
+    --accent-soft: #3a5fff20;
+    --signal: #d4ff00;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Geist', sans-serif;
+    background: var(--ink);
+    color: var(--paper);
+    font-size: 15px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: var(--paper); }
+
+  /* grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.5;
+    mix-blend-mode: screen;
+  }
+
+  /* ==================== NAV ==================== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 1.4rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .nav-mark {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.85rem;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav-mark::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--signal);
+    border-radius: 50%;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  .nav-mark span {
+    color: var(--paper-mute);
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.2rem;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+  }
+  .nav-links a {
+    color: var(--paper-dim);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover { color: var(--paper); }
+  .nav-cta {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink);
+    background: var(--paper);
+    padding: 0.55rem 1rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .nav-cta:hover {
+    background: var(--signal);
+    transform: translateY(-1px);
+  }
+
+  /* ==================== HERO ==================== */
+  .hero {
+    min-height: 100vh;
+    padding: 8rem 2rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--hairline) 1px, transparent 1px),
+      linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 70% 60% at 60% 50%, black 0%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 60% 50%, black 0%, transparent 80%);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .hero-meta {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--paper-mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 2.5rem;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+    opacity: 0;
+    animation: rise 0.7s 0.1s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .hero-meta .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid var(--hairline);
+    border-radius: 100px;
+    color: var(--paper-dim);
+  }
+  .hero-meta .pill::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--signal);
+    border-radius: 50%;
+  }
+  .hero-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: clamp(3.5rem, 9vw, 9rem);
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    margin-bottom: 2rem;
+    max-width: 1100px;
+    opacity: 0;
+    animation: rise 0.9s 0.25s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title .serif {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--paper);
+    letter-spacing: -0.02em;
+  }
+  .hero-title .accent {
+    color: var(--accent);
+  }
+  .hero-sub {
+    max-width: 580px;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: var(--paper-dim);
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: rise 0.9s 0.4s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    z-index: 1;
+  }
+  .hero-sub strong {
+    color: var(--paper);
+    font-weight: 500;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    opacity: 0;
+    animation: rise 0.9s 0.55s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+    z-index: 1;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.4rem;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.02em;
+  }
+  .btn-primary {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .btn-primary:hover {
+    background: var(--signal);
+    transform: translateY(-1px);
+  }
+  .btn-secondary {
+    background: transparent;
+    color: var(--paper);
+    border: 1px solid var(--hairline);
+  }
+  .btn-secondary:hover {
+    border-color: var(--paper);
+    background: var(--surface);
+  }
+  .btn .arrow {
+    transition: transform 0.2s ease;
+  }
+  .btn:hover .arrow { transform: translateX(2px); }
+
+  /* hero status panel - bottom right */
+  .hero-status {
+    position: absolute;
+    bottom: 3rem;
+    right: 2rem;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--paper-mute);
+    text-align: right;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeIn 0.6s 1s forwards;
+  }
+  .hero-status .label { color: var(--paper-mute); }
+  .hero-status .val { color: var(--paper-dim); }
+  .hero-status .live { color: var(--signal); }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ==================== TICKER ==================== */
+  .ticker {
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+    background: var(--ink);
+    padding: 0.8rem 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 4rem;
+    animation: ticker 50s linear infinite;
+    white-space: nowrap;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--paper-mute);
+    letter-spacing: 0.04em;
+  }
+  .ticker-track span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4rem;
+  }
+  .ticker-track .div {
+    color: var(--accent);
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ==================== SECTIONS ==================== */
+  section {
+    padding: 7rem 2rem;
+    position: relative;
+  }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .section-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--paper-mute);
+    letter-spacing: 0.04em;
+  }
+  .section-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    max-width: 800px;
+  }
+  .section-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--paper-dim);
+  }
+  .section-meta {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--paper-mute);
+  }
+
+  /* ==================== ABOUT ==================== */
+  .about {
+    background: var(--surface);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .about-image {
+    position: sticky;
+    top: 8rem;
+    aspect-ratio: 4/5;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    overflow: hidden;
+    border-radius: 4px;
+  }
+  .about-image svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .about-text p {
+    font-size: 1.15rem;
+    line-height: 1.65;
+    color: var(--paper-dim);
+    margin-bottom: 1.5rem;
+    max-width: 620px;
+  }
+  .about-text strong {
+    color: var(--paper);
+    font-weight: 500;
+  }
+  .about-text em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--paper);
+    font-size: 1.2rem;
+  }
+  .about-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--hairline);
+  }
+  .about-meta-item {
+    padding: 1.5rem 0 1.5rem 0;
+    border-right: 1px solid var(--hairline);
+    padding-right: 1rem;
+  }
+  .about-meta-item:last-child { border-right: none; }
+  .about-meta-item:not(:first-child) { padding-left: 1.5rem; }
+  .about-meta-key {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--paper-mute);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .about-meta-val {
+    font-family: 'Geist', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--paper);
+    letter-spacing: -0.02em;
+  }
+  .about-meta-val em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* ==================== WORK ==================== */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+    row-gap: 4rem;
+  }
+  .case {
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--paper);
+    display: flex;
+    flex-direction: column;
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+    font-family: inherit;
+  }
+  .case-1 { grid-column: span 7; }
+  .case-2 { grid-column: span 5; }
+  .case-3 { grid-column: span 5; }
+  .case-4 { grid-column: span 7; }
+  .case-cover {
+    position: relative;
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    margin-bottom: 1.2rem;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .case-cover svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .case:hover .case-cover {
+    border-color: var(--paper-dim);
+    transform: translateY(-3px);
+  }
+  .case:hover .case-cover svg {
+    transform: scale(1.04);
+  }
+  .case-tag {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--paper);
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 0.3rem 0.6rem;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--hairline);
+  }
+  .case-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--paper-mute);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.04em;
+  }
+  .case-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.4rem;
+  }
+  .case-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--paper-dim);
+  }
+  .case-summary {
+    font-size: 0.92rem;
+    color: var(--paper-mute);
+    line-height: 1.55;
+  }
+
+  /* ==================== CAPABILITIES ==================== */
+  .caps {
+    background: var(--surface);
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .caps-list {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .cap {
+    display: grid;
+    grid-template-columns: 0.7fr 2.3fr 0.5fr;
+    gap: 2rem;
+    padding: 1.6rem 0;
+    border-bottom: 1px solid var(--hairline);
+    align-items: center;
+    transition: padding 0.3s ease;
+    cursor: default;
+  }
+  .cap:hover {
+    padding-left: 1rem;
+  }
+  .cap:last-child { border-bottom: none; }
+  .cap-num {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--paper-mute);
+  }
+  .cap-name {
+    font-family: 'Geist', sans-serif;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+  }
+  .cap-name em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--paper-dim);
+  }
+  .cap-tools {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--paper-mute);
+    text-align: right;
+    letter-spacing: 0.04em;
+  }
+
+  /* ==================== CONTACT ==================== */
+  .contact {
+    text-align: left;
+    padding: 9rem 2rem;
+    border-top: 1px solid var(--hairline);
+  }
+  .contact-pre {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--paper-mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .contact-pre::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--signal);
+    border-radius: 50%;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  .contact-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.8rem, 7vw, 6rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    margin-bottom: 3rem;
+    max-width: 1200px;
+  }
+  .contact-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--paper-dim);
+  }
+  .contact-title .accent {
+    color: var(--accent);
+  }
+  .contact-email {
+    font-family: 'Geist', sans-serif;
+    font-size: 1.4rem;
+    color: var(--paper);
+    text-decoration: none;
+    border-bottom: 1px solid var(--hairline);
+    padding-bottom: 6px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 3rem;
+  }
+  .contact-email:hover {
+    border-color: var(--paper);
+    color: var(--paper);
+  }
+  .contact-email:hover .arr { transform: translateX(4px) translateY(-4px); }
+  .contact-email .arr {
+    transition: transform 0.2s ease;
+    color: var(--paper-mute);
+  }
+  .contact-meta {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 2rem;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--paper-mute);
+    flex-wrap: wrap;
+  }
+  .contact-meta a {
+    color: var(--paper-dim);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .contact-meta a:hover { color: var(--paper); }
+
+  /* ==================== FOOTER ==================== */
+  footer {
+    border-top: 1px solid var(--hairline);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--paper-mute);
+  }
+  footer .signal { color: var(--signal); }
+
+  /* ==================== MODAL ==================== */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 200;
+    display: none;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 4rem 1.5rem;
+    overflow-y: auto;
+  }
+  .modal-overlay.active { display: flex; animation: overlayIn 0.3s ease; }
+  @keyframes overlayIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .modal {
+    background: var(--surface);
+    max-width: 900px;
+    width: 100%;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    padding: 4rem 4rem 5rem;
+    position: relative;
+    animation: modalIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 36px; height: 36px;
+    border: 1px solid var(--hairline);
+    background: transparent;
+    color: var(--paper);
+    cursor: pointer;
+    border-radius: 100px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-close:hover {
+    background: var(--paper);
+    color: var(--ink);
+    transform: rotate(90deg);
+  }
+  .modal-meta {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--paper-mute);
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.04em;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .modal-meta span { color: var(--paper-mute); }
+  .modal-meta .accent { color: var(--accent); }
+  .modal-title {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .modal-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--paper-dim);
+  }
+  .modal-sub {
+    font-size: 1.05rem;
+    color: var(--paper-dim);
+    line-height: 1.5;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--hairline);
+    max-width: 720px;
+  }
+  .modal-section {
+    margin-bottom: 2.2rem;
+  }
+  .modal-section h3 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--paper-mute);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.9rem;
+    font-weight: 500;
+  }
+  .modal-section p {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--paper-dim);
+    margin-bottom: 1rem;
+  }
+  .modal-section p strong { color: var(--paper); font-weight: 500; }
+  .modal-section p em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--paper);
+  }
+  .modal-impact {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .modal-impact-item {
+    padding: 1.5rem;
+    border-right: 1px solid var(--hairline);
+  }
+  .modal-impact-item:last-child { border-right: none; }
+  .impact-num {
+    font-family: 'Geist', sans-serif;
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--paper);
+    letter-spacing: -0.025em;
+    margin-bottom: 0.4rem;
+  }
+  .impact-num em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .impact-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--paper-mute);
+    letter-spacing: 0.04em;
+  }
+
+  /* ==================== MOBILE ==================== */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6.5rem 1.2rem 3rem; }
+    .hero-status { display: none; }
+    section { padding: 4.5rem 1.2rem; }
+    .section-head { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-image { position: static; max-width: 320px; }
+    .about-meta { grid-template-columns: 1fr; }
+    .about-meta-item { border-right: none; border-bottom: 1px solid var(--hairline); padding: 1.2rem 0; }
+    .about-meta-item:not(:first-child) { padding-left: 0; }
+    .work-grid { grid-template-columns: 1fr; }
+    .case-1, .case-2, .case-3, .case-4 { grid-column: span 1; }
+    .cap { grid-template-columns: auto 1fr; gap: 1rem; }
+    .cap-tools { display: none; }
+    .contact { padding: 5rem 1.2rem; }
+    .contact-meta { flex-direction: column; gap: 1rem; }
+    footer { flex-direction: column; gap: 0.6rem; padding: 1.5rem 1.2rem; }
+    .modal { padding: 3rem 1.5rem; }
+    .modal-impact { grid-template-columns: 1fr; }
+    .modal-impact-item { border-right: none; border-bottom: 1px solid var(--hairline); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== NAV ==================== -->
+<nav>
+  <div class="nav-mark">SARA ABIA <span>/ portfolio v2</span></div>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="#caps">Capabilities</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Get in touch ↗</a>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<header class="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-meta">
+    <span class="pill">AVAILABLE FOR SUMMER 2026</span>
+    <span>LOS ANGELES / NEW YORK</span>
+  </div>
+  <h1 class="hero-title">
+    Designer <span class="serif">&</span> strategist<br/>
+    building at the intersection<br/>
+    of <span class="serif">data,</span> <span class="serif">story,</span> <span class="accent">& craft.</span>
+  </h1>
+  <p class="hero-sub">
+    BSc Data Science <strong>(Warwick)</strong>, MSc Digital Social Media <strong>(USC)</strong>. I co-founded a hospitality brand, won "Best Design" at Goldman Sachs, and currently lead strategy &amp; analytics on a live consumer-brand campaign. I work where research, product, and brand actually overlap.
+  </p>
+  <div class="hero-cta">
+    <a href="#work" class="btn btn-primary">View work <span class="arrow">→</span></a>
+    <a href="#contact" class="btn btn-secondary">Get in touch</a>
+  </div>
+
+  <div class="hero-status">
+    <div><span class="label">[STATUS]</span> <span class="live">● LIVE</span></div>
+    <div><span class="label">[ROLE]</span> <span class="val">DESIGN+STRATEGY INTERN</span></div>
+    <div><span class="label">[STAGE]</span> <span class="val">SEEKING SUMMER 2026</span></div>
+    <div><span class="label">[TZ]</span> <span class="val">PT/ET FLEXIBLE</span></div>
+  </div>
+</header>
+
+<!-- ==================== TICKER ==================== -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span>
+      DATA SCIENCE <span class="div">/</span> BRAND STRATEGY <span class="div">/</span> CONSUMER RESEARCH <span class="div">/</span> AI &amp; LLM TOOLING <span class="div">/</span> PRODUCT DESIGN <span class="div">/</span> CONTENT SYSTEMS <span class="div">/</span> EDITORIAL THINKING <span class="div">/</span> GROWTH MARKETING <span class="div">/</span>
+    </span>
+    <span>
+      DATA SCIENCE <span class="div">/</span> BRAND STRATEGY <span class="div">/</span> CONSUMER RESEARCH <span class="div">/</span> AI &amp; LLM TOOLING <span class="div">/</span> PRODUCT DESIGN <span class="div">/</span> CONTENT SYSTEMS <span class="div">/</span> EDITORIAL THINKING <span class="div">/</span> GROWTH MARKETING <span class="div">/</span>
+    </span>
+  </div>
+</div>
+
+<!-- ==================== ABOUT ==================== -->
+<section class="about" id="about">
+  <div class="section-head">
+    <div class="section-num">[01] / ABOUT</div>
+    <div class="section-meta">SECTION 01 OF 04</div>
+  </div>
+  <div class="about-grid">
+    <div class="about-image">
+      <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1a1a1a"/>
+            <stop offset="100%" stop-color="#0a0a0a"/>
+          </linearGradient>
+          <pattern id="dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="10" cy="10" r="1" fill="#2a2a2a"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="500" fill="url(#bg-grad)"/>
+        <rect width="400" height="500" fill="url(#dots)"/>
+        <!-- Geometric SA monogram with motion lines -->
+        <g transform="translate(200, 250)">
+          <!-- Concentric arcs -->
+          <circle cx="0" cy="0" r="120" fill="none" stroke="#2a2a2a" stroke-width="1"/>
+          <circle cx="0" cy="0" r="90" fill="none" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="2 4"/>
+          <circle cx="0" cy="0" r="60" fill="none" stroke="#3a5fff" stroke-width="1" opacity="0.5"/>
+          <!-- SA letterforms -->
+          <text x="0" y="20" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="120" fill="#fafafa">S</text>
+          <text x="0" y="20" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="120" fill="#3a5fff" opacity="0.4" transform="translate(4 0)">S</text>
+        </g>
+        <!-- Crosshair details -->
+        <g stroke="#3a3a3a" stroke-width="0.5">
+          <line x1="20" y1="20" x2="60" y2="20"/>
+          <line x1="20" y1="20" x2="20" y2="60"/>
+          <line x1="380" y1="20" x2="340" y2="20"/>
+          <line x1="380" y1="20" x2="380" y2="60"/>
+          <line x1="20" y1="480" x2="60" y2="480"/>
+          <line x1="20" y1="480" x2="20" y2="440"/>
+          <line x1="380" y1="480" x2="340" y2="480"/>
+          <line x1="380" y1="480" x2="380" y2="440"/>
+        </g>
+        <!-- Coordinate labels -->
+        <text x="20" y="495" font-family="Geist Mono, monospace" font-size="8" fill="#6b6b6b" letter-spacing="2">SA / 02 / 26</text>
+        <text x="380" y="495" text-anchor="end" font-family="Geist Mono, monospace" font-size="8" fill="#6b6b6b" letter-spacing="2">v2.0.1</text>
+        <text x="20" y="35" font-family="Geist Mono, monospace" font-size="8" fill="#6b6b6b" letter-spacing="2">PORTFOLIO</text>
+        <text x="380" y="35" text-anchor="end" font-family="Geist Mono, monospace" font-size="8" fill="#3a5fff" letter-spacing="2">● LIVE</text>
+      </svg>
+    </div>
+    <div class="about-text">
+      <p>
+        I'm a <em>designer who came up through data.</em>
+      </p>
+      <p>
+        After a <strong>BSc in Data Science from Warwick</strong>, I'm pursuing an MSc in Digital Social Media at USC, chasing the part of design that lives where research, story, and product converge. I think the best design comes from understanding people deeply, then sweating the details that make work feel inevitable.
+      </p>
+      <p>
+        I co-founded my family's boutique hotel during the pandemic and ran every part of the guest experience: website, brand, booking flow, in-room collateral, the whole system. I won <strong>"Best Design"</strong> at Goldman Sachs for a UX challenge, shipped a consumer site through Kode with Klossy, and now lead <strong>Analytics &amp; Insights</strong> on a live consumer-brand campaign at USC.
+      </p>
+      <p>
+        I'm trilingual <strong>(English, French, Arabic)</strong>, an active builder with AI tooling, and genuinely happiest when I'm jumping between a Figma file and a customer interview.
+      </p>
+      <div class="about-meta">
+        <div class="about-meta-item">
+          <div class="about-meta-key">[YEARS BUILDING]</div>
+          <div class="about-meta-val"><em>4</em></div>
+        </div>
+        <div class="about-meta-item">
+          <div class="about-meta-key">[LANGUAGES]</div>
+          <div class="about-meta-val"><em>3</em></div>
+        </div>
+        <div class="about-meta-item">
+          <div class="about-meta-key">[REVENUE LIFT, RIAD]</div>
+          <div class="about-meta-val"><em>40</em>%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WORK ==================== -->
+<section id="work">
+  <div class="section-head">
+    <div>
+      <div class="section-num" style="margin-bottom: 1rem;">[02] / SELECTED WORK</div>
+      <h2 class="section-title">Four projects, four different problems, <em>one operating system.</em></h2>
+    </div>
+    <div class="section-meta">2020 / PRESENT</div>
+  </div>
+
+  <div class="work-grid">
+
+    <!-- Case 1 - Riad -->
+    <button class="case case-1" onclick="openModal('riad')">
+      <div class="case-cover">
+        <span class="case-tag">BRAND / WEB / UX</span>
+        <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="r-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1a1a1a"/>
+              <stop offset="100%" stop-color="#0a0a0a"/>
+            </linearGradient>
+            <pattern id="r-dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
+              <circle cx="12" cy="12" r="0.8" fill="#2a2a2a"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="500" fill="url(#r-grad)"/>
+          <rect width="800" height="500" fill="url(#r-dots)"/>
+          <!-- Arched doorway abstract -->
+          <g transform="translate(400, 250)">
+            <path d="M-100,150 L-100,-30 Q-100,-100 0,-100 Q100,-100 100,-30 L100,150 Z" fill="#fafafa"/>
+            <path d="M-80,150 L-80,-15 Q-80,-80 0,-80 Q80,-80 80,-15 L80,150 Z" fill="#3a5fff"/>
+            <line x1="0" y1="-80" x2="0" y2="150" stroke="#0a0a0a" stroke-width="1"/>
+          </g>
+          <!-- Data overlay -->
+          <g transform="translate(60, 60)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="11" letter-spacing="2">
+            <text>RIAD DEUX PALMIERS</text>
+            <text y="18" fill="#fafafa">MARRAKECH</text>
+            <text y="42" fill="#3a5fff" font-size="22">+40%</text>
+            <text y="58" font-size="9">REVENUE Y/Y</text>
+          </g>
+          <g transform="translate(740, 60)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="11" letter-spacing="2" text-anchor="end">
+            <text>★ 4.8/5</text>
+            <text y="18">300+ REVIEWS</text>
+          </g>
+          <!-- Bottom data row -->
+          <g transform="translate(60, 460)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">
+            <text>CASE 01 / 04</text>
+          </g>
+          <g transform="translate(740, 460)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2" text-anchor="end">
+            <text>2020 / 2024</text>
+          </g>
+        </svg>
+      </div>
+      <div class="case-meta">
+        <span>CASE 01</span><span>2020 / 2024</span>
+      </div>
+      <h3 class="case-title">A boutique hotel, <em>rebuilt around the guest.</em></h3>
+      <p class="case-summary">Redesigning the entire guest experience during a global tourism collapse: web, brand, booking flow, in-room collateral.</p>
+    </button>
+
+    <!-- Case 2 - Goldman -->
+    <button class="case case-2" onclick="openModal('goldman')">
+      <div class="case-cover">
+        <span class="case-tag">PRODUCT / UX</span>
+        <svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="g-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1a1a1a"/>
+              <stop offset="100%" stop-color="#0a0a0a"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="500" fill="url(#g-grad)"/>
+          <!-- Phone frame -->
+          <g transform="translate(300, 250)">
+            <rect x="-90" y="-160" width="180" height="280" rx="22" fill="#fafafa"/>
+            <rect x="-90" y="-160" width="180" height="280" rx="22" fill="none" stroke="#3a5fff" stroke-width="1.5"/>
+            <rect x="-30" y="-152" width="60" height="6" rx="3" fill="#0a0a0a"/>
+            <!-- Hero number -->
+            <text y="-110" text-anchor="middle" font-family="Geist Mono, monospace" font-size="7" fill="#6b6b6b" letter-spacing="2">SPENT THIS WEEK</text>
+            <text y="-75" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="34" fill="#0a0a0a">$284.50</text>
+            <!-- Bars -->
+            <g fill="#3a5fff" transform="translate(-65, -30)">
+              <rect x="0" y="20" width="12" height="40" rx="2"/>
+              <rect x="18" y="10" width="12" height="50" rx="2"/>
+              <rect x="36" y="32" width="12" height="28" rx="2"/>
+              <rect x="54" y="0" width="12" height="60" rx="2"/>
+              <rect x="72" y="22" width="12" height="38" rx="2"/>
+              <rect x="90" y="28" width="12" height="32" rx="2"/>
+              <rect x="108" y="14" width="12" height="46" rx="2"/>
+            </g>
+            <g font-family="Geist Mono, monospace" font-size="6.5" fill="#0a0a0a" transform="translate(-65, 60)">
+              <text>FOOD</text><text x="120" text-anchor="end">$94</text>
+              <text y="14">TRANSIT</text><text x="120" y="14" text-anchor="end">$48</text>
+              <text y="28">SHOPPING</text><text x="120" y="28" text-anchor="end">$142</text>
+            </g>
+          </g>
+          <!-- Award badge -->
+          <g transform="translate(110, 130)">
+            <circle cx="0" cy="0" r="40" fill="#d4ff00"/>
+            <text y="-3" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="13" fill="#0a0a0a">Best</text>
+            <text y="11" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="13" fill="#0a0a0a">Design</text>
+          </g>
+          <!-- Top corner data -->
+          <g transform="translate(40, 50)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">
+            <text>GOLDMAN SACHS</text>
+            <text y="14">EXPENSE TRACKER</text>
+          </g>
+          <g transform="translate(560, 50)" font-family="Geist Mono, monospace" fill="#3a5fff" font-size="9" letter-spacing="2" text-anchor="end">
+            <text>1 / 12 TEAMS</text>
+          </g>
+          <g transform="translate(40, 470)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">
+            <text>CASE 02 / 04</text>
+          </g>
+          <g transform="translate(560, 470)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2" text-anchor="end">
+            <text>2022</text>
+          </g>
+        </svg>
+      </div>
+      <div class="case-meta">
+        <span>CASE 02</span><span>2022</span>
+      </div>
+      <h3 class="case-title">Won <em>"Best Design"</em> at Goldman.</h3>
+      <p class="case-summary">A consumer-facing finance product designed in a one-week sprint, recognized by a panel of investors.</p>
+    </button>
+
+    <!-- Case 3 - Klossy -->
+    <button class="case case-3" onclick="openModal('klossy')">
+      <div class="case-cover">
+        <span class="case-tag">WEB / FRONTEND</span>
+        <svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="k-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1a1a1a"/>
+              <stop offset="100%" stop-color="#0a0a0a"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="500" fill="url(#k-grad)"/>
+          <!-- Browser window -->
+          <g transform="translate(300, 250)">
+            <rect x="-220" y="-140" width="440" height="280" rx="6" fill="#fafafa"/>
+            <rect x="-220" y="-140" width="440" height="28" rx="6" fill="#1a1a1a"/>
+            <rect x="-220" y="-126" width="440" height="14" fill="#1a1a1a"/>
+            <circle cx="-208" cy="-126" r="3.5" fill="#ff5f56"/>
+            <circle cx="-196" cy="-126" r="3.5" fill="#ffbd2e"/>
+            <circle cx="-184" cy="-126" r="3.5" fill="#27c93f"/>
+            <text y="-122" text-anchor="middle" font-family="Geist Mono, monospace" font-size="7" fill="#888">mysustainableguide.com</text>
+            <!-- Hero -->
+            <text x="-200" y="-72" font-family="Instrument Serif, serif" font-style="italic" font-size="32" fill="#0a0a0a">Wear</text>
+            <text x="-100" y="-72" font-family="Geist, sans-serif" font-weight="500" font-size="32" fill="#3a5fff">better.</text>
+            <text x="-200" y="-50" font-family="Geist Mono, monospace" font-size="7" fill="#6b6b6b" letter-spacing="2">A FIELD GUIDE TO ETHICAL FASHION</text>
+            <!-- Cards -->
+            <g>
+              <rect x="-200" y="-30" width="120" height="140" rx="4" fill="#3a5fff"/>
+              <text x="-140" y="100" text-anchor="middle" font-family="Geist Mono, monospace" font-size="7" fill="#fafafa" letter-spacing="2">ORGANIC</text>
+            </g>
+            <g>
+              <rect x="-65" y="-30" width="120" height="140" rx="4" fill="#d4ff00"/>
+              <text x="-5" y="100" text-anchor="middle" font-family="Geist Mono, monospace" font-size="7" fill="#0a0a0a" letter-spacing="2">CIRCULAR</text>
+            </g>
+            <g>
+              <rect x="70" y="-30" width="120" height="140" rx="4" fill="#0a0a0a"/>
+              <text x="130" y="100" text-anchor="middle" font-family="Geist Mono, monospace" font-size="7" fill="#fafafa" letter-spacing="2">LOCAL</text>
+            </g>
+          </g>
+          <g transform="translate(40, 50)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">
+            <text>KODE WITH KLOSSY</text>
+          </g>
+          <g transform="translate(560, 50)" font-family="Geist Mono, monospace" fill="#d4ff00" font-size="9" letter-spacing="2" text-anchor="end">
+            <text>90% APPROVAL</text>
+          </g>
+          <g transform="translate(40, 470)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">
+            <text>CASE 03 / 04</text>
+          </g>
+          <g transform="translate(560, 470)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2" text-anchor="end">
+            <text>2023</text>
+          </g>
+        </svg>
+      </div>
+      <div class="case-meta">
+        <span>CASE 03</span><span>2023</span>
+      </div>
+      <h3 class="case-title">A consumer site about <em>sustainable fashion.</em></h3>
+      <p class="case-summary">Designed and shipped end-to-end in HTML/CSS/JS. 90% approval from scholars and Karlie Kloss.</p>
+    </button>
+
+    <!-- Case 4 - Marimix -->
+    <button class="case case-4" onclick="openModal('marimix')">
+      <div class="case-cover">
+        <span class="case-tag">BRAND / STRATEGY / ANALYTICS</span>
+        <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="m-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#1a1a1a"/>
+              <stop offset="100%" stop-color="#0a0a0a"/>
+            </linearGradient>
+          </defs>
+          <rect width="800" height="500" fill="url(#m-grad)"/>
+          <!-- Performance dashboard - real Marimix metrics -->
+          <g transform="translate(60, 80)">
+            <text font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">[IMPRESSIONS]</text>
+            <text y="32" font-family="Geist, sans-serif" font-size="32" fill="#fafafa" font-weight="400" letter-spacing="-0.02em">287K+</text>
+            <line x1="0" y1="42" x2="80" y2="42" stroke="#3a5fff" stroke-width="2"/>
+          </g>
+          <g transform="translate(60, 180)">
+            <text font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">[OPEN RATE]</text>
+            <text y="32" font-family="Geist, sans-serif" font-size="32" fill="#fafafa" font-weight="400" letter-spacing="-0.02em">40.4%</text>
+            <line x1="0" y1="42" x2="80" y2="42" stroke="#3a5fff" stroke-width="2"/>
+          </g>
+          <g transform="translate(60, 280)">
+            <text font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">[AD SPEND]</text>
+            <text y="32" font-family="Geist, sans-serif" font-size="32" fill="#d4ff00" font-weight="400" letter-spacing="-0.02em">$4K+</text>
+            <line x1="0" y1="42" x2="80" y2="42" stroke="#d4ff00" stroke-width="2"/>
+          </g>
+          <!-- Chart line -->
+          <g transform="translate(280, 180)">
+            <polyline points="0,120 40,100 80,90 120,70 160,60 200,40 240,55 280,30 320,20 360,10" fill="none" stroke="#3a5fff" stroke-width="2"/>
+            <polyline points="0,120 40,100 80,90 120,70 160,60 200,40 240,55 280,30 320,20 360,10 360,140 0,140" fill="#3a5fff" opacity="0.15"/>
+            <g font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="7" letter-spacing="1">
+              <text x="0" y="160">W1</text>
+              <text x="80" y="160">W2</text>
+              <text x="160" y="160">W3</text>
+              <text x="240" y="160">W4</text>
+              <text x="320" y="160">W5</text>
+            </g>
+          </g>
+          <!-- Snack package -->
+          <g transform="translate(680, 250)">
+            <rect x="-50" y="-90" width="100" height="180" rx="3" fill="#3a5fff"/>
+            <text y="-50" text-anchor="middle" font-family="Instrument Serif, serif" font-style="italic" font-size="20" fill="#fafafa">marimix</text>
+            <text y="-30" text-anchor="middle" font-family="Geist Mono, monospace" font-size="6" fill="#fafafa" letter-spacing="2">SNACK MIX</text>
+            <circle cx="-20" cy="20" r="8" fill="#d4ff00"/>
+            <ellipse cx="10" cy="25" rx="10" ry="6" fill="#fafafa" opacity="0.8"/>
+            <circle cx="25" cy="10" r="6" fill="#d4ff00"/>
+            <ellipse cx="-5" cy="50" rx="8" ry="5" fill="#fafafa" opacity="0.8"/>
+          </g>
+          <g transform="translate(60, 50)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">
+            <text>USC × MARIMIX</text>
+            <text y="14" fill="#d4ff00">● LIVE CAMPAIGN</text>
+          </g>
+          <g transform="translate(740, 50)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2" text-anchor="end">
+            <text>ANALYTICS LEAD</text>
+          </g>
+          <g transform="translate(60, 470)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2">
+            <text>CASE 04 / 04</text>
+          </g>
+          <g transform="translate(740, 470)" font-family="Geist Mono, monospace" fill="#6b6b6b" font-size="9" letter-spacing="2" text-anchor="end">
+            <text>2025 / PRESENT</text>
+          </g>
+        </svg>
+      </div>
+      <div class="case-meta">
+        <span>CASE 04</span><span>2025 / PRESENT</span>
+      </div>
+      <h3 class="case-title">A consumer brand campaign, <em>measured.</em></h3>
+      <p class="case-summary">Analytics &amp; Insights Lead on a live engagement managing $4K+ in real ad spend across Reddit, Instacart, and Email.</p>
+    </button>
+
+  </div>
+</section>
+
+<!-- ==================== CAPABILITIES ==================== -->
+<section class="caps" id="caps">
+  <div class="section-head">
+    <div>
+      <div class="section-num" style="margin-bottom: 1rem;">[03] / CAPABILITIES</div>
+      <h2 class="section-title">What I work on, <em>and what I work with.</em></h2>
+    </div>
+    <div class="section-meta">06 DISCIPLINES</div>
+  </div>
+
+  <div class="caps-list">
+    <div class="cap">
+      <div class="cap-num">[01]</div>
+      <div class="cap-name">Product &amp; UX <em>design</em></div>
+      <div class="cap-tools">FIGMA / WIREFRAMES / PROTOTYPES</div>
+    </div>
+    <div class="cap">
+      <div class="cap-num">[02]</div>
+      <div class="cap-name">Brand &amp; <em>visual systems</em></div>
+      <div class="cap-tools">PHOTOSHOP / CANVA / CAPCUT</div>
+    </div>
+    <div class="cap">
+      <div class="cap-num">[03]</div>
+      <div class="cap-name"><em>Frontend</em> &amp; build</div>
+      <div class="cap-tools">HTML / CSS / JAVASCRIPT</div>
+    </div>
+    <div class="cap">
+      <div class="cap-num">[04]</div>
+      <div class="cap-name">Data &amp; <em>analytics</em></div>
+      <div class="cap-tools">SQL / PYTHON / TABLEAU</div>
+    </div>
+    <div class="cap">
+      <div class="cap-num">[05]</div>
+      <div class="cap-name">AI tooling &amp; <em>automation</em></div>
+      <div class="cap-tools">CLAUDE / LLM WORKFLOWS / AGENTS</div>
+    </div>
+    <div class="cap">
+      <div class="cap-num">[06]</div>
+      <div class="cap-name">Strategy &amp; <em>research</em></div>
+      <div class="cap-tools">USER INTERVIEWS / MARKET / BRAND</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CONTACT ==================== -->
+<section class="contact" id="contact">
+  <div class="contact-pre">[04] / GET IN TOUCH</div>
+  <h2 class="contact-title">
+    Open to <span class="accent">summer 2026</span><br/>
+    internships <em>&amp; collaborations.</em>
+  </h2>
+  <a href="mailto:saraabia2002@gmail.com" class="contact-email">saraabia2002@gmail.com <span class="arr">↗</span></a>
+  <div class="contact-meta">
+    <a href="mailto:saraabia2002@gmail.com">EMAIL</a>
+    <a href="tel:+16267310863">+1 (626) 731 0863</a>
+    <span>LOS ANGELES &middot; AVAILABLE MAY / AUG</span>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div>© 2026 SARA ABIA</div>
+  <div>DESIGNED &amp; BUILT BY <span class="signal">SA</span> &middot; v2.0.1</div>
+</footer>
+
+<!-- ==================== MODAL ==================== -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this) closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const cases = {
+  riad: {
+    meta: ['CASE 01', 'BRAND / WEB / UX', '2020 / 2024'],
+    title: 'A boutique hotel, <em>rebuilt around the guest.</em>',
+    sub: 'Redesigning Riad Deux Palmiers from the ground up during a global tourism collapse.',
+    sections: [
+      { h: 'CONTEXT', p: 'Riad Deux Palmiers is our family-owned boutique hotel in Marrakech. When COVID-19 collapsed international tourism in 2020, we faced a choice: shut down, or rebuild for a future where guests would expect more, better information, smoother booking, more thoughtful in-person experience. I co-founded the operation and took ownership of the entire guest-facing surface.' },
+      { h: 'APPROACH', p: 'I treated <em>guest reviews and direct conversations as primary research</em>. I read every Booking.com and Expedia review going back two years, mapped the complaints and the praise, and let those patterns shape the redesign. The first thing I rebuilt was the website, clearer photography, an honest description of the rooms, and a booking flow that surfaced what guests actually wanted to know first.' },
+      { h: 'DESIGN DECISIONS', p: 'I worked in Figma and Photoshop to design digital marketing assets, social posts, and landing-page mockups. In parallel, I redesigned the in-room collateral, welcome cards, breakfast menu, local recommendations, to match the brand. The whole system is built on a small, warm palette that reflects the riad itself.' },
+      { h: 'WHAT I LEARNED', p: 'When you own the whole experience, you learn quickly that <em>design is mostly about details no one consciously notices</em>. The 4.8/5 rating did not come from one big idea. It came from a hundred small ones, readable signage, a clearer breakfast card, a faster reply on WhatsApp.' }
+    ],
+    impact: [
+      { num: '<em>+40</em>%', label: '[REVENUE LIFT]' },
+      { num: '<em>+30</em>%', label: '[RESERVATIONS]' },
+      { num: '<em>4.8</em>/5', label: '[CUSTOMER RATING]' }
+    ]
+  },
+  goldman: {
+    meta: ['CASE 02', 'PRODUCT / UX', 'GOLDMAN SACHS / 2022'],
+    title: 'An expense tracker that <em>won "Best Design".</em>',
+    sub: 'A consumer-facing financial product designed in a one-week sprint, recognized by a panel of investors.',
+    sections: [
+      { h: 'CONTEXT', p: 'During Goldman Sachs\' Engineering Summer Program, my team was given a Technical Product Development brief: design and prototype a consumer-facing personal expense tracker. The challenge was to ship something genuinely useful in a week, with real engineering trade-offs, presented to a panel of industry-leading investors.' },
+      { h: 'MY ROLE', p: 'I led product strategy and UX design. I ran a quick round of user interviews with peers about how they actually track spending (most do not), and we built the product around what people <em>need to feel</em>, not just what they need to see. The core insight: people do not want a financial dashboard; they want a quick read on whether they are okay this week.' },
+      { h: 'DESIGN DECISIONS', p: 'The home screen leads with one number: what you have spent this week. Categories are collapsed by default and only expand on tap. Charts use a single accent color so the eye knows where to land. We sweated typography, used generous spacing, and removed every secondary feature that did not serve the primary "am I okay?" question.' },
+      { h: 'OUTCOME', p: 'We won the <em>"Best Design" prize</em> from the investor panel, with feedback specifically calling out the focus and restraint of the interface. Beyond the award, the project taught me how much of product design is about subtraction.' }
+    ],
+    impact: [
+      { num: '<em>1</em>st', label: '[BEST DESIGN AWARD]' },
+      { num: '<em>7</em>d', label: '[BRIEF TO DEMO]' },
+      { num: '<em>30</em>+', label: '[ENG CONNECTS]' }
+    ]
+  },
+  klossy: {
+    meta: ['CASE 03', 'WEB / FRONTEND / IA', 'KODE WITH KLOSSY / 2023'],
+    title: 'A consumer site about <em>sustainable fashion.</em>',
+    sub: 'Designing and shipping My Sustainable Guide end-to-end in two weeks as a Kode with Klossy scholar.',
+    sections: [
+      { h: 'CONTEXT', p: 'Kode with Klossy is a competitive scholarship program that brings together young women in tech for an intensive build sprint. My team\'s brief was to ship a consumer-facing website on a topic we cared about. We chose <em>sustainable fashion</em>, a category full of jargon and greenwashing, where most consumers genuinely do not know how to make better choices.' },
+      { h: 'APPROACH', p: 'I led ideation and information architecture. We started by mapping the questions a curious shopper actually asks: "Is this material good?" "Is this brand legit?" "What do these labels mean?" Those questions became our top-level navigation. The whole site is structured around answering them, not around lecturing.' },
+      { h: 'DESIGN DECISIONS', p: 'I wireframed the flows, designed the visual system, and led full-cycle development in HTML, CSS, and JavaScript. Cards became the primary unit, each one a digestible answer to one of those starter questions. We kept the language warm and non-judgmental, because shame is a terrible motivator for sustained behavior change.' },
+      { h: 'OUTCOME', p: 'The final iteration received <em>90% approval</em> from scholars, instructors, and Karlie Kloss herself in our pitch. More importantly, it taught me how to take a project from a vague idea through ideation, design, build, and presentation in under two weeks.' }
+    ],
+    impact: [
+      { num: '<em>90</em>%', label: '[APPROVAL RATE]' },
+      { num: '<em>14</em>d', label: '[IDEA TO SHIP]' },
+      { num: 'E2E', label: '[DESIGN + BUILD]' }
+    ]
+  },
+  marimix: {
+    meta: ['CASE 04', 'BRAND / ANALYTICS / INSIGHTS', 'USC × MARIMIX / 2025–PRESENT'],
+    title: 'A live consumer brand campaign, <em>measured.</em>',
+    sub: 'Analytics & Insights Lead on Team SAKI\'s Marimix engagement through USC\'s AdTech & AI Trends program.',
+    sections: [
+      { h: 'CONTEXT', p: 'Marimix is a <strong>woman and minority-owned, plant-based, gluten-free snack brand</strong> founded in 1993 and relaunched in 2022. Through USC\'s DSM 529 (AdTech Innovations & AI Trends), my team, SAKI, was assigned a real client engagement: design and execute a full-funnel paid + owned media strategy with $4K+ in real ad spend, against KPIs the client expected us to hit.' },
+      { h: 'MY ROLE', p: 'As <em>Analytics & Insights Lead</em>, I owned performance tracking, data analysis, and key learnings across all three channels: Reddit, Instacart, and Email. I built the reporting layer the team used to make weekly creative and budget decisions, ran A/B test analysis, and translated performance data into channel-specific recommendations.' },
+      { h: 'WHAT THE DATA SHOWED', p: 'Across <strong>287K+ impressions</strong> and three channels, the clearest signal was about <em>messaging</em>, not channels. On Reddit, three creative angles tested (Fiber Benefit, Balanced Snack, Snack Smart): "Snack Smart" won, driving 56% of total campaign delivery. On Email, three variants tested (Product Proof, Founder Journey, Smart Snacker): "Smart Snacker" won with a 40.43% open rate, +15% above benchmark. On Instacart, flavor-led creative narrowly beat gluten-free creative.' },
+      { h: 'THE THROUGH-LINE', p: 'Across all three channels, <em>identity-driven messaging</em> ("become the smart snacker") outperformed product-attribute messaging ("here\'s the fiber count"). Founder narrative alone did not drive conversion. The most useful thing I delivered was not a number, it was the framing that helped the team see <strong>which</strong> number was the real problem.' },
+      { h: 'WHAT I RECOMMENDED', p: 'Reddit: pivot from broad interests to niche subreddits like r/GutHealth and r/PlantBased to lower the $15.51 CPM. Instacart: audit bidding on high-intent keywords to deploy the $445 underspend. Email: optimize the landing page for mobile conversion to close the gap between a 40% open rate and a 0.06% conversion rate.' }
+    ],
+    impact: [
+      { num: '<em>$4K</em>+', label: '[REAL AD SPEND]' },
+      { num: '<em>287K</em>+', label: '[IMPRESSIONS]' },
+      { num: '<em>40.4</em>%', label: '[EMAIL OPEN RATE]' }
+    ]
+  }
+};
+
+function openModal(key) {
+  const c = cases[key];
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-meta">${c.meta.map(m => `<span>${m}</span>`).join('<span class="accent">/</span>')}</div>
+    <h2 class="modal-title">${c.title}</h2>
+    <p class="modal-sub">${c.sub}</p>
+    ${c.sections.map(s => `<div class="modal-section"><h3>${s.h}</h3><p>${s.p}</p></div>`).join('')}
+    <div class="modal-impact">
+      ${c.impact.map(i => `<div class="modal-impact-item"><div class="impact-num">${i.num}</div><div class="impact-label">${i.label}</div></div>`).join('')}
+    </div>
+  `;
+  document.getElementById('modal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+
+</body>
+</html>
