@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Growth Marketing for Orthogonal · Sara Abia</title>
+<meta name="description" content="A working sample of growth marketing for Orthogonal: interactive analysis of the agent-API economy, a live tutorial, a distribution plan, and a 90-day growth roadmap." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --bg-soft: #161616;
+    --surface: #1a1a1a;
+    --surface-2: #222222;
+    --hairline: #2a2a2a;
+    --hairline-strong: #3d3d3d;
+    --ink: #f0ede5;
+    --ink-soft: #c4c0b3;
+    --mute: #6e6a5e;
+    --accent: #ff5722;
+    --accent-soft: #ff7a47;
+    --green: #6db96d;
+    --amber: #d4a357;
+    --plum: #b985d4;
+    --blue: #6fa8dc;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter Tight', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--accent); color: var(--bg); }
+  a { color: inherit; text-decoration: none; }
+
+  /* TOPBAR */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(13, 13, 13, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--hairline);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .topbar .left { display: flex; align-items: center; gap: 1.2rem; }
+  .topbar-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+  .topbar-mark .accent { color: var(--accent); }
+  .topbar-divider {
+    width: 1px; height: 14px;
+    background: var(--hairline-strong);
+  }
+  .topbar-title {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+  .topbar .right {
+    display: flex; gap: 1rem; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--mute);
+    letter-spacing: 0.02em;
+  }
+  .topbar .pill {
+    padding: 0.35rem 0.7rem;
+    border-radius: 100px;
+    border: 1px solid var(--hairline-strong);
+    color: var(--ink-soft);
+  }
+  .topbar .pill.live {
+    color: var(--accent);
+    border-color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .topbar .pill.live::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* HERO */
+  .hero {
+    padding: 7rem 2rem 4rem;
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 87, 34, 0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.8rem;
+    position: relative;
+  }
+  .hero-eyebrow .sep { color: var(--mute); margin: 0 0.5rem; }
+  .hero-title {
+    font-weight: 500;
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    margin-bottom: 1.8rem;
+    max-width: 1300px;
+    position: relative;
+  }
+  .hero-title em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    color: var(--ink-soft);
+    line-height: 1.5;
+    max-width: 920px;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .hero-sub strong { font-style: normal; font-weight: 600; color: var(--ink); }
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    border-top: 1px solid var(--hairline);
+    padding-top: 1.8rem;
+    position: relative;
+  }
+  .hero-meta .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.4rem;
+  }
+  .hero-meta .val {
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .hero-meta .val em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-nav {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .hero-nav a {
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+  .hero-nav a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* SECTION COMMON */
+  section {
+    padding: 5rem 2rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .section-head {
+    margin-bottom: 1rem;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+  }
+  .section-num .accent { color: var(--accent); }
+  .section-title {
+    font-weight: 500;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    max-width: 1000px;
+    margin-bottom: 1.5rem;
+  }
+  .section-title em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+  .section-intro {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 820px;
+    margin-bottom: 3rem;
+  }
+  .section-intro em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .section-intro strong { color: var(--ink); font-weight: 600; }
+
+  /* TOOL BLOAT */
+  .bloat-toggle {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--hairline-strong);
+    border-radius: 100px;
+    padding: 4px;
+    background: var(--surface);
+    width: fit-content;
+    margin-bottom: 2rem;
+  }
+  .bloat-toggle button {
+    padding: 0.6rem 1.4rem;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+  .bloat-toggle button.active {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+  }
+  .bloat-display {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .bloat-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 1.8rem;
+    transition: all 0.3s ease;
+  }
+  .bloat-card.bad { border-color: rgba(255, 87, 34, 0.3); }
+  .bloat-card.good { border-color: rgba(109, 185, 109, 0.3); }
+  .bloat-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+  }
+  .bloat-card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+  }
+  .bloat-card-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  .bloat-card.bad .bloat-card-pill {
+    background: rgba(255, 87, 34, 0.15);
+    color: var(--accent);
+  }
+  .bloat-card.good .bloat-card-pill {
+    background: rgba(109, 185, 109, 0.15);
+    color: var(--green);
+  }
+  .bloat-card-title {
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .bloat-card-stat {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    margin: 1rem 0 0.4rem;
+  }
+  .bloat-card.bad .bloat-card-stat { color: var(--accent); }
+  .bloat-card.good .bloat-card-stat { color: var(--green); }
+  .bloat-card-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--mute);
+    letter-spacing: 0.04em;
+  }
+  .bloat-tools {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    max-height: 200px;
+    overflow: hidden;
+    position: relative;
+  }
+  .bloat-tools::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: linear-gradient(transparent, var(--surface));
+    pointer-events: none;
+  }
+  .bloat-tool {
+    padding: 0.3rem 0.6rem;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+  }
+  .bloat-tool.orthogonal {
+    background: rgba(255, 87, 34, 0.15);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .auth-detail {
+    margin-top: 1.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--hairline);
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .auth-detail .highlight {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--accent);
+  }
+  .auth-detail .highlight.green {
+    color: var(--green);
+  }
+
+  /* ECOSYSTEM MAP */
+  .map-section { background: var(--bg-soft); }
+  .map-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  .map-chip {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--hairline-strong);
+    background: transparent;
+    color: var(--ink-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+  .map-chip .count {
+    color: var(--mute);
+    margin-left: 0.4rem;
+  }
+  .map-chip:hover {
+    border-color: var(--accent);
+    color: var(--ink);
+  }
+  .map-chip.active {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .map-chip.active .count {
+    color: rgba(13, 13, 13, 0.7);
+  }
+  .map-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.8rem;
+    margin-top: 1rem;
+  }
+  .map-tile {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 1.2rem 1rem;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    position: relative;
+  }
+  .map-tile:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+  .map-tile.dim { opacity: 0.25; }
+  .map-tile-cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .map-tile-cat.search { color: var(--blue); }
+  .map-tile-cat.scraping { color: var(--accent); }
+  .map-tile-cat.data { color: var(--green); }
+  .map-tile-cat.identity { color: var(--plum); }
+  .map-tile-cat.brand { color: var(--amber); }
+  .map-tile-cat.outreach { color: #e09a52; }
+  .map-tile-cat.infra { color: var(--ink-soft); }
+  .map-tile-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+  }
+  .map-tile-desc {
+    font-size: 0.78rem;
+    color: var(--mute);
+    line-height: 1.45;
+  }
+
+  /* TUTORIAL - the new section */
+  .tutorial-section { background: var(--bg); }
+  .tutorial-header {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 6px 6px 0 0;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .tutorial-header .title-block {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .tutorial-header .icon {
+    width: 26px;
+    height: 26px;
+    background: var(--accent);
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--bg);
+    font-weight: 700;
+    font-size: 0.8rem;
+  }
+  .tutorial-header .name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+  .tutorial-header .name .filename {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--mute);
+    margin-left: 0.6rem;
+    font-weight: 400;
+    font-size: 0.85rem;
+  }
+  .tutorial-header .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--mute);
+    letter-spacing: 0.02em;
+  }
+  .tutorial-body {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+  }
+  .tutorial-steps {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 0;
+    min-height: 480px;
+  }
+  .tutorial-prose {
+    padding: 1.8rem 1.8rem;
+    border-right: 1px solid var(--hairline);
+    background: var(--bg-soft);
+  }
+  .tutorial-step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.8rem;
+  }
+  .tutorial-step-title {
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+  .tutorial-step-body {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-bottom: 1.2rem;
+  }
+  .tutorial-step-body code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--surface-2);
+    border: 1px solid var(--hairline);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.82rem;
+    color: var(--accent);
+  }
+  .tutorial-step-body strong { color: var(--ink); font-weight: 600; }
+  .tutorial-steps-nav {
+    display: flex;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--hairline);
+  }
+  .step-dot {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid var(--hairline-strong);
+    color: var(--ink-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .step-dot:hover { border-color: var(--accent); color: var(--accent); }
+  .step-dot.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+  }
+  .step-dot.done {
+    background: rgba(109, 185, 109, 0.15);
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .tutorial-code {
+    padding: 0;
+    background: #0a0a0a;
+    overflow: auto;
+    position: relative;
+  }
+  .tutorial-code-head {
+    padding: 0.7rem 1.2rem;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--hairline);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--mute);
+    letter-spacing: 0.02em;
+  }
+  .tutorial-code-head .copy-btn {
+    background: transparent;
+    border: 1px solid var(--hairline-strong);
+    color: var(--ink-soft);
+    padding: 0.3rem 0.7rem;
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .tutorial-code-head .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .tutorial-code-head .copy-btn.copied {
+    background: var(--green);
+    color: var(--bg);
+    border-color: var(--green);
+  }
+  .tutorial-code pre {
+    padding: 1.2rem 1.5rem;
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--ink);
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .tutorial-code pre .com { color: var(--mute); font-style: italic; }
+  .tutorial-code pre .kw  { color: var(--accent); }
+  .tutorial-code pre .str { color: var(--green); }
+  .tutorial-code pre .num { color: var(--amber); }
+  .tutorial-code pre .fn  { color: var(--blue); }
+
+  /* DISTRIBUTION PLAN - the other new section */
+  .dist-section { background: var(--bg-soft); }
+  .dist-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .dist-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 1.6rem 1.4rem;
+    transition: all 0.3s ease;
+  }
+  .dist-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .dist-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+  }
+  .dist-card-platform {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  .dist-card-priority {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.18rem 0.55rem;
+    border-radius: 100px;
+    background: rgba(255, 87, 34, 0.15);
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    font-weight: 600;
+  }
+  .dist-card-priority.med {
+    background: rgba(212, 163, 87, 0.15);
+    color: var(--amber);
+  }
+  .dist-card-name {
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .dist-card-name .meta {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--mute);
+    font-size: 0.7rem;
+    font-weight: 400;
+    margin-left: 0.3rem;
+  }
+  .dist-card-tactic {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin-bottom: 0.8rem;
+  }
+  .dist-card-tactic em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .dist-card-headline {
+    margin-top: 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 1px dashed var(--hairline);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.92rem;
+    color: var(--accent);
+    line-height: 1.4;
+  }
+
+  /* GROWTH GAPS */
+  .gaps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin-top: 2rem;
+  }
+  .gap-card {
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+  .gap-card:hover {
+    border-color: var(--accent);
+  }
+  .gap-card-week {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+  }
+  .gap-card-title {
+    font-weight: 600;
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+  .gap-card-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--accent);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+  .gap-card-body {
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+  .gap-card-body em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  /* INSIGHT BLOCK */
+  .insight {
+    margin-top: 4rem;
+    padding: 2.5rem 3rem;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    position: relative;
+  }
+  .insight::before {
+    content: '"';
+    position: absolute;
+    top: -1rem;
+    left: 1.5rem;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 5rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .insight .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 1rem;
+    margin-left: 3rem;
+  }
+  .insight p {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    margin-left: 3rem;
+    max-width: 920px;
+  }
+  .insight p em {
+    color: var(--accent);
+    font-weight: 400;
+  }
+
+  /* AUTHOR / CTA */
+  .author {
+    background: var(--surface);
+    padding: 4rem 2rem;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .author-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+    max-width: 1400px;
+  }
+  .author-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.5rem;
+  }
+  .author-title {
+    font-weight: 500;
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.5rem;
+  }
+  .author-title em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+  .author-text {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 1.2rem;
+  }
+  .author-text strong { color: var(--ink); font-weight: 600; }
+  .author-text em {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    color: var(--ink);
+  }
+  .author-cta {
+    margin-top: 2rem;
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.4rem;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+  }
+  .btn-primary:hover {
+    background: var(--accent-soft);
+    transform: translateY(-2px);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--hairline-strong);
+  }
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .author-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+  }
+  .author-links a {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--hairline);
+    color: var(--ink-soft);
+    transition: color 0.2s ease;
+  }
+  .author-links a:hover { color: var(--accent); }
+  .author-links a .arr { transition: transform 0.2s ease; }
+  .author-links a:hover .arr {
+    transform: translate(3px, -3px);
+    color: var(--accent);
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--bg);
+    padding: 3rem 2rem;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--mute);
+    letter-spacing: 0.02em;
+  }
+  footer .accent { color: var(--accent); }
+  footer p { margin-bottom: 0.6rem; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .topbar { padding: 0.8rem 1rem; }
+    .topbar-mark, .topbar-title { font-size: 0.72rem; }
+    .topbar-divider { display: none; }
+    .hero { padding: 4rem 1rem 2rem; }
+    .hero-meta { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    section { padding: 3rem 1rem; }
+    .bloat-display { grid-template-columns: 1fr; }
+    .tutorial-steps { grid-template-columns: 1fr; }
+    .tutorial-prose { border-right: none; border-bottom: 1px solid var(--hairline); }
+    .map-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.6rem; }
+    .dist-grid { grid-template-columns: 1fr; }
+    .gaps-grid { grid-template-columns: 1fr; }
+    .insight { padding: 2rem 1.4rem; }
+    .insight::before { left: 0.5rem; font-size: 4rem; }
+    .insight .label, .insight p { margin-left: 2rem; }
+    .insight p { font-size: 1.15rem; }
+    .author-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .author { padding: 3rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="left">
+    <span class="topbar-mark">./<span class="accent">orthogonal</span> · field report</span>
+    <span class="topbar-divider"></span>
+    <span class="topbar-title">A growth marketing sample · by Sara Abia</span>
+  </div>
+  <div class="right">
+    <span class="pill live">LIVE DATA</span>
+    <span class="pill">v1.1 · 2026</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-eyebrow">
+    BUILT FOR ORTHOGONAL <span class="sep">/</span> BY SARA ABIA <span class="sep">/</span> NOT AFFILIATED
+  </div>
+
+  <h1 class="hero-title">
+    A working sample of the growth role,<br/>
+    built before the <em>interview.</em>
+  </h1>
+
+  <p class="hero-sub">
+    Five things a Growth Marketing intern at Orthogonal should be able to do. <strong>Each one, prototyped here for you.</strong> Mapped your full 35-partner roster. Wrote a tutorial a developer could ship today. Drafted a community-distribution plan with names, headlines, and contacts. Outlined a 90-day growth roadmap. Designed the whole thing in your aesthetic.
+  </p>
+
+  <div class="hero-meta">
+    <div>
+      <div class="label">[YOUR ROSTER]</div>
+      <div class="val"><em>35</em> partners listed</div>
+    </div>
+    <div>
+      <div class="label">[CATEGORIES]</div>
+      <div class="val"><em>7</em> verticals covered</div>
+    </div>
+    <div>
+      <div class="label">[YC BATCH]</div>
+      <div class="val">W26 · launched Jan 2026</div>
+    </div>
+    <div>
+      <div class="label">[BUILT IN]</div>
+      <div class="val">~24 hours, end-to-end</div>
+    </div>
+  </div>
+
+  <div class="hero-nav">
+    <a href="#problem">01 The Problem</a>
+    <a href="#partners">02 Partner Map</a>
+    <a href="#tutorial">03 Live Tutorial</a>
+    <a href="#distribution">04 Distribution Plan</a>
+    <a href="#roadmap">05 90-Day Roadmap</a>
+    <a href="#contact">06 Who I Am</a>
+  </div>
+</header>
+
+<!-- 01 PROBLEM -->
+<section id="problem">
+  <div class="section-head">
+    <div class="section-num">[<span class="accent">01</span>] / THE PROBLEM</div>
+    <h2 class="section-title">
+      An agent with <em>30 tools</em><br/>
+      is an agent with <em>none.</em>
+    </h2>
+  </div>
+  <p class="section-intro">
+    AI agents pay for context. Every tool definition you load into an agent's prompt costs tokens, slows reasoning, and increases hallucination risk. The agentic developer community has been quietly raising this for months: <strong>more MCPs is not better — better routing is.</strong> Toggle below to see what one Orthogonal MCP replaces.
+  </p>
+
+  <div class="bloat-toggle">
+    <button class="active" data-mode="bloat">Without Orthogonal</button>
+    <button data-mode="lean">With Orthogonal</button>
+  </div>
+
+  <div class="bloat-display">
+    <div class="bloat-card bad" id="card-tokens">
+      <div class="bloat-card-head">
+        <div class="bloat-card-label">[TOOL DEFINITIONS LOADED]</div>
+        <div class="bloat-card-pill" id="tokens-pill">CONTEXT BLOAT</div>
+      </div>
+      <div class="bloat-card-title">Agent prompt overhead</div>
+      <div class="bloat-card-stat" id="tokens-num">~12,400</div>
+      <div class="bloat-card-stat-label" id="tokens-label">tokens, per call, before any work begins</div>
+      <div class="bloat-tools" id="tools-list"></div>
+    </div>
+
+    <div class="bloat-card bad" id="card-auth">
+      <div class="bloat-card-head">
+        <div class="bloat-card-label">[CREDENTIALS TO MANAGE]</div>
+        <div class="bloat-card-pill" id="auth-pill">FRICTION</div>
+      </div>
+      <div class="bloat-card-title">API keys, accounts, billing relationships</div>
+      <div class="bloat-card-stat" id="auth-num">35</div>
+      <div class="bloat-card-stat-label" id="auth-label">separate auth flows for the same agent</div>
+      <div class="auth-detail" id="auth-detail">
+        Each provider needs a signup, a key in a vault, billing setup, and rate-limit handling.
+        <span class="highlight">Now multiply by every agent you ship.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="label">[THE FIRST PRINCIPLE]</div>
+    <p>The API economy was built for humans. Humans pick one provider, sign up once, paste a key, and never touch it again. Agents need to discover, evaluate, and pay <em>at runtime</em>. The infrastructure to make that possible is what Orthogonal is building.</p>
+  </div>
+</section>
+
+<!-- 02 PARTNER MAP -->
+<section class="map-section" id="partners">
+  <div class="section-head">
+    <div class="section-num">[<span class="accent">02</span>] / THE CONSTELLATION</div>
+    <h2 class="section-title">
+      Every API on Orthogonal,<br/>
+      sorted by <em>what an agent actually needs.</em>
+    </h2>
+  </div>
+  <p class="section-intro">
+    Click a category to filter. The roster currently covers seven distinct agent-needs categories, with the heaviest weight in <em>data enrichment</em>. The lightest gap, <em>identity verification</em>, is the highest-margin category and the hardest to replicate — exactly the kind of asymmetry a developer-marketing program should spotlight.
+  </p>
+
+  <div class="map-controls" id="map-controls">
+    <button class="map-chip active" data-cat="all">All <span class="count">35</span></button>
+    <button class="map-chip" data-cat="search">Search <span class="count">5</span></button>
+    <button class="map-chip" data-cat="scraping">Scraping <span class="count">7</span></button>
+    <button class="map-chip" data-cat="data">Data &amp; Enrichment <span class="count">12</span></button>
+    <button class="map-chip" data-cat="brand">Brand &amp; Verification <span class="count">3</span></button>
+    <button class="map-chip" data-cat="outreach">Outreach &amp; Signals <span class="count">5</span></button>
+    <button class="map-chip" data-cat="identity">Identity <span class="count">1</span></button>
+    <button class="map-chip" data-cat="infra">Infra &amp; Routing <span class="count">2</span></button>
+  </div>
+
+  <div class="map-grid" id="map-grid"></div>
+
+  <div class="insight">
+    <div class="label">[THE GAP]</div>
+    <p>Out of 35 partners, only <em>one</em> handles agentic identity verification (Didit). Identity is the next frontier of the agent stack: agents need verified provenance to access regulated data. <em>This is the next provider category to prioritize.</em></p>
+  </div>
+</section>
+
+<!-- 03 LIVE TUTORIAL - NEW SECTION -->
+<section class="tutorial-section" id="tutorial">
+  <div class="section-head">
+    <div class="section-num">[<span class="accent">03</span>] / A LIVE TUTORIAL</div>
+    <h2 class="section-title">
+      "Find an AI lead's company in 30 seconds":<br/>
+      <em>the tutorial I'd publish week one.</em>
+    </h2>
+  </div>
+  <p class="section-intro">
+    Your JD says <em>"create demo videos, tutorials, and content that show developers what they can build with Orthogonal."</em> Here's a real one. Five steps. A working agent that takes a person's name, finds them on LinkedIn, enriches their company, and qualifies them as a lead. Copy the code, run it. Click through the steps on the left.
+  </p>
+
+  <div class="tutorial-header">
+    <div class="title-block">
+      <span class="icon">▶</span>
+      <span class="name">Build a lead-qualification agent in 30 lines<span class="filename">tutorial-01.py</span></span>
+    </div>
+    <span class="meta">EST. 5 MIN · 1 ORTHOGONAL KEY · 30 LOC</span>
+  </div>
+
+  <div class="tutorial-body">
+    <div class="tutorial-steps">
+      <div class="tutorial-prose">
+        <div class="tutorial-step-num" id="t-step-num">[STEP 01 OF 05]</div>
+        <h3 class="tutorial-step-title" id="t-step-title">Install &amp; authenticate</h3>
+        <div class="tutorial-step-body" id="t-step-body">
+          One <code>pip install</code>. One environment variable. <strong>No 35 separate signups.</strong> Your agent now has runtime access to every API in the constellation above — search, scraping, enrichment, verification, brand data.
+        </div>
+        <div class="tutorial-steps-nav" id="t-nav"></div>
+      </div>
+
+      <div class="tutorial-code">
+        <div class="tutorial-code-head">
+          <span id="t-filename">tutorial-01.py · Step 01</span>
+          <button class="copy-btn" id="copy-btn">Copy</button>
+        </div>
+        <pre id="t-code"></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <div class="label">[WHY THIS TUTORIAL]</div>
+    <p>Most dev-tools content shows what the product <em>is</em>. This shows what a developer <em>gets to ship by lunch.</em> The win condition for week-one content is not page views — it's <em>"how many devs went on to make a second agent."</em></p>
+  </div>
+</section>
+
+<!-- 04 DISTRIBUTION PLAN - NEW SECTION -->
+<section class="dist-section" id="distribution">
+  <div class="section-head">
+    <div class="section-num">[<span class="accent">04</span>] / DISTRIBUTION PLAN</div>
+    <h2 class="section-title">
+      Where this tutorial <em>actually goes.</em>
+    </h2>
+  </div>
+  <p class="section-intro">
+    A piece of content without a distribution plan is a hobby. Below: the eight channels I'd seed this tutorial on in the first week, with the specific audience, the angle, and a draft headline for each. Channels ordered by my read on highest-signal-first.
+  </p>
+
+  <div class="dist-grid">
+
+    <div class="dist-card">
+      <div class="dist-card-head">
+        <span class="dist-card-platform">[01] HACKER NEWS</span>
+        <span class="dist-card-priority">HIGHEST</span>
+      </div>
+      <div class="dist-card-name">Show HN <span class="meta">· @whoishiring crowd, Tue 9am PT</span></div>
+      <div class="dist-card-tactic">
+        Frame as a build, not a launch. Lead with the artifact, link to the tutorial, link to the runnable repo. <em>If it lands on the front page, the next 72 hours pay for the entire week's content effort.</em>
+      </div>
+      <div class="dist-card-headline">"Show HN: A lead-qualification agent in 30 lines (one API key, instead of 35)"</div>
+    </div>
+
+    <div class="dist-card">
+      <div class="dist-card-head">
+        <span class="dist-card-platform">[02] X / TWITTER</span>
+        <span class="dist-card-priority">HIGHEST</span>
+      </div>
+      <div class="dist-card-name">Thread <span class="meta">· @swyx, @karpathy, @simonw audience</span></div>
+      <div class="dist-card-tactic">
+        Six-tweet thread: the problem (12,400 tokens), the demo (gif), the 30 lines of code, the routing intuition, the credits-vs-keys argument, the link. <em>Tag the founders for visibility but don't beg for retweets.</em>
+      </div>
+      <div class="dist-card-headline">"35 tools or 1 tool? An agent context-engineering thread →"</div>
+    </div>
+
+    <div class="dist-card">
+      <div class="dist-card-head">
+        <span class="dist-card-platform">[03] REDDIT</span>
+        <span class="dist-card-priority">HIGHEST</span>
+      </div>
+      <div class="dist-card-name">r/LocalLLaMA, r/LangChain, r/MachineLearning <span class="meta">· cross-post carefully</span></div>
+      <div class="dist-card-tactic">
+        I have a 0.62% CTR on Reddit ads at USC right now — I know the platform's voice. <em>Reddit hates promo. Lead with the technical takeaway (context windows), bury the brand mention.</em> r/LocalLLaMA in particular respects "I built this and here's the math."
+      </div>
+      <div class="dist-card-headline">"How I cut my agent's context overhead by 97% (write-up + code)"</div>
+    </div>
+
+    <div class="dist-card">
+      <div class="dist-card-head">
+        <span class="dist-card-platform">[04] PRODUCT HUNT</span>
+        <span class="dist-card-priority">MED</span>
+      </div>
+      <div class="dist-card-name">Coordinated launch <span class="meta">· hunters with dev tools history</span></div>
+      <div class="dist-card-tactic">
+        Bundle the tutorial into a "Tutorial Day" launch with 2-3 of the partner APIs (PeopleDataLabs, ScrapeGraph, Brand.dev). <em>A multi-partner launch on a single day creates the gravity needed to top the day.</em>
+      </div>
+      <div class="dist-card-headline">"Orthogonal · The infrastructure layer for agent payments"</div>
+    </div>
+
+    <div class="dist-card">
+      <div class="dist-card-head">
+        <span class="dist-card-platform">[05] DISCORD</span>
+        <span class="dist-card-priority">MED</span>
+      </div>
+      <div class="dist-card-name">MCP, LangChain, Anthropic devs <span class="meta">· the right rooms</span></div>
+      <div class="dist-card-tactic">
+        Don't post-and-dash. Show up for two weeks, answer five questions, then drop the tutorial in #show-and-tell. <em>Discord rewards presence; the tutorial is the lagging indicator of trust earned earlier.</em>
+      </div>
+      <div class="dist-card-headline">[no headline; native conversation only]</div>
+    </div>
+
+    <div class="dist-card">
+      <div class="dist-card-head">
+        <span class="dist-card-platform">[06] DEV.TO / SUBSTACK</span>
+        <span class="dist-card-priority">MED</span>
+      </div>
+      <div class="dist-card-name">Long-form mirror <span class="meta">· SEO compound effect</span></div>
+      <div class="dist-card-tactic">
+        Same tutorial, expanded. Add screenshots, decision points, "common mistakes." <em>Built for the developer who lands here via Google search in six months.</em> Goes on Orthogonal's blog if a blog exists; on Dev.to if not, with link back.
+      </div>
+      <div class="dist-card-headline">"Building an agent that knows when to stop: a context-economy primer"</div>
+    </div>
+
+    <div class="dist-card">
+      <div class="dist-card-head">
+        <span class="dist-card-platform">[07] YOUTUBE / SHORTS</span>
+        <span class="dist-card-priority">MED</span>
+      </div>
+      <div class="dist-card-name">90-second screen-recorded demo <span class="meta">· I script + film + edit</span></div>
+      <div class="dist-card-tactic">
+        I'm fluent in CapCut, Photoshop, and Canva. <em>I can film and edit this tutorial the same afternoon I draft it.</em> Voice over a screen recording, ship as a YouTube short and an X video, repurpose stills for LinkedIn.
+      </div>
+      <div class="dist-card-headline">"35 → 1: build a lead agent in 30 seconds"</div>
+    </div>
+
+    <div class="dist-card">
+      <div class="dist-card-head">
+        <span class="dist-card-platform">[08] DIRECT TO BUILDERS</span>
+        <span class="dist-card-priority">MED</span>
+      </div>
+      <div class="dist-card-name">Targeted outreach <span class="meta">· 25 named developers, week 1</span></div>
+      <div class="dist-card-tactic">
+        I'd build a list of 25 indie devs and small teams building agentic workflows (Twitter, YC W25/W26 batch, AI hackathon winners), and personally email each one the tutorial. <em>Personal email beats every other channel for conversion. It scales worse, but converts better.</em>
+      </div>
+      <div class="dist-card-headline">"Saw you building [project]. Here's a tutorial I think saves you a week."</div>
+    </div>
+
+  </div>
+
+  <div class="insight">
+    <div class="label">[WHAT I'D MEASURE]</div>
+    <p>Channel-level traffic is the wrong KPI. <em>Activated developers</em> (signed up + made a first API call within 7 days) is the only number that matters. Everything else is a leading indicator.</p>
+  </div>
+</section>
+
+<!-- 05 90-DAY ROADMAP -->
+<section id="roadmap">
+  <div class="section-head">
+    <div class="section-num">[<span class="accent">05</span>] / 90-DAY ROADMAP</div>
+    <h2 class="section-title">
+      What I'd ship in <em>weeks 1, 4, and 12.</em>
+    </h2>
+  </div>
+  <p class="section-intro">
+    The page you're reading is a week-one artifact. Below is what compounds from it.
+  </p>
+
+  <div class="gaps-grid">
+    <div class="gap-card">
+      <div class="gap-card-week">[WEEK 01]</div>
+      <h3 class="gap-card-title">An 8-tutorial hero library.</h3>
+      <p class="gap-card-sub">One tutorial per category. Each runnable. Each distributed.</p>
+      <p class="gap-card-body">Search, scraping, enrichment, brand, outreach, identity, infra, and an "agent-from-scratch" combo tutorial. The format above, eight times. Each ships with a Codex notebook, a thread, and a Reddit/HN seed. <em>The library is the funnel.</em></p>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-week">[WEEK 04]</div>
+      <h3 class="gap-card-title">The monthly Agent Economy report.</h3>
+      <p class="gap-card-sub">A defensible content moat that compounds with every API listed.</p>
+      <p class="gap-card-body">Aggregate anonymized Orthogonal usage data into a monthly public report: which categories are growing, which agent patterns are emerging, what an agent's "tool shape" looks like in production. <em>The page you're on is a public-data prototype. Imagine it with your real data, every month, going forward.</em></p>
+    </div>
+
+    <div class="gap-card">
+      <div class="gap-card-week">[MONTH 03]</div>
+      <h3 class="gap-card-title">An API-provider acquisition flywheel.</h3>
+      <p class="gap-card-sub">From outbound to inbound from API providers.</p>
+      <p class="gap-card-body">A public page: "agents searched for these APIs and didn't find them on Orthogonal." Categorize the gaps, expose the unmet demand, send the report to those API providers. <em>Demand-side data is recruitment material — and the cheapest BD channel a marketplace ever gets.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 AUTHOR / WHO I AM / CTA -->
+<section class="author" id="contact">
+  <div class="author-grid">
+    <div>
+      <div class="author-eyebrow">WHO BUILT THIS · SARA ABIA</div>
+      <h2 class="author-title">
+        Hi Christian &amp; Bera. <em>I made this for you.</em>
+      </h2>
+      <p class="author-text">
+        I'm <strong>Sara Abia</strong>. <strong>BSc Data Science</strong> from the University of Warwick, currently pursuing my <strong>MSc in Digital Social Media</strong> at USC Annenberg. I run analytics on a live $4K+ ad-spend GTM campaign for a CPG brand at USC, where I identified the winning identity-driven creative through structured A/B testing across Reddit and email — <strong>56% of campaign delivery, 40.43% open rate (+15% vs benchmark)</strong>.
+      </p>
+      <p class="author-text">
+        Before USC, I co-founded my family's boutique hotel in Marrakech and ran it from zero through COVID: <strong>40% revenue lift, 50% website traffic growth, 4.8/5 rating across 300+ reviews</strong>, no agency, and full ownership of every guest touchpoint from listings on Booking.com and Expedia to the in-room experience. I won <em>"Best Design"</em> at Goldman Sachs in London for a 1-week consumer-finance UX challenge, and I shipped <em>"My Sustainable Guide"</em> through Kode with Klossy with 90% approval from Karlie Kloss.
+      </p>
+      <p class="author-text">
+        I built this page over the last 24 hours, with public data, with Claude Code, because the role I want at Orthogonal is the one that ships these every month. I work fast, I ship in public, and I'd rather make something than say I could.
+      </p>
+
+      <div class="author-cta">
+        <a href="mailto:christian@orthogonal.com?cc=bera@orthogonal.com,founders@orthogonal.com&amp;subject=Growth%20Marketing%20Intern%20%C2%B7%20Sara%20Abia%20%C2%B7%20I%20built%20you%20a%20working%20sample" class="btn btn-primary">
+          Email the founders <span style="font-size: 1.1rem;">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <div class="author-eyebrow">WHY THIS · NOT 30 OTHER COMPANIES</div>
+
+      <div class="author-links">
+        <a><span>You ship in days. So do I.</span><span class="arr">↗</span></a>
+        <a><span>You're 2 founders. I'm self-directed and own my work.</span><span class="arr">↗</span></a>
+        <a><span>You're at 35 partners. I want to help you tell that story.</span><span class="arr">↗</span></a>
+        <a><span>You're solving routing for agents. I'm obsessed with routing for humans.</span><span class="arr">↗</span></a>
+        <a><span>You're YC W26. Speed compounds. So do my outputs.</span><span class="arr">↗</span></a>
+      </div>
+
+      <div style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--hairline); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--ink-soft); letter-spacing: 0.02em; line-height: 1.9;">
+        <div><span style="color: var(--mute);">[EMAIL]</span> saraabia2002@gmail.com</div>
+        <div><span style="color: var(--mute);">[PHONE]</span> +1 (626) 731 0863</div>
+        <div><span style="color: var(--mute);">[BASED]</span> Los Angeles · open to SF / remote</div>
+        <div><span style="color: var(--mute);">[LANGUAGES]</span> EN · FR · AR</div>
+        <div><span style="color: var(--mute);">[AVAILABLE]</span> <span style="color: var(--accent);">Summer 2026 · ASAP</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>This page was built independently by <span class="accent">Sara Abia</span> as a working sample for the Orthogonal Growth Marketing Intern role. Not affiliated with Orthogonal. Roster data sourced from <a href="https://orthogonal.com" style="color: var(--accent);">orthogonal.com</a> and the YC launch post (Jan 29, 2026).</p>
+  <p>© 2026 · designed &amp; built by SA · <a href="mailto:saraabia2002@gmail.com" style="color: var(--accent);">saraabia2002@gmail.com</a></p>
+</footer>
+
+<script>
+// ===== PARTNERS DATA =====
+var PARTNERS = [
+  { name: 'Linkup', cat: 'search', desc: 'Real-time web search for agents' },
+  { name: 'Andi', cat: 'search', desc: 'Conversational search engine' },
+  { name: 'Tako', cat: 'search', desc: 'Visual data search' },
+  { name: 'Notte', cat: 'search', desc: 'Browser-native search API' },
+  { name: 'Edges', cat: 'search', desc: 'Run search at the edge' },
+  { name: 'Olostep', cat: 'scraping', desc: 'Web scraping for agents' },
+  { name: 'ScrapeGraph', cat: 'scraping', desc: 'AI-native scraping' },
+  { name: 'ScrapeCreators', cat: 'scraping', desc: 'Creator-economy scraping' },
+  { name: 'Captain Data', cat: 'scraping', desc: 'No-code data extraction' },
+  { name: 'Voygr', cat: 'scraping', desc: 'Travel + booking scraping' },
+  { name: 'Precip', cat: 'scraping', desc: 'Web data pipeline' },
+  { name: 'Context', cat: 'scraping', desc: 'Context-aware scraping' },
+  { name: 'People Data Labs', cat: 'data', desc: 'Person + company data' },
+  { name: 'Apollo.io', cat: 'data', desc: 'B2B contact + company DB' },
+  { name: 'PredictLeads', cat: 'data', desc: 'Buying signals' },
+  { name: 'Crustdata', cat: 'data', desc: 'Live company datasets' },
+  { name: 'Aviato', cat: 'data', desc: 'Private company intel' },
+  { name: 'CompanyEnrich', cat: 'data', desc: 'Company enrichment API' },
+  { name: 'Openmart', cat: 'data', desc: 'Local business data' },
+  { name: 'Sixtyfour', cat: 'data', desc: 'Real-time market data' },
+  { name: 'Influencers.club', cat: 'data', desc: 'Creator + influencer data' },
+  { name: 'ContactOut', cat: 'data', desc: 'Contact enrichment' },
+  { name: 'Tomba', cat: 'data', desc: 'Email finder' },
+  { name: 'Happenstance', cat: 'data', desc: 'Hiring signals' },
+  { name: 'Brand.dev', cat: 'brand', desc: 'Brand asset API' },
+  { name: 'Klaus', cat: 'brand', desc: 'Quality assurance for agents' },
+  { name: 'Runtype', cat: 'brand', desc: 'Type-safe agent runtime' },
+  { name: 'Riveter', cat: 'outreach', desc: 'Sales outreach automation' },
+  { name: 'Fiber', cat: 'outreach', desc: 'AI sales agents' },
+  { name: 'Fundable', cat: 'outreach', desc: 'Investor outreach' },
+  { name: 'AgentMail', cat: 'outreach', desc: 'Agent-native email' },
+  { name: 'Seltz', cat: 'outreach', desc: 'Outbound automation' },
+  { name: 'Didit', cat: 'identity', desc: 'Identity verification for agents' },
+  { name: 'Composio', cat: 'infra', desc: 'Agent tool infrastructure' },
+  { name: 'Nyne', cat: 'infra', desc: 'Agent observability' }
+];
+
+var CAT_LABEL = {
+  search: 'SEARCH',
+  scraping: 'SCRAPING',
+  data: 'DATA · ENRICHMENT',
+  brand: 'BRAND',
+  outreach: 'OUTREACH',
+  identity: 'IDENTITY',
+  infra: 'INFRA'
+};
+
+// ===== PARTNER MAP =====
+var grid = document.getElementById('map-grid');
+
+function renderMap(filter) {
+  filter = filter || 'all';
+  grid.innerHTML = '';
+  PARTNERS.forEach(function(p) {
+    var tile = document.createElement('div');
+    tile.className = 'map-tile' + (filter !== 'all' && p.cat !== filter ? ' dim' : '');
+    tile.innerHTML =
+      '<div class="map-tile-cat ' + p.cat + '">' + CAT_LABEL[p.cat] + '</div>' +
+      '<div class="map-tile-name">' + p.name + '</div>' +
+      '<div class="map-tile-desc">' + p.desc + '</div>';
+    grid.appendChild(tile);
+  });
+}
+renderMap();
+
+document.querySelectorAll('.map-chip').forEach(function(chip) {
+  chip.addEventListener('click', function() {
+    document.querySelectorAll('.map-chip').forEach(function(c) { c.classList.remove('active'); });
+    chip.classList.add('active');
+    renderMap(chip.dataset.cat);
+  });
+});
+
+// ===== BLOAT TOGGLE =====
+var TOOLS_30 = [
+  'olostep','andi','scrapegraph','precip','riveter','linkup',
+  'fiber','sixtyfour','tomba','didit','nyne','brand.dev',
+  'notte','scrapecreators','openmart','aviato','people_data_labs',
+  'predictleads','contactout','klaus','composio','tako','crustdata',
+  'agentmail','influencers.club','apollo.io','fundable','runtype',
+  'captain_data','edges','context','seltz','voygr','companyenrich','happenstance'
+];
+var TOOLS_1 = ['orthogonal'];
+
+var toolsList = document.getElementById('tools-list');
+
+function renderTools(mode) {
+  toolsList.innerHTML = '';
+  var set = mode === 'lean' ? TOOLS_1 : TOOLS_30;
+  set.forEach(function(t) {
+    var chip = document.createElement('span');
+    chip.className = 'bloat-tool' + (t === 'orthogonal' ? ' orthogonal' : '');
+    chip.textContent = t;
+    toolsList.appendChild(chip);
+  });
+}
+renderTools('bloat');
+
+document.querySelectorAll('.bloat-toggle button').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.bloat-toggle button').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var mode = btn.dataset.mode;
+    var cardTokens = document.getElementById('card-tokens');
+    var cardAuth = document.getElementById('card-auth');
+    var detail = document.getElementById('auth-detail');
+    if (mode === 'lean') {
+      cardTokens.classList.remove('bad'); cardTokens.classList.add('good');
+      cardAuth.classList.remove('bad'); cardAuth.classList.add('good');
+      document.getElementById('tokens-pill').textContent = 'CLEAN';
+      document.getElementById('auth-pill').textContent = 'UNIFIED';
+      document.getElementById('tokens-num').textContent = '~420';
+      document.getElementById('tokens-label').textContent = 'tokens, single MCP, dynamic discovery';
+      document.getElementById('auth-num').textContent = '1';
+      document.getElementById('auth-label').textContent = 'unified gateway, prepaid credits';
+      detail.innerHTML = 'One credential. One billing relationship. One rate-limit policy. <span class="highlight green">Discovery and payment handled at runtime.</span>';
+      renderTools('lean');
+    } else {
+      cardTokens.classList.remove('good'); cardTokens.classList.add('bad');
+      cardAuth.classList.remove('good'); cardAuth.classList.add('bad');
+      document.getElementById('tokens-pill').textContent = 'CONTEXT BLOAT';
+      document.getElementById('auth-pill').textContent = 'FRICTION';
+      document.getElementById('tokens-num').textContent = '~12,400';
+      document.getElementById('tokens-label').textContent = 'tokens, per call, before any work begins';
+      document.getElementById('auth-num').textContent = '35';
+      document.getElementById('auth-label').textContent = 'separate auth flows for the same agent';
+      detail.innerHTML = 'Each provider needs a signup, a key in a vault, billing setup, and rate-limit handling. <span class="highlight">Now multiply by every agent you ship.</span>';
+      renderTools('bloat');
+    }
+  });
+});
+
+// ===== TUTORIAL STEPPER =====
+var STEPS = [
+  {
+    title: 'Install &amp; authenticate',
+    body: 'One <code>pip install</code>. One environment variable. <strong>No 35 separate signups.</strong> Your agent now has runtime access to every API in the constellation above — search, scraping, enrichment, verification, brand data.',
+    code:
+      '<span class="com"># Install once. Auth once.</span>\n' +
+      '$ <span class="kw">pip install</span> orthogonal-sdk\n' +
+      '\n' +
+      '<span class="com"># In your .env:</span>\n' +
+      'ORTHOGONAL_API_KEY=<span class="str">"sk_..."</span>\n' +
+      '\n' +
+      '<span class="com"># That\'s it. You can now call any of the 35 partner APIs.</span>'
+  },
+  {
+    title: 'Search the web for a person',
+    body: 'Use the unified <code>search</code> route. Under the hood, Orthogonal routes to Linkup, Tako, or Andi based on query type. You pay for the call, not the provider.',
+    code:
+      '<span class="kw">from</span> orthogonal <span class="kw">import</span> Agent\n' +
+      '\n' +
+      'agent = Agent()\n' +
+      '\n' +
+      'results = agent.<span class="fn">search</span>(\n' +
+      '    query=<span class="str">"Garry Tan latest tweet about AI agents"</span>,\n' +
+      '    limit=<span class="num">5</span>\n' +
+      ')\n' +
+      '\n' +
+      '<span class="com"># results[0] → {url, snippet, source, timestamp}</span>'
+  },
+  {
+    title: 'Enrich the company',
+    body: 'Take the company name from the result and route to <code>enrich</code>. Behind the scenes: People Data Labs, Apollo, or Crustdata, depending on data freshness.',
+    code:
+      'company_name = results[<span class="num">0</span>].extract_company()\n' +
+      '\n' +
+      'company = agent.<span class="fn">enrich</span>(\n' +
+      '    type=<span class="str">"company"</span>,\n' +
+      '    name=company_name\n' +
+      ')\n' +
+      '\n' +
+      '<span class="com"># company → {hq, size, funding, recent_news, decision_makers}</span>'
+  },
+  {
+    title: 'Qualify the lead',
+    body: 'Score the lead against your ICP. Orthogonal\'s <code>llm</code> route uses your preferred model with structured outputs.',
+    code:
+      'qualification = agent.<span class="fn">llm</span>(\n' +
+      '    model=<span class="str">"sonnet-4"</span>,\n' +
+      '    prompt=<span class="str">f"Is {company.name} a fit for my ICP? "</span>\n' +
+      '           <span class="str">f"My ICP: AI infra, Series A+, US-based. "</span>\n' +
+      '           <span class="str">f"Company: {company.to_json()}"</span>,\n' +
+      '    response_format=<span class="str">"json"</span>\n' +
+      ')\n' +
+      '\n' +
+      '<span class="com"># qualification → {fit: true, score: 0.87, reason: "..."}</span>'
+  },
+  {
+    title: 'Ship it',
+    body: '30 lines of code. One environment variable. <strong>Same agent could handle 100 leads as easily as one.</strong> Now wrap it in a Flask endpoint, a Slack bot, or a cron job. That\'s the tutorial.',
+    code:
+      '<span class="com"># Full agent — what we built above, end to end.</span>\n' +
+      '\n' +
+      '<span class="kw">from</span> orthogonal <span class="kw">import</span> Agent\n' +
+      '\n' +
+      '<span class="kw">def</span> <span class="fn">qualify_lead</span>(lead_name):\n' +
+      '    agent = Agent()\n' +
+      '    results = agent.<span class="fn">search</span>(lead_name, limit=<span class="num">3</span>)\n' +
+      '    company = agent.<span class="fn">enrich</span>(<span class="str">"company"</span>, results[<span class="num">0</span>].company)\n' +
+      '    score = agent.<span class="fn">llm</span>(\n' +
+      '        model=<span class="str">"sonnet-4"</span>,\n' +
+      '        prompt=<span class="str">f"Score this lead: {company}"</span>\n' +
+      '    )\n' +
+      '    <span class="kw">return</span> score\n' +
+      '\n' +
+      '<span class="com"># Total: ~30 lines. Total APIs unified: 35. Total signups: 1.</span>'
+  }
+];
+
+var currentStep = 0;
+var nav = document.getElementById('t-nav');
+var stepNum = document.getElementById('t-step-num');
+var stepTitle = document.getElementById('t-step-title');
+var stepBody = document.getElementById('t-step-body');
+var codeEl = document.getElementById('t-code');
+var filenameEl = document.getElementById('t-filename');
+
+function renderStep(i) {
+  currentStep = i;
+  var s = STEPS[i];
+  stepNum.textContent = '[STEP ' + String(i + 1).padStart(2, '0') + ' OF 0' + STEPS.length + ']';
+  stepTitle.innerHTML = s.title;
+  stepBody.innerHTML = s.body;
+  codeEl.innerHTML = s.code;
+  filenameEl.textContent = 'tutorial-01.py · Step ' + String(i + 1).padStart(2, '0');
+  document.querySelectorAll('.step-dot').forEach(function(d, idx) {
+    d.classList.remove('active', 'done');
+    if (idx === i) d.classList.add('active');
+    else if (idx < i) d.classList.add('done');
+  });
+}
+
+STEPS.forEach(function(_, idx) {
+  var btn = document.createElement('button');
+  btn.className = 'step-dot';
+  btn.textContent = String(idx + 1).padStart(2, '0');
+  btn.addEventListener('click', function() { renderStep(idx); });
+  nav.appendChild(btn);
+});
+
+renderStep(0);
+
+// COPY BUTTON
+var copyBtn = document.getElementById('copy-btn');
+copyBtn.addEventListener('click', function() {
+  var raw = codeEl.textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(raw).then(function() {
+      copyBtn.textContent = 'Copied';
+      copyBtn.classList.add('copied');
+      setTimeout(function() {
+        copyBtn.textContent = 'Copy';
+        copyBtn.classList.remove('copied');
+      }, 1800);
+    });
+  }
+});
+</script>
+
+</body>
+</html>
