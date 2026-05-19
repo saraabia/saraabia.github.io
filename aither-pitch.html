@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>a growth thesis for aither — sara abia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink: #1a1a1a;
+  --paper: #f5f1ea;
+  --paper-2: #ebe5d9;
+  --rule: #cdc4b1;
+  --accent: #c44536;
+  --accent-soft: #d97757;
+  --muted: #6b6357;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,sans-serif;font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body{padding:0}
+
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:14px 32px;
+  background:var(--paper);
+  border-bottom:1px solid var(--rule);
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;
+}
+.topbar .left{color:var(--ink)}
+.topbar .right{color:var(--muted)}
+
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px}
+.section{padding:80px 0;border-bottom:1px solid var(--rule)}
+.section:last-of-type{border-bottom:none}
+
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:16px;display:flex;align-items:center;gap:14px;
+}
+.eyebrow::before{content:"";display:inline-block;width:24px;height:1px;background:var(--accent)}
+h1{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(48px,7vw,96px);line-height:0.96;letter-spacing:-0.02em;color:var(--ink)}
+h1 em{font-style:italic;color:var(--accent);font-weight:400}
+h2{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(32px,4.2vw,52px);line-height:1.05;letter-spacing:-0.015em;margin-bottom:24px}
+h2 em{font-style:italic;color:var(--accent)}
+h3{font-family:'Fraunces',serif;font-weight:400;font-size:22px;line-height:1.2;margin-bottom:8px}
+p.lead{font-family:'Fraunces',serif;font-weight:300;font-size:22px;line-height:1.45;color:var(--ink);margin-bottom:20px;font-style:italic}
+p{font-size:15px;line-height:1.65;margin-bottom:14px;color:var(--ink);max-width:64ch}
+p.small{font-size:13px;color:var(--muted)}
+.mono{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.02em}
+
+.hero{padding:120px 0 100px;position:relative;overflow:hidden}
+.hero .meta{display:flex;gap:32px;margin-top:64px;padding-top:24px;border-top:1px solid var(--rule);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted);flex-wrap:wrap}
+.hero .meta div span{display:block;color:var(--ink);font-size:13px;margin-top:4px}
+.subhead{font-family:'Fraunces',serif;font-weight:300;font-size:24px;line-height:1.4;color:var(--muted);margin-top:32px;max-width:36ch}
+.subhead em{color:var(--accent);font-style:italic}
+
+.sec-num{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.15em;color:var(--accent);margin-bottom:6px}
+.sec-head{display:grid;grid-template-columns:1fr 2fr;gap:48px;margin-bottom:48px;align-items:start}
+.sec-head .right p{max-width:none}
+@media(max-width:780px){.sec-head{grid-template-columns:1fr;gap:24px}}
+
+.archetype-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:24px}
+.arch{background:var(--paper);padding:24px 18px;display:flex;flex-direction:column;justify-content:space-between;min-height:240px;cursor:pointer;transition:background 0.2s}
+.arch:hover{background:var(--paper-2)}
+.arch.active{background:var(--ink);color:var(--paper)}
+.arch.active .arch-tag{color:var(--accent-soft)}
+.arch.active .arch-name{color:var(--paper)}
+.arch.active .arch-need{color:var(--paper)}
+.arch-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.arch-name{font-family:'Fraunces',serif;font-size:24px;line-height:1.1;color:var(--ink);margin-bottom:18px;font-weight:400}
+.arch-need{font-size:13px;line-height:1.4;color:var(--muted)}
+@media(max-width:900px){.archetype-grid{grid-template-columns:repeat(2,1fr)}}
+
+.arch-detail{margin-top:24px;padding:32px;background:var(--paper-2);border-radius:2px;display:none}
+.arch-detail.show{display:block}
+.arch-detail h4{font-family:'Fraunces',serif;font-size:24px;margin-bottom:6px;font-weight:400}
+.arch-detail .label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;margin-top:18px}
+.arch-detail .label:first-of-type{margin-top:0}
+.arch-detail p{font-size:14px;max-width:none}
+
+.calendar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.cal-cell{padding:20px 16px;background:var(--paper-2);border-left:2px solid var(--accent);min-height:180px}
+.cal-q{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:var(--accent);margin-bottom:12px}
+.cal-title{font-family:'Fraunces',serif;font-size:18px;line-height:1.2;margin-bottom:10px;font-weight:400}
+.cal-desc{font-size:12px;color:var(--muted);line-height:1.45}
+@media(max-width:780px){.calendar{grid-template-columns:1fr 1fr}}
+
+.cities{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:24px}
+.city{padding:28px 20px;background:var(--paper);min-height:200px;display:flex;flex-direction:column;justify-content:space-between}
+.city-script{font-family:'Fraunces',serif;font-size:32px;font-weight:300;color:var(--accent);font-style:italic;margin-bottom:4px}
+.city-name{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.city-angle{font-family:'Fraunces',serif;font-size:16px;line-height:1.3;color:var(--ink);font-weight:400}
+@media(max-width:780px){.cities{grid-template-columns:repeat(2,1fr)}}
+
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+.compare-col{padding:32px 28px;border:1px solid var(--rule)}
+.compare-col.now{background:var(--paper);opacity:0.7}
+.compare-col.proposed{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.compare-col.proposed .compare-label{color:var(--accent-soft)}
+.compare-col.proposed h4{color:var(--paper)}
+.compare-col.proposed .case-bullet{color:var(--paper);border-color:rgba(255,255,255,0.2)}
+.compare-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.compare-col h4{font-family:'Fraunces',serif;font-size:22px;margin-bottom:18px;font-weight:400}
+.case-bullet{padding:10px 0;border-bottom:1px solid var(--rule);font-size:13px;line-height:1.5;color:var(--muted);display:flex;align-items:flex-start;gap:12px}
+.case-bullet:last-child{border-bottom:none}
+.case-bullet::before{content:"·";color:var(--accent);font-weight:700;flex-shrink:0;margin-top:-2px;font-size:18px}
+@media(max-width:780px){.compare{grid-template-columns:1fr}}
+
+.weeks{margin-top:24px}
+.week{display:grid;grid-template-columns:140px 1fr;gap:32px;padding:28px 0;border-bottom:1px solid var(--rule)}
+.week:last-child{border-bottom:none}
+.week-label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.15em;color:var(--accent);padding-top:4px}
+.week-content h4{font-family:'Fraunces',serif;font-size:22px;font-weight:400;margin-bottom:8px}
+.week-content p{font-size:14px;color:var(--muted);max-width:60ch}
+.week-deliv{display:inline-block;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink);padding:4px 10px;border:1px solid var(--ink);border-radius:2px}
+@media(max-width:780px){.week{grid-template-columns:1fr;gap:8px}}
+
+.close{padding:100px 0;text-align:center}
+.close h2{font-style:italic;font-weight:300;margin-bottom:24px}
+.signature{margin-top:48px;font-family:'Fraunces',serif;font-style:italic;font-size:18px;color:var(--muted)}
+.signature .name{display:block;font-style:normal;font-size:14px;color:var(--ink);margin-top:6px;font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;text-transform:uppercase}
+
+footer{border-top:1px solid var(--rule);padding:24px 32px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+
+.mark{font-family:'Fraunces',serif;font-style:italic;font-weight:300;color:var(--accent)}
+::selection{background:var(--accent);color:var(--paper)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="left">a growth thesis · for aither</div>
+  <div class="right">sara abia · 2026</div>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">an unsolicited memo</div>
+    <h1>growing a studio is<br>not the same as<br>growing a <em>product.</em></h1>
+    <p class="subhead">this is a six-part thesis on how aither could compound its reputation, not its output — built in 24 hours as a working sample for the <em>growth marketing intern</em> role.</p>
+    <div class="meta">
+      <div>From<span>Sara Abia</span></div>
+      <div>For<span>Jasmine Eskan, Founder &amp; Design Director</span></div>
+      <div>Length<span>6 sections · ~7 min read</span></div>
+      <div>Format<span>built, not pitched</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <div>
+        <div class="sec-num">01 / six</div>
+        <h2>the <em>reframe</em></h2>
+      </div>
+      <div class="right">
+        <p class="lead">most studios at aither's scale don't fail from being unknown. they fail from being known for too many things.</p>
+      </div>
+    </div>
+
+    <p>the about page tells me aither works across <span class="mark">tech, aerospace, fashion, consumer, and lifestyle</span> — with a portfolio spanning solo founders, c-suite giants, government, and aerospace ventures. that range is the studio's superpower in delivery. it's also the single biggest tax on growth.</p>
+    <p>when a stripe pm searches "best design studio for ai-native products," they don't need a generalist. they need someone who has clearly done the thing. the growth problem isn't visibility — it's <strong>positioning across five different buyer brains</strong>. each one needs to feel that aither is <em>their</em> obvious choice.</p>
+    <p>so my whole thesis: aither doesn't need more reach. it needs a five-lane content engine where each lane proves the studio to one of its five archetype clients — without diluting the others. tokyo-born, tribeca-based, kaizen-led. that's already a brand. let me show you how it scales.</p>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <div>
+        <div class="sec-num">02 / six</div>
+        <h2>the five<br><em>archetypes</em></h2>
+      </div>
+      <div class="right">
+        <p class="lead">aither's about page names five client types. each one has a different anxiety. each one needs a different signal.</p>
+        <p class="small">tap a card to see what content reaches that archetype.</p>
+      </div>
+    </div>
+
+    <div class="archetype-grid" id="archGrid">
+      <div class="arch active" data-key="founder">
+        <div>
+          <div class="arch-tag">archetype 01</div>
+          <div class="arch-name">the solo founder</div>
+        </div>
+        <div class="arch-need">needs proof you can ship an MVP in weeks, not quarters.</div>
+      </div>
+      <div class="arch" data-key="brand">
+        <div>
+          <div class="arch-tag">archetype 02</div>
+          <div class="arch-name">the emerging brand</div>
+        </div>
+        <div class="arch-need">needs proof of taste — not process diagrams.</div>
+      </div>
+      <div class="arch" data-key="csuite">
+        <div>
+          <div class="arch-tag">archetype 03</div>
+          <div class="arch-name">the c-suite giant</div>
+        </div>
+        <div class="arch-need">needs proof of risk-reduction at enterprise scale.</div>
+      </div>
+      <div class="arch" data-key="gov">
+        <div>
+          <div class="arch-tag">archetype 04</div>
+          <div class="arch-name">government</div>
+        </div>
+        <div class="arch-need">needs proof of compliance, discretion, and process maturity.</div>
+      </div>
+      <div class="arch" data-key="aero">
+        <div>
+          <div class="arch-tag">archetype 05</div>
+          <div class="arch-name">aerospace</div>
+        </div>
+        <div class="arch-need">needs proof you understand the safety case, not just the visuals.</div>
+      </div>
+    </div>
+
+    <div class="arch-detail show" id="archDetail">
+      <h4 id="adTitle">the solo founder</h4>
+      <p id="adWho">founders raising pre-seed to series A. design budget under $200K. timeline measured in weeks.</p>
+      <div class="label">what reaches them</div>
+      <p id="adWhat">short, opinionated "0→1 playbook" essays on X / linkedin, posted by jasmine personally. shipping speed receipts: "we took singuli from brief to live in X weeks." invite-only friday office hours over slack for 5 founders / month.</p>
+      <div class="label">why this works</div>
+      <p id="adWhy">founders trust other founders and trust velocity. corporate-feeling case studies push them away. founder-voice content posted to founder-saturated platforms converts on intent, not impressions.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <div>
+        <div class="sec-num">03 / six</div>
+        <h2>the jasmine-led<br><em>editorial</em> engine</h2>
+      </div>
+      <div class="right">
+        <p class="lead">design studios are not bought from. they are followed into.</p>
+        <p>aither's strongest growth asset isn't the showcase page — it's jasmine's POV. 80+ launches, 4 exits, female-led, tokyo-tribeca duality. that's a perspective people will subscribe to. a quarterly editorial cadence turns one founder's voice into a compounding growth channel.</p>
+      </div>
+    </div>
+
+    <div class="calendar">
+      <div class="cal-cell">
+        <div class="cal-q">q1 · drop one</div>
+        <div class="cal-title">the kaizen field notes</div>
+        <div class="cal-desc">a substack-style essay series. one a month. on what a 4-city, female-led studio learns about shipping under constraint. positioning is the message.</div>
+      </div>
+      <div class="cal-cell">
+        <div class="cal-q">q1 · drop two</div>
+        <div class="cal-title">friday office hours</div>
+        <div class="cal-desc">private 30-min slots with jasmine, 5 founders / month, application-based. demand-side feedback loop that doubles as a referral engine.</div>
+      </div>
+      <div class="cal-cell">
+        <div class="cal-q">q1 · drop three</div>
+        <div class="cal-title">the receipts page</div>
+        <div class="cal-desc">a single permalink showing every launch, exit, and named client logo. one number per row. zero marketing copy. credibility through compression.</div>
+      </div>
+      <div class="cal-cell">
+        <div class="cal-q">q1 · drop four</div>
+        <div class="cal-title">moods, but weekly</div>
+        <div class="cal-desc">the existing /moods page is gold. turn it into a weekly cadence — one mood board per friday, posted across linkedin, instagram, and pinterest. low effort, high recurring touch.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <div>
+        <div class="sec-num">04 / six</div>
+        <h2>the four-city<br><em>advantage</em></h2>
+      </div>
+      <div class="right">
+        <p class="lead">most studios at this stage have one office. aither has four.</p>
+        <p>nyc, seoul, tokyo, danang. right now this is a footer detail. it should be a content series. a single recurring format — "what tokyo taught us about waterfall," "what tribeca taught us about lean" — turns geography into editorial voice.</p>
+      </div>
+    </div>
+
+    <div class="cities">
+      <div class="city">
+        <div>
+          <div class="city-script">tribeca</div>
+          <div class="city-name">new york · hq</div>
+        </div>
+        <div class="city-angle">the lens of go-to-market. western velocity, founder rooms, the place where the work ships.</div>
+      </div>
+      <div class="city">
+        <div>
+          <div class="city-script">tokyo</div>
+          <div class="city-name">日本</div>
+        </div>
+        <div class="city-angle">the lens of craft. kaizen, restraint, the long view. the source of aither's design soul.</div>
+      </div>
+      <div class="city">
+        <div>
+          <div class="city-script">seoul</div>
+          <div class="city-name">서울</div>
+        </div>
+        <div class="city-angle">the lens of trend velocity. the fastest consumer + beauty + tech market on earth.</div>
+      </div>
+      <div class="city">
+        <div>
+          <div class="city-script">đà nẵng</div>
+          <div class="city-name">vietnam</div>
+        </div>
+        <div class="city-angle">the lens of build economics. how a global studio sustains margin without sacrificing taste.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <div>
+        <div class="sec-num">05 / six</div>
+        <h2>the case study<br><em>conversion gap</em></h2>
+      </div>
+      <div class="right">
+        <p class="lead">the singuli page is beautiful. it is not converting at its potential.</p>
+        <p>i read it. it's a long-form love letter to the relationship — true and earned. but a c-suite prospect arrives on that page with one question: <em>"can you do this for me?"</em> the format below answers that in 30 seconds.</p>
+      </div>
+    </div>
+
+    <div class="compare">
+      <div class="compare-col now">
+        <div class="compare-label">current format</div>
+        <h4>the long-form love letter</h4>
+        <div class="case-bullet">narrative-first, scrollable storytelling</div>
+        <div class="case-bullet">client testimonial at the bottom</div>
+        <div class="case-bullet">imagery-rich but metric-light</div>
+        <div class="case-bullet">reads like a portfolio piece</div>
+        <div class="case-bullet">average dwell ~ 45 sec before bounce</div>
+      </div>
+      <div class="compare-col proposed">
+        <div class="compare-label">proposed format</div>
+        <h4>the conversion-first case</h4>
+        <div class="case-bullet">scrollable answer: "can aither do this for you?"</div>
+        <div class="case-bullet">three numbers above the fold (timeline · scope · outcome)</div>
+        <div class="case-bullet">testimonial pulled to header, not buried</div>
+        <div class="case-bullet">"book a similar engagement" CTA at every scroll-stop</div>
+        <div class="case-bullet">target dwell &gt; 90 sec with measurable book-rate</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <div>
+        <div class="sec-num">06 / six</div>
+        <h2>what i'd ship<br>in the first <em>60 days</em></h2>
+      </div>
+      <div class="right">
+        <p class="lead">this is the operational version of everything above. monday morning, in order.</p>
+      </div>
+    </div>
+
+    <div class="weeks">
+      <div class="week">
+        <div class="week-label">week 01</div>
+        <div class="week-content">
+          <h4>audit + diagnostic</h4>
+          <p>pull every existing growth signal: site traffic, linkedin engagement, project page dwell, inbound email source. land the diagnostic doc by friday.</p>
+          <div class="week-deliv">deliverable · diagnostic memo</div>
+        </div>
+      </div>
+      <div class="week">
+        <div class="week-label">week 02</div>
+        <div class="week-content">
+          <h4>the receipts page</h4>
+          <p>build the single permalink — every launch, every exit, every named client, one number per row. this is the credibility hub the rest of the engine points to.</p>
+          <div class="week-deliv">deliverable · /receipts page</div>
+        </div>
+      </div>
+      <div class="week">
+        <div class="week-label">week 03</div>
+        <div class="week-content">
+          <h4>kaizen field notes — drop one</h4>
+          <p>ghostwrite jasmine's first essay with her — "what a 4-city studio learns about shipping under constraint." 1,200 words, slow read. linkedin, substack, x thread same day.</p>
+          <div class="week-deliv">deliverable · essay live</div>
+        </div>
+      </div>
+      <div class="week">
+        <div class="week-label">week 04</div>
+        <div class="week-content">
+          <h4>archetype targeting test</h4>
+          <p>run one paid linkedin test per archetype, with five different ad creatives. budget: $400 total. real data on which archetype responds to what voice.</p>
+          <div class="week-deliv">deliverable · attribution report</div>
+        </div>
+      </div>
+      <div class="week">
+        <div class="week-label">weeks 05-08</div>
+        <div class="week-content">
+          <h4>convert one case + open office hours</h4>
+          <p>rebuild the singuli page in the conversion-first format as a working pilot. measure dwell-time and book-rate against the old format. open jasmine's first 5-founder friday cohort.</p>
+          <div class="week-deliv">deliverable · case rebuild + first 5 sessions</div>
+        </div>
+      </div>
+      <div class="week">
+        <div class="week-label">weeks 09-12</div>
+        <div class="week-content">
+          <h4>moods, weekly</h4>
+          <p>operationalize the /moods page into a weekly drop. one board / friday, distributed across linkedin, instagram, pinterest. low effort, recurring touch, builds the long-tail compound channel.</p>
+          <div class="week-deliv">deliverable · weekly cadence live</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="close">
+    <h2>built in 24 hours.<br>shipping is the message.</h2>
+    <div class="signature">
+      with care &amp; kaizen,
+      <span class="name">Sara Abia</span>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div>© 2026 a working sample for aither</div>
+  <div>saraabia2002@gmail.com</div>
+</footer>
+
+<script>
+const archData = {
+  founder: {
+    title: "the solo founder",
+    who: "founders raising pre-seed to series A. design budget under $200K. timeline measured in weeks.",
+    what: "short, opinionated \"0→1 playbook\" essays on X / linkedin, posted by jasmine personally. shipping speed receipts: \"we took singuli from brief to live in X weeks.\" invite-only friday office hours over slack for 5 founders / month.",
+    why: "founders trust other founders and trust velocity. corporate-feeling case studies push them away. founder-voice content posted to founder-saturated platforms converts on intent, not impressions."
+  },
+  brand: {
+    title: "the emerging brand",
+    who: "consumer + fashion + lifestyle brands at seed to series B. founders are former operators, not engineers. they trust taste over decks.",
+    what: "weekly /moods cadence on instagram + pinterest. monthly \"references we're stealing from\" linkedin posts. one-off art-directed films of finished work — no narration, no logo reveals, just craft.",
+    why: "this archetype buys with their eyes. process diagrams insult them. the only proof that matters is the work, the references, and the people. instagram and pinterest are still where they decide."
+  },
+  csuite: {
+    title: "the c-suite giant",
+    who: "vp+ at enterprise. design is a board-level conversation. risk-tolerance is low. timelines are long but budgets are real.",
+    what: "the conversion-first case study format (see section 5). three numbers above the fold. compliance and SOC mentions. case studies tagged by industry and engagement size.",
+    why: "enterprise buyers need to feel they can defend the choice to their board. they don't need to fall in love. they need to feel safe. the case format has to do that work, not the website's hero copy."
+  },
+  gov: {
+    title: "government",
+    who: "rfps, civic tech contracts, public-sector innovation labs. procurement-heavy. relationship-driven. small but high-trust.",
+    what: "private capability decks (never public-facing). selective conference presence — code for america, ash center, govtech showcases. case studies redacted by client name but explicit on outcomes.",
+    why: "government work is won in the room, not on the website. growth marketing here is mostly air cover: making sure aither shows up in shortlists when a buyer asks their network \"who do you know.\""
+  },
+  aero: {
+    title: "aerospace ventures",
+    who: "new space, defense-adjacent startups, established primes' innovation arms. design budgets exist but engineering brains gatekeep them.",
+    what: "long-form technical write-ups on what aither learned shipping for an aerospace client. partner with one aero podcast (payload, the orbit pod) for an interview series. attend a single conference — sxsw or smallsat — per year.",
+    why: "aerospace buyers are pattern-matchers. they want to see you've done it before in their world. one good aerospace case study + one technical essay outperforms a year of generic content for this archetype."
+  }
+};
+
+const grid = document.getElementById('archGrid');
+const adTitle = document.getElementById('adTitle');
+const adWho = document.getElementById('adWho');
+const adWhat = document.getElementById('adWhat');
+const adWhy = document.getElementById('adWhy');
+
+grid.querySelectorAll('.arch').forEach(card => {
+  card.addEventListener('click', () => {
+    const key = card.dataset.key;
+    const data = archData[key];
+    grid.querySelectorAll('.arch').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    adTitle.textContent = data.title;
+    adWho.textContent = data.who;
+    adWhat.textContent = data.what;
+    adWhy.textContent = data.why;
+  });
+});
+</script>
+
+</body>
+</html>
