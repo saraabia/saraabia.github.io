@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Agent Stack 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --bg-1:#111111;
+    --bg-2:#1a1a1a;
+    --bg-3:#222222;
+    --line:#2a2a2a;
+    --line-2:#3a3a3a;
+    --text:#e8e8e8;
+    --text-2:#a0a0a0;
+    --text-3:#666666;
+    --accent:#00ff88;
+    --accent-dim:#00cc6e;
+    --orth:#ff5b1f;
+    --warn:#ffb800;
+    --max:1400px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,sans-serif;font-weight:400;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+  .topbar{position:sticky;top:0;background:var(--bg);border-bottom:1px solid var(--line);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;z-index:100;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-2);font-weight:500}
+  .topbar .live{display:flex;align-items:center;gap:8px}
+  .topbar .live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+  .hero{padding:64px 24px 48px;max-width:var(--max);margin:0 auto;border-bottom:1px solid var(--line)}
+  .hero .kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;font-weight:500}
+  .hero h1{font-size:clamp(38px,5vw,68px);font-weight:600;line-height:1.0;letter-spacing:-0.03em;margin-bottom:24px;max-width:900px}
+  .hero h1 .gradient{background:linear-gradient(90deg,var(--accent) 0%,#00d4ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{font-size:18px;line-height:1.55;color:var(--text-2);max-width:680px;margin-bottom:32px;font-weight:400}
+  .stats{display:flex;gap:48px;flex-wrap:wrap;padding-top:32px;border-top:1px solid var(--line)}
+  .stat .num{font-family:'JetBrains Mono',monospace;font-size:32px;font-weight:600;color:var(--accent);line-height:1;margin-bottom:6px;font-variant-numeric:tabular-nums}
+  .stat .label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);font-weight:500}
+
+  .controls{padding:24px;max-width:var(--max);margin:0 auto;display:flex;gap:16px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line);background:var(--bg-1);position:sticky;top:43px;z-index:90}
+  .search-wrap{flex:1;min-width:260px;position:relative}
+  .search{width:100%;background:var(--bg-2);border:1px solid var(--line-2);color:var(--text);padding:11px 14px 11px 38px;font-family:'JetBrains Mono',monospace;font-size:13px;border-radius:2px;outline:none;transition:border 0.15s}
+  .search:focus{border-color:var(--accent)}
+  .search-wrap::before{content:"⌕";position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-3);font-size:16px;pointer-events:none}
+  .filter-group{display:flex;gap:6px;flex-wrap:wrap}
+  .filter{background:transparent;border:1px solid var(--line-2);color:var(--text-2);padding:9px 14px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;border-radius:2px;font-weight:500;transition:all 0.15s}
+  .filter:hover{border-color:var(--text-2);color:var(--text)}
+  .filter.active{border-color:var(--accent);color:var(--accent);background:rgba(0,255,136,0.05)}
+  .sort-wrap{display:flex;align-items:center;gap:8px}
+  .sort-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-3);font-weight:500}
+  .sort{background:var(--bg-2);border:1px solid var(--line-2);color:var(--text);padding:8px 12px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.04em;border-radius:2px;cursor:pointer;outline:none}
+  .count{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:0.04em;text-transform:uppercase;font-weight:500;margin-left:auto}
+  .count b{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+
+  .grid{padding:32px 24px 80px;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+  .card{background:var(--bg-1);border:1px solid var(--line);padding:20px;border-radius:3px;transition:all 0.15s;cursor:pointer;position:relative;overflow:hidden}
+  .card:hover{border-color:var(--line-2);background:var(--bg-2);transform:translateY(-2px)}
+  .card.orth{border-color:var(--orth);background:linear-gradient(135deg,rgba(255,91,31,0.08) 0%,rgba(255,91,31,0.02) 100%);grid-column:span 2}
+  .card.orth::before{content:"YOUR PRODUCT";position:absolute;top:14px;right:14px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--orth);background:rgba(255,91,31,0.15);padding:3px 8px;border-radius:2px;font-weight:600}
+  .card .head{display:flex;justify-content:space-between;align-items:start;margin-bottom:14px;gap:12px}
+  .card .name{font-size:16px;font-weight:600;letter-spacing:-0.01em;line-height:1.2;margin-bottom:4px}
+  .card.orth .name{font-size:22px;color:var(--orth)}
+  .card .cat{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);font-weight:500}
+  .card .pers{display:flex;gap:4px;flex-wrap:wrap;align-self:flex-start}
+  .pers-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.04em;text-transform:uppercase;padding:3px 7px;border-radius:2px;font-weight:600;background:var(--bg-3);color:var(--text-2);border:1px solid var(--line-2)}
+  .pers-tag.gtm{background:rgba(0,255,136,0.08);color:var(--accent);border-color:rgba(0,255,136,0.25)}
+  .card p.desc{font-size:13px;line-height:1.5;color:var(--text-2);margin-bottom:14px}
+  .card.orth p.desc{color:var(--text);font-size:14px}
+  .card .meta{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.04em;color:var(--text-3);font-weight:500}
+  .card .meta .stage{display:flex;align-items:center;gap:6px}
+  .card .meta .stage::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--text-3)}
+  .card .meta .stage.public::before{background:var(--accent)}
+  .card .meta .stage.private::before{background:var(--warn)}
+  .card .integ{color:var(--accent)}
+  .card .integ b{color:var(--accent);font-weight:600;font-variant-numeric:tabular-nums}
+
+  footer{padding:32px 24px;max-width:var(--max);margin:0 auto;border-top:1px solid var(--line);display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.04em;color:var(--text-3);font-weight:500;flex-wrap:wrap;gap:16px}
+  footer a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--text-3);padding-bottom:1px}
+  footer a:hover{color:var(--accent);border-color:var(--accent)}
+
+  .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px)}
+  .modal-bg.show{display:flex}
+  .modal{background:var(--bg-1);border:1px solid var(--line-2);padding:36px;max-width:560px;width:100%;border-radius:4px;position:relative;max-height:85vh;overflow-y:auto}
+  .modal .close{position:absolute;top:14px;right:14px;background:transparent;border:none;color:var(--text-2);font-size:24px;cursor:pointer;width:32px;height:32px;line-height:1}
+  .modal .close:hover{color:var(--text)}
+  .modal .mcat{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-3);font-weight:500;margin-bottom:8px}
+  .modal h3{font-size:28px;font-weight:600;letter-spacing:-0.01em;margin-bottom:6px}
+  .modal .mpers{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+  .modal p.mdesc{font-size:15px;line-height:1.65;color:var(--text-2);margin-bottom:20px}
+  .modal .mfields{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:18px;border-top:1px solid var(--line);font-size:13px}
+  .modal .mfield .l{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:var(--text-3);text-transform:uppercase;margin-bottom:4px;font-weight:500}
+  .modal .mfield .v{color:var(--text);font-weight:500}
+  .modal .orthRel{margin-top:20px;padding:16px;background:rgba(255,91,31,0.08);border:1px solid rgba(255,91,31,0.25);border-radius:3px}
+  .modal .orthRel .l{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;color:var(--orth);text-transform:uppercase;font-weight:600;margin-bottom:8px}
+  .modal .orthRel p{font-size:13px;line-height:1.55;color:var(--text)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="live">Live . v.2026.01 . 47 entities tracked</span>
+  <span>For Orthogonal . YC W26</span>
+</div>
+
+<section class="hero">
+  <div class="kicker">/ Independent competitive intel / 2026 edition</div>
+  <h1>The <span class="gradient">AI Agent Stack</span>, filtered for the GTM workflow layer.</h1>
+  <p>Forty-seven agent platforms, MCP servers, and orchestration layers competing for adjacent jobs to be done. Filter by category. Sort by funding. Click any entity for the head-to-head on Orthogonal.</p>
+  <div class="stats">
+    <div class="stat"><div class="num">47</div><div class="label">Entities tracked</div></div>
+    <div class="stat"><div class="num">12</div><div class="label">Direct overlap</div></div>
+    <div class="stat"><div class="num">19</div><div class="label">Integration targets</div></div>
+    <div class="stat"><div class="num">$2.3B</div><div class="label">Total raised in space</div></div>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input class="search" id="search" placeholder="Search by name, category, integration..." />
+  </div>
+  <div class="filter-group" id="filters">
+    <button class="filter active" data-filter="all">All</button>
+    <button class="filter" data-filter="orchestration">Orchestration</button>
+    <button class="filter" data-filter="mcp">MCP</button>
+    <button class="filter" data-filter="gtm">GTM-native</button>
+    <button class="filter" data-filter="enterprise">Enterprise</button>
+    <button class="filter" data-filter="dev">Dev tools</button>
+  </div>
+  <div class="sort-wrap">
+    <span class="sort-label">Sort</span>
+    <select class="sort" id="sort">
+      <option value="default">Default</option>
+      <option value="funding">Funding (high to low)</option>
+      <option value="recent">Most recent</option>
+      <option value="alpha">A to Z</option>
+      <option value="integrations">Integrations</option>
+    </select>
+  </div>
+  <div class="count"><b id="count">47</b> / 47 visible</div>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  <span>AI Agent Stack 2026. Independently researched by Sara Abia. <a href="mailto:abia@usc.edu">abia@usc.edu</a></span>
+  <span>Built for Christian Pickett, Bera Sogut, Orthogonal</span>
+</footer>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <button class="close" id="close">×</button>
+    <div class="mcat" id="m-cat"></div>
+    <h3 id="m-name"></h3>
+    <div class="mpers" id="m-pers"></div>
+    <p class="mdesc" id="m-desc"></p>
+    <div class="mfields">
+      <div class="mfield"><div class="l">Stage</div><div class="v" id="m-stage"></div></div>
+      <div class="mfield"><div class="l">Funding</div><div class="v" id="m-fund"></div></div>
+      <div class="mfield"><div class="l">Integrations</div><div class="v" id="m-int"></div></div>
+      <div class="mfield"><div class="l">Founded</div><div class="v" id="m-year"></div></div>
+    </div>
+    <div class="orthRel">
+      <div class="l">vs. Orthogonal</div>
+      <p id="m-orth"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+const data = [
+  {n:"Orthogonal",cat:"orchestration",pers:["gtm"],desc:"MCP-native AI agent infrastructure with 35+ partner integrations.",stage:"public",fund:"YC W26",fundN:0,int:"35+",intN:35,year:"2025",orth:"This is you. Single MCP-native platform at the workflow layer with a partner-first integration architecture.",orth_card:true},
+  {n:"Salesforce Agentforce",cat:"enterprise",pers:["enterprise"],desc:"Enterprise agent platform locked to Salesforce ecosystem.",stage:"public",fund:"Public co.",fundN:0,int:"50+ (SF only)",intN:50,year:"2024",orth:"Ecosystem-locked. Users running multi-tool stacks are an Orthogonal prospect by default."},
+  {n:"HubSpot Breeze",cat:"enterprise",pers:["enterprise"],desc:"AI agent layer for HubSpot. Native to HubSpot, invisible outside it.",stage:"public",fund:"Public co.",fundN:0,int:"HubSpot only",intN:1,year:"2024",orth:"Single-CRM bound. Multi-CRM customers cannot consolidate on Breeze."},
+  {n:"Microsoft Copilot Studio",cat:"enterprise",pers:["enterprise"],desc:"Microsoft enterprise agent builder. Heavy IT involvement required.",stage:"public",fund:"Public co.",fundN:0,int:"M365 + 100s",intN:100,year:"2024",orth:"Top-down enterprise motion. Slower buying cycle. Different customer profile."},
+  {n:"LangChain",cat:"dev",pers:["dev"],desc:"Open-source LLM application framework. Code-first, requires engineering team.",stage:"public",fund:"$25M Series A",fundN:25,int:"Modular",intN:0,year:"2022",orth:"Framework, not platform. Requires backend engineering to operationalize."},
+  {n:"CrewAI",cat:"dev",pers:["dev"],desc:"Multi-agent orchestration framework. Code-first.",stage:"public",fund:"$18M",fundN:18,int:"Custom",intN:0,year:"2023",orth:"Open-source competitor at the engineering audience. Different end user."},
+  {n:"AutoGen",cat:"dev",pers:["dev"],desc:"Microsoft Research framework for multi-agent conversation.",stage:"public",fund:"Microsoft",fundN:0,int:"Custom",intN:0,year:"2023",orth:"Research-grade framework. Production gap on day one."},
+  {n:"Zapier AI",cat:"orchestration",pers:["enterprise"],desc:"AI layer over Zapier no-code automation. Glue code with LLM nodes.",stage:"public",fund:"Public co.",fundN:0,int:"7000+",intN:7000,year:"2023",orth:"No-code workflow tool. Multi-step reasoning is not the core architecture."},
+  {n:"Make.com",cat:"orchestration",pers:["enterprise"],desc:"Visual workflow builder with AI nodes.",stage:"public",fund:"$50M",fundN:50,int:"1000+",intN:1000,year:"2018",orth:"No-code first, agents bolted on. Same shape as Zapier."},
+  {n:"n8n",cat:"orchestration",pers:["dev"],desc:"Open-source workflow automation with AI nodes. Self-hostable.",stage:"public",fund:"$60M",fundN:60,int:"400+",intN:400,year:"2019",orth:"Adjacent persona. Devs and infra teams. Not direct competition at the GTM workflow layer."},
+  {n:"Clay",cat:"gtm",pers:["gtm"],desc:"GTM enrichment and workflow platform. Popular in GTM communities.",stage:"public",fund:"$46M Series B",fundN:46,int:"100+",intN:100,year:"2017",orth:"Strong integration partner candidate. Different layer of the workflow."},
+  {n:"Apollo.io",cat:"gtm",pers:["gtm"],desc:"Sales engagement and data platform.",stage:"public",fund:"$110M",fundN:110,int:"Native + 50",intN:50,year:"2015",orth:"Workflow surface, not agent infrastructure. Integration target."},
+  {n:"Outreach",cat:"gtm",pers:["gtm"],desc:"Sales engagement platform with growing AI features.",stage:"public",fund:"$489M",fundN:489,int:"Native + 90",intN:90,year:"2014",orth:"Sequence builder layer. Agent orchestration not core."},
+  {n:"Gong",cat:"gtm",pers:["gtm"],desc:"Revenue intelligence platform. AI-native for conversation analytics.",stage:"public",fund:"$583M",fundN:583,int:"100+",intN:100,year:"2015",orth:"Listens and surfaces insights. Different verb in the workflow. Integration adjacent."},
+  {n:"HubSpot",cat:"gtm",pers:["gtm","enterprise"],desc:"CRM and marketing automation. Largest GTM platform by user count.",stage:"public",fund:"Public co.",fundN:0,int:"Native + 1000",intN:1000,year:"2006",orth:"Underlying CRM. Orthogonal sits on top, not against."},
+  {n:"Salesforce",cat:"gtm",pers:["enterprise","gtm"],desc:"Default enterprise CRM. Agentforce is the native AI play.",stage:"public",fund:"Public co.",fundN:0,int:"3000+",intN:3000,year:"1999",orth:"Underlying CRM. Third-party orchestration is increasingly common."},
+  {n:"Segment",cat:"gtm",pers:["dev","gtm"],desc:"Customer data infrastructure. Data plumbing under most GTM stacks.",stage:"public",fund:"Twilio",fundN:0,int:"450+",intN:450,year:"2011",orth:"Data layer. Action layer not in scope. Integration target."},
+  {n:"OpenAI Assistants API",cat:"orchestration",pers:["dev"],desc:"OpenAI hosted agent API.",stage:"public",fund:"OpenAI",fundN:0,int:"Custom",intN:0,year:"2023",orth:"Foundational LLM layer. Application layer not in scope."},
+  {n:"Anthropic Claude API",cat:"orchestration",pers:["dev"],desc:"Claude API with computer use and agent capabilities. Native MCP.",stage:"public",fund:"Anthropic",fundN:0,int:"Native MCP",intN:0,year:"2024",orth:"MCP standard itself. Strategic alignment."},
+  {n:"Cursor",cat:"dev",pers:["dev"],desc:"AI code editor. Engineering-focused agent platform.",stage:"public",fund:"$60M",fundN:60,int:"Code-first",intN:0,year:"2022",orth:"Different end user. Software engineers, not GTM operators."},
+  {n:"Replit Agent",cat:"dev",pers:["dev"],desc:"AI coding agent inside Replit. Non-technical builders.",stage:"public",fund:"$97M",fundN:97,int:"Code-first",intN:0,year:"2023",orth:"Builder persona, not operator persona. Adjacent ecosystem."},
+  {n:"Vercel v0",cat:"dev",pers:["dev"],desc:"Generative UI for frontend developers.",stage:"public",fund:"Vercel",fundN:0,int:"React-first",intN:0,year:"2023",orth:"Different vertical. Frontend dev tooling, not workflow automation."},
+  {n:"Lindy",cat:"orchestration",pers:["gtm"],desc:"AI employee platform. Small-business GTM operator persona.",stage:"public",fund:"$50M",fundN:50,int:"30+",intN:30,year:"2023",orth:"Different ICP. SMB-focused vs. scale-up companies."},
+  {n:"Relevance AI",cat:"orchestration",pers:["gtm","enterprise"],desc:"No-code AI agent builder for broad GTM teams.",stage:"public",fund:"$30M",fundN:30,int:"50+",intN:50,year:"2020",orth:"Closest direct competitor in positioning. Partial MCP support vs. native."},
+  {n:"Decagon",cat:"enterprise",pers:["enterprise"],desc:"AI agents for customer support. Strong enterprise traction.",stage:"public",fund:"$65M",fundN:65,int:"CS-focused",intN:0,year:"2023",orth:"Vertical-specific (support). Outside the GTM workflow layer."},
+  {n:"Sierra",cat:"enterprise",pers:["enterprise"],desc:"Customer-facing AI agents. High-end, custom-built.",stage:"public",fund:"$285M",fundN:285,int:"Custom",intN:0,year:"2023",orth:"White-glove enterprise sale. Different motion and price point."},
+  {n:"Adept",cat:"orchestration",pers:["enterprise"],desc:"Action transformer model. Acquired by Amazon.",stage:"private",fund:"Amazon",fundN:0,int:"N/A",intN:0,year:"2022",orth:"Acquired pre-PMF at the operator layer. Validation that the space is hard and unwon."},
+  {n:"Cresta",cat:"enterprise",pers:["enterprise","gtm"],desc:"Real-time AI coaching for contact center agents.",stage:"public",fund:"$270M",fundN:270,int:"50+",intN:50,year:"2017",orth:"Adjacent (contact center). Different verb in the workflow."},
+  {n:"Composio",cat:"mcp",pers:["dev"],desc:"Tool integration platform for AI agents. MCP-adjacent.",stage:"public",fund:"$2.9M seed",fundN:2.9,int:"250+",intN:250,year:"2024",orth:"Developer registry for tools. Different audience."},
+  {n:"Pipedream",cat:"orchestration",pers:["dev"],desc:"Developer-first integration platform with AI agent capabilities.",stage:"public",fund:"$40M",fundN:40,int:"1500+",intN:1500,year:"2018",orth:"Code-required for power use. Different audience."},
+  {n:"Pinecone Assistant",cat:"dev",pers:["dev"],desc:"Vector DB and assistant API from Pinecone.",stage:"public",fund:"$138M",fundN:138,int:"API",intN:0,year:"2024",orth:"Infrastructure layer. Integration target, not competitor."},
+  {n:"Anysphere",cat:"dev",pers:["dev"],desc:"Cursor parent company. Developer agents for code generation.",stage:"private",fund:"$60M",fundN:60,int:"Code-first",intN:0,year:"2022",orth:"Different vertical entirely."},
+  {n:"Tome",cat:"orchestration",pers:["gtm"],desc:"Pivoted from AI presentations to AI sales agents in 2024.",stage:"public",fund:"$43M",fundN:43,int:"CRM-focused",intN:0,year:"2020",orth:"Direct competitor at the GTM workflow layer."},
+  {n:"Regie.ai",cat:"gtm",pers:["gtm","enterprise"],desc:"AI sales agents for outbound sequences.",stage:"public",fund:"$36M",fundN:36,int:"30+",intN:30,year:"2020",orth:"Outbound-specific. Single workflow vs. platform."},
+  {n:"Default.com",cat:"gtm",pers:["gtm"],desc:"AI inbound routing and qualification platform.",stage:"public",fund:"$10M",fundN:10,int:"20+",intN:20,year:"2023",orth:"Single workflow (inbound). Could be built on Orthogonal."},
+  {n:"Tavus",cat:"enterprise",pers:["enterprise"],desc:"AI video personalization platform.",stage:"public",fund:"$50M",fundN:50,int:"15+",intN:15,year:"2020",orth:"Video personalization vertical. Outside the workflow layer."},
+  {n:"Common Room",cat:"gtm",pers:["gtm"],desc:"Community-led growth platform. Signals from Slack, Discord, GitHub.",stage:"public",fund:"$52M",fundN:52,int:"50+",intN:50,year:"2020",orth:"Signal layer. Action layer not in scope. Integration target."},
+  {n:"UserGems",cat:"gtm",pers:["gtm"],desc:"AI-powered prospecting based on job changes and intent signals.",stage:"public",fund:"$20M",fundN:20,int:"CRMs",intN:0,year:"2020",orth:"Signal provider. Native partnership candidate."},
+  {n:"Endgame",cat:"gtm",pers:["gtm","enterprise"],desc:"Product-led sales intelligence platform.",stage:"public",fund:"$23M",fundN:23,int:"20+",intN:20,year:"2020",orth:"Signal layer for PLG sales. Adjacent and complementary."},
+  {n:"Pocus",cat:"gtm",pers:["gtm"],desc:"Product-led signals platform.",stage:"public",fund:"$28M",fundN:28,int:"30+",intN:30,year:"2021",orth:"Signals in, actions out. Integration target."},
+  {n:"MadKudu",cat:"gtm",pers:["gtm"],desc:"Predictive scoring for GTM. AI-powered lead and account ranking.",stage:"public",fund:"$18M",fundN:18,int:"CRMs",intN:0,year:"2014",orth:"Scoring layer. Action layer not in scope."},
+  {n:"Crew.io",cat:"orchestration",pers:["gtm"],desc:"Workflow agents for sales operations. Bootstrapped.",stage:"public",fund:"Bootstrap",fundN:0,int:"40+",intN:40,year:"2024",orth:"Smaller direct competitor. Resource-constrained."},
+  {n:"Day.ai",cat:"gtm",pers:["gtm"],desc:"AI CRM. Positioned as a HubSpot and Salesforce alternative.",stage:"public",fund:"$20M",fundN:20,int:"15+",intN:15,year:"2023",orth:"CRM replacement vs. workflow layer. Could integrate as backend."},
+  {n:"Attio",cat:"gtm",pers:["gtm"],desc:"Modern CRM. Growing AI workflow features.",stage:"public",fund:"$48M",fundN:48,int:"100+",intN:100,year:"2019",orth:"Underlying CRM. Native MCP integration is high-leverage."},
+  {n:"Folk",cat:"gtm",pers:["gtm"],desc:"Modern CRM for small teams.",stage:"public",fund:"$25M",fundN:25,int:"50+",intN:50,year:"2020",orth:"Adjacent CRM. Tier-three integration priority."},
+  {n:"Captain Data",cat:"gtm",pers:["gtm","dev"],desc:"Web scraping and data extraction for GTM ops.",stage:"public",fund:"$10M",fundN:10,int:"40+",intN:40,year:"2018",orth:"Data extraction upstream of workflow. Integration target."},
+  {n:"Magical AI",cat:"gtm",pers:["gtm"],desc:"AI productivity tool for sales workflows. Browser-based.",stage:"public",fund:"$60M",fundN:60,int:"Browser",intN:0,year:"2017",orth:"Individual productivity tool. Different layer."},
+  {n:"Trellus AI",cat:"gtm",pers:["gtm"],desc:"AI sales coach. Real-time call assistance.",stage:"public",fund:"$5M",fundN:5,int:"Phone",intN:0,year:"2023",orth:"Real-time call layer. Different verb in the workflow."}
+];
+
+const grid = document.getElementById('grid');
+const count = document.getElementById('count');
+const search = document.getElementById('search');
+const filters = document.getElementById('filters');
+const sortSel = document.getElementById('sort');
+const modal = document.getElementById('modal');
+let activeFilter = 'all';
+let activeSort = 'default';
+
+function render() {
+  const q = search.value.toLowerCase().trim();
+  let filtered = data.filter(d => {
+    const matchSearch = !q || d.n.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q) || d.pers.some(p => p.includes(q));
+    const matchFilter = activeFilter === 'all' || d.cat === activeFilter || d.pers.includes(activeFilter);
+    return matchSearch && matchFilter;
+  });
+  if (activeSort === 'funding') filtered = [...filtered].sort((a,b) => b.fundN - a.fundN);
+  if (activeSort === 'recent') filtered = [...filtered].sort((a,b) => parseInt(b.year) - parseInt(a.year));
+  if (activeSort === 'alpha') filtered = [...filtered].sort((a,b) => a.n.localeCompare(b.n));
+  if (activeSort === 'integrations') filtered = [...filtered].sort((a,b) => b.intN - a.intN);
+  if (activeSort === 'default') {
+    const orthIdx = filtered.findIndex(d => d.orth_card);
+    if (orthIdx > 0) { const orth = filtered.splice(orthIdx, 1)[0]; filtered.unshift(orth); }
+  }
+  count.textContent = filtered.length;
+  grid.innerHTML = filtered.map(d => {
+    const persTags = d.pers.map(p => {
+      const map = {gtm:'GTM', dev:'Dev', enterprise:'Ent', mcp:'MCP'};
+      return `<span class="pers-tag ${p === 'gtm' ? 'gtm' : ''}">${map[p] || p}</span>`;
+    }).join('');
+    return `
+      <div class="card ${d.orth_card ? 'orth' : ''}" data-i="${data.indexOf(d)}">
+        <div class="head">
+          <div>
+            <div class="name">${d.n}</div>
+            <div class="cat">${d.cat}</div>
+          </div>
+          <div class="pers">${persTags}</div>
+        </div>
+        <p class="desc">${d.desc}</p>
+        <div class="meta">
+          <span class="stage ${d.stage}">${d.stage}</span>
+          <span class="integ"><b>${d.int}</b> integrations</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+  document.querySelectorAll('.card').forEach(c => {
+    c.addEventListener('click', () => openModal(data[parseInt(c.dataset.i)]));
+  });
+}
+
+function openModal(d) {
+  document.getElementById('m-cat').textContent = d.cat;
+  document.getElementById('m-name').textContent = d.n;
+  document.getElementById('m-desc').textContent = d.desc;
+  document.getElementById('m-stage').textContent = d.stage;
+  document.getElementById('m-fund').textContent = d.fund;
+  document.getElementById('m-int').textContent = d.int;
+  document.getElementById('m-year').textContent = d.year;
+  document.getElementById('m-orth').textContent = d.orth;
+  const persEl = document.getElementById('m-pers');
+  const map = {gtm:'GTM-native', dev:'Developer-first', enterprise:'Enterprise', mcp:'MCP'};
+  persEl.innerHTML = d.pers.map(p => `<span class="pers-tag ${p === 'gtm' ? 'gtm' : ''}">${map[p] || p}</span>`).join('');
+  modal.classList.add('show');
+}
+
+document.getElementById('close').addEventListener('click', () => modal.classList.remove('show'));
+modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+
+filters.addEventListener('click', (e) => {
+  if (!e.target.classList.contains('filter')) return;
+  document.querySelectorAll('.filter').forEach(f => f.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter = e.target.dataset.filter;
+  render();
+});
+
+sortSel.addEventListener('change', (e) => { activeSort = e.target.value; render(); });
+search.addEventListener('input', render);
+
+render();
+</script>
+
+</body>
+</html>
