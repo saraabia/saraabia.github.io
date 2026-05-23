@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roon Physician Onboarding Flywheel — Sara Abia</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fbfaf7;
+    --card:#ffffff;
+    --ink:#1a1a1a;
+    --ink-soft:#404040;
+    --muted:#6a6a66;
+    --faint:#a8a6a0;
+    --line:#e8e5dc;
+    --line-2:#d4d0c4;
+    --accent:#5a4fb4;
+    --accent-soft:#ece9fa;
+    --warm:#c47a5b;
+    --green:#3d8b6e;
+    --shadow:0 1px 2px rgba(0,0,0,0.04),0 4px 12px rgba(0,0,0,0.04);
+    --max:1080px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:'Inter',-apple-system,sans-serif;font-weight:400;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:-0.01em;font-weight:500}
+  .serif{font-family:'Newsreader',Georgia,serif}
+
+  /* HEADER */
+  header{padding:56px 0 36px}
+  .meta{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:32px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .meta b{color:var(--ink);font-weight:600}
+  h1{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(36px,5vw,60px);line-height:1.05;letter-spacing:-0.02em;margin-bottom:24px;max-width:880px}
+  h1 em{font-style:italic;color:var(--accent)}
+  .deck{font-size:19px;line-height:1.55;color:var(--ink-soft);max-width:680px;margin-bottom:32px}
+  .byline{font-size:13px;color:var(--muted);padding-top:24px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .byline b{color:var(--ink);font-weight:500}
+
+  /* SECTION */
+  section{padding:56px 0;border-top:1px solid var(--line)}
+  .sect-kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;font-weight:600}
+  h2{font-family:'Newsreader',serif;font-weight:500;font-size:clamp(26px,3.6vw,36px);line-height:1.15;letter-spacing:-0.015em;margin-bottom:24px;max-width:780px}
+  h2 em{font-style:italic;color:var(--accent)}
+  p.body{font-size:16px;line-height:1.7;color:var(--ink-soft);max-width:680px;margin-bottom:18px}
+  p.body b{color:var(--ink);font-weight:600}
+
+  /* FLYWHEEL */
+  .fly{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px;border-radius:6px;overflow:hidden}
+  @media (max-width:780px){.fly{grid-template-columns:1fr 1fr}}
+  @media (max-width:480px){.fly{grid-template-columns:1fr}}
+  .stage{background:var(--card);padding:24px 22px 26px;cursor:pointer;transition:background 0.2s;position:relative}
+  .stage:hover{background:var(--accent-soft)}
+  .stage.active{background:var(--accent-soft);border-bottom:3px solid var(--accent)}
+  .stage .num{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.06em;color:var(--accent);font-weight:600;margin-bottom:10px}
+  .stage h3{font-family:'Newsreader',serif;font-size:20px;font-weight:500;line-height:1.2;letter-spacing:-0.01em;margin-bottom:8px}
+  .stage p{font-size:13px;line-height:1.55;color:var(--muted)}
+
+  /* STAGE DETAIL */
+  .detail{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:32px;margin-top:24px;box-shadow:var(--shadow)}
+  .detail .label{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:8px}
+  .detail h3{font-family:'Newsreader',serif;font-size:26px;font-weight:500;letter-spacing:-0.015em;line-height:1.2;margin-bottom:14px}
+  .detail p{font-size:15px;line-height:1.65;color:var(--ink-soft);margin-bottom:18px}
+  .detail p b{color:var(--ink);font-weight:600}
+  .agent-flow{background:#f8f6ef;border-left:3px solid var(--accent);padding:18px 22px;margin:20px 0;border-radius:0 4px 4px 0}
+  .agent-flow .agent-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:10px}
+  .agent-flow ol{list-style:none;counter-reset:step;padding:0}
+  .agent-flow li{counter-increment:step;padding:8px 0 8px 32px;position:relative;font-size:14px;line-height:1.55;color:var(--ink-soft)}
+  .agent-flow li::before{content:counter(step);position:absolute;left:0;top:8px;width:22px;height:22px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600}
+  .agent-flow li b{color:var(--ink);font-weight:600}
+  .metric-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:20px}
+  @media (max-width:560px){.metric-row{grid-template-columns:1fr}}
+  .metric{background:#f8f6ef;padding:14px 16px;border-radius:4px}
+  .metric .v{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--accent);font-weight:600;margin-bottom:4px}
+  .metric .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;font-weight:500}
+
+  /* WEEK ONE */
+  .week{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:28px;margin-top:24px;box-shadow:var(--shadow)}
+  .week h3{font-family:'Newsreader',serif;font-size:22px;font-weight:500;letter-spacing:-0.01em;margin-bottom:14px;display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  .week h3 .day{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;color:var(--accent);background:var(--accent-soft);padding:4px 10px;border-radius:3px;text-transform:uppercase;font-weight:600}
+  .week p{font-size:15px;line-height:1.65;color:var(--ink-soft);margin-bottom:8px}
+  .week p b{color:var(--ink);font-weight:600}
+  .week .out{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.04em;color:var(--accent);font-weight:600;margin-top:14px;padding-top:14px;border-top:1px solid var(--line);text-transform:uppercase}
+
+  /* CTA / CLOSE */
+  .close{padding:64px 0 80px;text-align:center;border-top:1px solid var(--line)}
+  .close h2{margin:0 auto 20px;max-width:680px}
+  .close p{font-size:16px;line-height:1.7;color:var(--muted);max-width:560px;margin:0 auto 28px}
+  .close .sig{margin-top:32px;font-size:14px;color:var(--ink)}
+  .close .sig a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent);padding-bottom:1px}
+
+  footer{padding:24px 0 48px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);text-align:center;letter-spacing:0.08em;text-transform:uppercase;font-weight:500}
+
+  /* SIMULATED OUTREACH */
+  .demo-box{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:0;margin-top:28px;overflow:hidden;box-shadow:var(--shadow)}
+  .demo-head{background:#f8f6ef;padding:14px 22px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  .demo-head .t{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .demo-head .live{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:0.06em}
+  .demo-head .live::before{content:"";width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+  .demo-body{padding:24px 22px;display:grid;grid-template-columns:1fr;gap:18px}
+  .step-row{display:grid;grid-template-columns:32px 1fr;gap:14px;align-items:start}
+  .step-icon{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;flex-shrink:0}
+  .step-icon.gen{background:#f0ede4;color:var(--accent);border:1px solid var(--line-2)}
+  .step-content{font-size:14px;line-height:1.65;color:var(--ink-soft)}
+  .step-content .who{font-weight:600;color:var(--ink);margin-bottom:4px}
+  .step-content .body-bubble{background:#f8f6ef;border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.55;color:var(--ink);margin-top:6px}
+  .step-content .stamp{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;letter-spacing:0.04em}
+
+  /* WHY IT MATTERS */
+  .why{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:32px}
+  @media (max-width:780px){.why{grid-template-columns:1fr}}
+  .why-cell{background:var(--card);padding:22px 20px}
+  .why-cell .icon{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;margin-bottom:14px}
+  .why-cell h4{font-family:'Newsreader',serif;font-size:18px;font-weight:500;letter-spacing:-0.01em;margin-bottom:8px;line-height:1.25}
+  .why-cell p{font-size:13px;line-height:1.6;color:var(--muted)}
+
+  /* RUN BUTTON */
+  .run-btn{background:var(--accent);color:#fff;border:none;padding:10px 20px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;border-radius:3px;cursor:pointer;transition:opacity 0.2s}
+  .run-btn:hover{opacity:0.88}
+  .run-btn:disabled{opacity:0.5;cursor:default}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="meta">
+      <span><b>For:</b> Roon Growth + Ops team</span>
+      <span><b>From:</b> Sara Abia</span>
+    </div>
+    <h1>A physician onboarding <em>flywheel</em>, built like Roon would build it.</h1>
+    <p class="deck">You're scaling a community of physicians from 50+ institutions. Below is a working prototype of how I'd help operate that scale: a four-stage flywheel, an embedded Claude-powered outreach agent, and a week-one experiment plan, rendered the way I'd actually ship it inside Roon.</p>
+    <div class="byline">
+      <span><b>Sara Abia</b> &nbsp;.&nbsp; USC Annenberg M.S. &nbsp;.&nbsp; Goldman Sachs alum &nbsp;.&nbsp; <a href="mailto:abia@usc.edu" style="color:inherit;border-bottom:1px solid var(--faint);padding-bottom:1px;text-decoration:none">abia@usc.edu</a></span>
+      <span><b>Brooklyn, summer 2026.</b> Ready in-person.</span>
+    </div>
+  </header>
+
+  <!-- THE FLYWHEEL -->
+  <section>
+    <div class="sect-kicker">/ 01 / The flywheel</div>
+    <h2>Four stages, one self-reinforcing loop. <em>Click any stage to see the agentic workflow underneath it.</em></h2>
+    <p class="body">Physician onboarding is rarely about acquisition alone. The loop only compounds when sourced doctors activate, activated doctors retain, and retained doctors refer their network back into the top. Each stage below is an AI-assistable workflow Roon could run with a small team.</p>
+
+    <div class="fly" id="flywheel">
+      <div class="stage active" data-stage="source">
+        <div class="num">01 / Source</div>
+        <h3>Identify the right physicians, faster.</h3>
+        <p>Surface high-fit specialists by institution, subspecialty, and content adjacency.</p>
+      </div>
+      <div class="stage" data-stage="reach">
+        <div class="num">02 / Reach</div>
+        <h3>Personalized, time-respectful outreach.</h3>
+        <p>Multi-touch messaging that lands in doctors' very limited time windows.</p>
+      </div>
+      <div class="stage" data-stage="activate">
+        <div class="num">03 / Activate</div>
+        <h3>Onboard them to first contribution.</h3>
+        <p>From signup to first published video or post in under two weeks.</p>
+      </div>
+      <div class="stage" data-stage="refer">
+        <div class="num">04 / Refer</div>
+        <h3>Turn one physician into ten.</h3>
+        <p>Active physicians' networks are the highest-converting acquisition channel.</p>
+      </div>
+    </div>
+
+    <div class="detail" id="detail">
+      <!-- populated by JS -->
+    </div>
+  </section>
+
+  <!-- LIVE OUTREACH DEMO -->
+  <section>
+    <div class="sect-kicker">/ 02 / The agentic outreach workflow, live</div>
+    <h2>Here's the Stage 02 agent running on a sample physician. <em>Click "run" to see it work.</em></h2>
+    <p class="body">A real Claude-powered agent flow for the Reach stage. Below is a simulated version of how it would run: enrich, draft, hand off. Built so a one-person growth team can responsibly outreach 50+ physicians per week, with every message reviewed by a human before send.</p>
+
+    <div class="demo-box">
+      <div class="demo-head">
+        <span class="t">Roon Outreach Agent &nbsp;.&nbsp; v0.1</span>
+        <span class="live">Ready</span>
+      </div>
+      <div class="demo-body" id="demo-body">
+        <div class="step-row">
+          <div class="step-icon">▶</div>
+          <div class="step-content">
+            <div class="who">Trigger</div>
+            New high-fit physician added to Airtable: <b>Dr. M. Chen, MD</b> — Endocrinology, Weill Cornell, recent author of 3 papers on type 2 diabetes management.
+            <div style="margin-top:14px"><button class="run-btn" id="run-btn">Run agent</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEEK ONE -->
+  <section>
+    <div class="sect-kicker">/ 03 / What I'd ship in week one</div>
+    <h2>A small, real experiment. Reported back by Friday. <em>The same week.</em></h2>
+    <p class="body">Less talking. More doing. Below is a five-day plan I'd execute in my first week at Roon to test one specific hypothesis about physician outreach. End-of-week deliverable: a Loom + a one-pager + a recommendation.</p>
+
+    <div class="week">
+      <h3><span class="day">Mon</span> Frame the hypothesis</h3>
+      <p>Sit with the growth lead. Pick one specialty (e.g. dermatology, where Roon's library is still building). Hypothesis: <b>"Endocrinologists who follow at least 2 other Weill Cornell physicians on Roon are 3x more likely to onboard within 14 days."</b> Define the metric. Set the sample size.</p>
+      <p class="out">Output: Notion doc, one paragraph hypothesis, defined success metric.</p>
+    </div>
+    <div class="week">
+      <h3><span class="day">Tue</span> Build the experiment surface</h3>
+      <p>In Airtable + Claude: pull 30 candidate physicians fitting the criteria. Use the outreach agent above to draft 30 personalized messages, each based on their published work. Stage them for human review before send.</p>
+      <p class="out">Output: 30 reviewable drafts, sorted by predicted-fit score.</p>
+    </div>
+    <div class="week">
+      <h3><span class="day">Wed</span> Send + measure</h3>
+      <p>Send the cohort in batches. Track every signal: opens, replies, click-through to onboarding video, sign-up. Pipe events from Customer.io into a single Notion table. Watch the funnel hourly the first 48 hours.</p>
+      <p class="out">Output: live funnel dashboard, real-time response rate.</p>
+    </div>
+    <div class="week">
+      <h3><span class="day">Thu</span> Run the comparison</h3>
+      <p>Match the 30-physician cohort against the prior 30 from the control workflow (Roon's standard outreach). Calculate the lift, error bars, and confidence. Use Claude to draft the writeup. Cross-check the math myself.</p>
+      <p class="out">Output: comparison table, statistical confidence note.</p>
+    </div>
+    <div class="week">
+      <h3><span class="day">Fri</span> Report + recommend</h3>
+      <p>One-page memo with the result, three plain-English learnings, and one specific recommendation for next week: which outreach pattern to scale, which to kill, what to test next. Share in #growth-and-ops with a 90-second Loom walkthrough.</p>
+      <p class="out">Output: shipped Loom + memo, ready for Vikram and the team.</p>
+    </div>
+  </section>
+
+  <!-- WHY IT MATTERS -->
+  <section>
+    <div class="sect-kicker">/ 04 / Why I'm bringing this to Roon specifically</div>
+    <h2>Three reasons this role is a near-perfect match, and not a generic intern pitch.</h2>
+
+    <div class="why">
+      <div class="why-cell">
+        <div class="icon">i.</div>
+        <h4>I already do the work, just at smaller scale.</h4>
+        <p>I co-founded and ran a multilingual hospitality business from zero across four years. Owned community outreach, partner onboarding, lightweight automations, paid acquisition, and content. 4.8 across 300+ reviews, 50% traffic growth, 40% revenue lift. Same shape of work as a Roon growth + ops intern, in a different vertical.</p>
+      </div>
+      <div class="why-cell">
+        <div class="icon">ii.</div>
+        <h4>I'm a Claude-native operator, daily.</h4>
+        <p>I use Claude, Claude CoWork, and Claude Code across my workflow. I shipped a working AI agent + MCP API demo for a YC W26 company as a cold application. Roon's brief on "AI agents to scale operational efficiency" is what I already build for free, on weekends.</p>
+      </div>
+      <div class="why-cell">
+        <div class="icon">iii.</div>
+        <h4>Healthcare adjacency, trilingual reach.</h4>
+        <p>Native French, Native Arabic, Fluent English. As Roon expands beyond the U.S. (and you will), trilingual physician outreach across European and MENA institutions becomes a real edge. I'm one of very few interns who can run multilingual specialist outreach on day one.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSE -->
+  <div class="close">
+    <div class="sect-kicker">/ The ask</div>
+    <h2>I built this in a weekend because <em>"applied" is the only word I trust.</em></h2>
+    <p>The flywheel, the agent flow, the week-one plan are what I'd actually ship at Roon. Happy to walk through any of it on a call.</p>
+    <div class="sig">
+      <b>Sara Abia</b> &nbsp;.&nbsp; <a href="mailto:abia@usc.edu">abia@usc.edu</a> &nbsp;.&nbsp; +1 (626) 731-0863
+    </div>
+  </div>
+</div>
+
+<footer>// Built for Vikram, Arun, and Rohan at Roon &nbsp;.&nbsp; Sara Abia &nbsp;.&nbsp; 2026 //</footer>
+
+<script>
+const stages = {
+  source: {
+    label: 'Stage 01 / Source',
+    title: 'Surface the right physicians without manual hunting.',
+    desc: 'Today, finding the right physicians often means manual research across institutional websites, PubMed, and LinkedIn. Below is the agentic workflow I would run to take this from days to minutes per cohort.',
+    agent: [
+      { b: 'Input:', text: 'Specialty + institution focus (e.g. "endocrinology, Weill Cornell").' },
+      { b: 'Agent step 1:', text: 'Claude pulls publicly-available physician directories, recent publications, and institutional pages.' },
+      { b: 'Agent step 2:', text: 'Scores each candidate on a fit rubric: subspecialty alignment, recent publication activity, communication style, prior digital presence.' },
+      { b: 'Agent step 3:', text: 'Writes to Airtable with structured fields: name, institution, specialty, fit score, evidence links.' },
+      { b: 'Human in the loop:', text: 'Growth lead reviews top 20, flags any concerns, approves a cohort to move to the Reach stage.' }
+    ],
+    metrics: [
+      { v: '~15 min', l: 'per 30-physician cohort' },
+      { v: '5 fields', l: 'auto-populated per row' },
+      { v: '1 human', l: 'approval before send' }
+    ]
+  },
+  reach: {
+    label: 'Stage 02 / Reach',
+    title: 'Outreach that respects a doctor\u2019s time.',
+    desc: 'Physicians are the most attention-constrained inbox in the world. Generic outreach gets ignored. Below is the agentic workflow for hyper-personalized, evidence-grounded outreach drafts that a human reviews before send.',
+    agent: [
+      { b: 'Input:', text: 'Approved cohort from Stage 01 (e.g. 30 endocrinologists at Weill Cornell).' },
+      { b: 'Agent step 1:', text: 'For each physician, Claude pulls their 3 most recent publications, public talks, or interviews.' },
+      { b: 'Agent step 2:', text: 'Drafts a 70-word email that references their specific work, names a clear Roon use case, and asks one concrete question.' },
+      { b: 'Agent step 3:', text: 'Stages all drafts in a Notion / Airtable review queue, sorted by predicted-response score.' },
+      { b: 'Human in the loop:', text: 'Growth team reviews, edits, and sends in batches. Every message is human-approved.' }
+    ],
+    metrics: [
+      { v: '~3 min', l: 'per draft, vs. 20 min manual' },
+      { v: '100%', l: 'human-reviewed before send' },
+      { v: '~30 / week', l: 'sustainable per ops person' }
+    ]
+  },
+  activate: {
+    label: 'Stage 03 / Activate',
+    title: 'From sign-up to first published contribution.',
+    desc: 'The most expensive churn at this stage is the physician who signs up but never publishes. The workflow below removes the friction with proactive support and AI-assisted onboarding.',
+    agent: [
+      { b: 'Input:', text: 'Physician signs up via outreach link.' },
+      { b: 'Agent step 1:', text: 'Customer.io triggers personalized 14-day onboarding sequence based on specialty.' },
+      { b: 'Agent step 2:', text: 'Day 3: Claude proposes 3 specific video topics drawn from the physician\u2019s recent work that match Roon\u2019s content gaps in their specialty.' },
+      { b: 'Agent step 3:', text: 'Day 7: agent drafts a 60-second video script for one proposed topic; physician edits, approves, films.' },
+      { b: 'Human in the loop:', text: 'Roon content team handles publishing, thumbnail, distribution. Physician contributes only their voice and on-camera time.' }
+    ],
+    metrics: [
+      { v: '14 days', l: 'sign-up to first publish' },
+      { v: '~30 min', l: 'physician time required' },
+      { v: '3 topics', l: 'pre-validated, ranked' }
+    ]
+  },
+  refer: {
+    label: 'Stage 04 / Refer',
+    title: 'Active physicians as the top of the next funnel.',
+    desc: 'Roon\u2019s most credible acquisition channel is its existing community. The workflow below makes referral effortless and trackable, turning every active physician into a sourcing surface.',
+    agent: [
+      { b: 'Input:', text: 'Physician publishes their second video (signal of true activation).' },
+      { b: 'Agent step 1:', text: 'Claude reviews their public collaborators, co-authors, and institutional peers; surfaces 5 high-fit colleagues.' },
+      { b: 'Agent step 2:', text: 'Drafts a peer-to-peer referral message that the active physician can edit and send in one click.' },
+      { b: 'Agent step 3:', text: 'Tracks acceptance, attribution, and quality of referral cohorts in Airtable, fed back to Stage 01.' },
+      { b: 'Human in the loop:', text: 'Community manager nurtures the highest-conviction referral relationships, celebrates each successful intro publicly.' }
+    ],
+    metrics: [
+      { v: '5 peers', l: 'surfaced per active physician' },
+      { v: '1 click', l: 'to send a peer intro' },
+      { v: 'Closed loop', l: 'attribution back to source' }
+    ]
+  }
+};
+
+const detail = document.getElementById('detail');
+const stagesEls = document.querySelectorAll('.stage');
+
+function renderStage(key) {
+  const s = stages[key];
+  const agentSteps = s.agent.map(a => `<li><b>${a.b}</b> ${a.text}</li>`).join('');
+  const metrics = s.metrics.map(m => `<div class="metric"><div class="v">${m.v}</div><div class="l">${m.l}</div></div>`).join('');
+  detail.innerHTML = `
+    <div class="label">${s.label}</div>
+    <h3>${s.title}</h3>
+    <p>${s.desc}</p>
+    <div class="agent-flow">
+      <div class="agent-label">Agentic workflow</div>
+      <ol>${agentSteps}</ol>
+    </div>
+    <div class="metric-row">${metrics}</div>
+  `;
+}
+
+stagesEls.forEach(el => {
+  el.addEventListener('click', () => {
+    stagesEls.forEach(e => e.classList.remove('active'));
+    el.classList.add('active');
+    renderStage(el.dataset.stage);
+  });
+});
+
+renderStage('source');
+
+// Demo agent run
+const demoBody = document.getElementById('demo-body');
+const runBtn = document.getElementById('run-btn');
+
+const demoSteps = [
+  {
+    icon: '1',
+    iconClass: '',
+    who: 'Agent: Enrich',
+    body: 'Pulling Dr. Chen\u2019s 3 most recent publications from PubMed...<br><span style="color:var(--accent);font-weight:600">Found:</span> "GLP-1 + behavioral coaching adherence in T2D" (NEJM, Mar 2026).',
+    stamp: 'Claude API · 1.2s · $0.003'
+  },
+  {
+    icon: '2',
+    iconClass: '',
+    who: 'Agent: Match to Roon library',
+    body: 'Cross-referenced with Roon content gaps in endocrinology...<br><span style="color:var(--accent);font-weight:600">Gap identified:</span> No current Roon videos on patient-side GLP-1 adherence. High-relevance fit.',
+    stamp: 'Claude API · 0.8s · $0.002'
+  },
+  {
+    icon: '3',
+    iconClass: '',
+    who: 'Agent: Draft',
+    bubble: `Subject: A patient question your NEJM paper would answer<br><br>Dr. Chen,<br><br>I read your March piece on GLP-1 adherence in NEJM. We have a 4-month wait of patient questions on Roon that your work answers directly. We\u2019d love to host a 60-second video from you on the single behavioral lever you wish more patients understood.<br><br>30 minutes of your time. 4M+ patients on our platform. Would you be open to a quick intro call this week?`,
+    stamp: 'Claude API · 2.1s · $0.005'
+  },
+  {
+    icon: '✓',
+    iconClass: 'gen',
+    who: 'Ready for human review',
+    body: 'Draft staged in Airtable review queue. Growth lead approval required before send.<br><span style="color:var(--green);font-weight:600">Total agent time: 4.1 seconds. Total agent cost: $0.010. Human time saved: ~18 minutes.</span>',
+    stamp: 'Ready for review · awaiting human approval'
+  }
+];
+
+runBtn.addEventListener('click', async () => {
+  runBtn.disabled = true;
+  runBtn.textContent = 'Running...';
+  demoBody.querySelector('.step-row').remove();
+  for (const step of demoSteps) {
+    await new Promise(r => setTimeout(r, 700));
+    const row = document.createElement('div');
+    row.className = 'step-row';
+    const bodyContent = step.bubble
+      ? `<div class="who">${step.who}</div><div class="body-bubble">${step.bubble}</div><div class="stamp">${step.stamp}</div>`
+      : `<div class="who">${step.who}</div>${step.body}<div class="stamp">${step.stamp}</div>`;
+    row.innerHTML = `<div class="step-icon ${step.iconClass}">${step.icon}</div><div class="step-content">${bodyContent}</div>`;
+    demoBody.appendChild(row);
+  }
+  await new Promise(r => setTimeout(r, 500));
+  runBtn.textContent = 'Run again';
+  runBtn.disabled = false;
+  const wrap = document.createElement('div');
+  wrap.style.textAlign = 'center';
+  wrap.style.paddingTop = '12px';
+  wrap.appendChild(runBtn);
+  demoBody.appendChild(wrap);
+});
+</script>
+
+</body>
+</html>
