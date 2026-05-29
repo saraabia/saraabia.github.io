@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildForever Growth Experiment Lab — Sara Abia</title>
+<style>
+  :root {
+    --bg: #fdfcfa;
+    --card: #ffffff;
+    --ink: #0a0a0a;
+    --muted: #6b6b6b;
+    --line: #e8e6e1;
+    --accent: #d97706;
+    --accent-soft: #fef3e2;
+    --pink: #ec4899;
+    --pink-soft: #fce7f3;
+    --blue: #2563eb;
+    --green: #16a34a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Helvetica, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    padding: 50px 24px;
+  }
+  .container { max-width: 1080px; margin: 0 auto; }
+  .topline {
+    font-family: 'SF Mono', Menlo, Monaco, monospace;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 18px;
+  }
+  h1 {
+    font-family: 'New York', Georgia, serif;
+    font-size: 46px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+  h1 em { color: var(--accent); font-style: italic; }
+  .sub {
+    font-size: 17px;
+    color: #333;
+    max-width: 720px;
+    margin-bottom: 14px;
+    line-height: 1.55;
+  }
+  .byline {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'SF Mono', monospace;
+    margin-bottom: 60px;
+  }
+  .section { margin: 70px 0; }
+  .section-num {
+    font-family: 'SF Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  h2 {
+    font-family: 'New York', Georgia, serif;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin-bottom: 22px;
+  }
+  h2 em { color: var(--accent); font-style: italic; }
+  .section > p { color: #2a2a2a; margin-bottom: 18px; max-width: 760px; }
+
+  /* Experiment table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 14px;
+    margin: 24px 0;
+  }
+  th {
+    background: #faf8f4;
+    padding: 14px 12px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--line);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #555;
+  }
+  td {
+    padding: 16px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr.winner { background: var(--accent-soft); }
+  tr.winner td:first-child { font-weight: 700; color: var(--accent); }
+  .score {
+    display: inline-block;
+    min-width: 28px;
+    text-align: center;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 12px;
+    background: #f5f5f0;
+  }
+  .score-high { background: #dcfce7; color: #166534; }
+  .score-mid { background: #fef3c7; color: #92400e; }
+  .score-low { background: #fee2e2; color: #991b1b; }
+  .ice-total {
+    font-family: 'New York', Georgia, serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .exp-name { font-weight: 600; margin-bottom: 4px; }
+  .exp-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  /* The recap card prototype */
+  .demo-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    align-items: start;
+    margin: 30px 0;
+  }
+  .demo-left {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .demo-label {
+    font-family: 'SF Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+  .control-group {
+    margin-bottom: 18px;
+  }
+  .control-group label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-family: 'SF Mono', monospace;
+  }
+  .control-group input, .control-group select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    background: white;
+  }
+  .gen-btn {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s;
+  }
+  .gen-btn:hover { opacity: 0.85; }
+
+  /* Phone mockup */
+  .phone {
+    background: #1a1a1a;
+    border-radius: 36px;
+    padding: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    max-width: 320px;
+    margin: 0 auto;
+  }
+  .phone-screen {
+    background: #fdfcfa;
+    border-radius: 26px;
+    overflow: hidden;
+    min-height: 540px;
+    position: relative;
+  }
+  .phone-header {
+    padding: 20px 20px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .phone-time {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'SF Mono', monospace;
+    margin-bottom: 8px;
+  }
+  .phone-app-name {
+    font-family: 'New York', Georgia, serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .recap-card {
+    margin: 16px;
+    background: linear-gradient(135deg, #fce7f3 0%, #fef3e2 100%);
+    border-radius: 18px;
+    padding: 24px 20px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s ease;
+  }
+  .recap-card.shown { opacity: 1; transform: translateY(0); }
+  .recap-eyebrow {
+    font-family: 'SF Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+  }
+  .recap-headline {
+    font-family: 'New York', Georgia, serif;
+    font-size: 22px;
+    line-height: 1.25;
+    margin-bottom: 16px;
+    color: #1a1a1a;
+  }
+  .recap-headline strong { color: var(--accent); }
+  .recap-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .recap-stat {
+    background: rgba(255,255,255,0.6);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .recap-stat-num {
+    font-family: 'New York', Georgia, serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .recap-stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-top: 6px;
+  }
+  .recap-share {
+    background: var(--ink);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 12px;
+    cursor: pointer;
+  }
+  .placeholder {
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    padding: 60px 20px;
+    font-style: italic;
+  }
+
+  /* Week one plan */
+  .plan {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin: 26px 0;
+  }
+  .day {
+    background: var(--card);
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  .day-label {
+    font-family: 'SF Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+  .day-title { font-weight: 600; margin-bottom: 8px; font-size: 14px; line-height: 1.3; }
+  .day-text { font-size: 13px; color: #444; line-height: 1.5; }
+
+  /* Why me */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 26px 0;
+  }
+  .why-cell {
+    background: var(--card);
+    padding: 26px 24px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .why-num {
+    font-family: 'New York', Georgia, serif;
+    font-size: 24px;
+    color: var(--accent);
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+  .why-title { font-weight: 600; margin-bottom: 10px; font-size: 16px; line-height: 1.3; }
+  .why-text { font-size: 14px; color: #444; line-height: 1.55; }
+
+  footer {
+    margin-top: 80px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-family: 'SF Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  @media (max-width: 768px) {
+    .demo-wrap, .plan, .why-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 34px; }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="topline">
+    <span>For: Mariya, Naveen, Steven, Albert, Eddy + the BuildForever team</span>
+    <span>From: Sara Abia</span>
+  </div>
+
+  <h1>A growth experiment lab for Extra, <em>built like I'd run it on day one.</em></h1>
+  <p class="sub">You asked for one growth experiment I'd test in the first week. Below is more than one — six experiments scored on ICE, the winning one expanded into a working prototype, and a Mon–Fri plan to ship it.</p>
+  <p class="sub">Because the right answer to "what experiment would you run" is "here's the portfolio I'd run it from, and here's the first one already half-built."</p>
+  <p class="byline">Sara Abia · USC Annenberg M.S. · ex-Goldman Sachs · NYC-ready · abia@usc.edu</p>
+
+  <!-- ============ SECTION 01: ICE PORTFOLIO ============ -->
+  <div class="section">
+    <div class="section-num">/ 01 / The experiment portfolio</div>
+    <h2>Six experiments, scored on ICE. <em>One winner.</em></h2>
+    <p>ICE = Impact × Confidence × Ease, each scored 1–5. A simple framework, but the discipline matters: it forces you to fight for your priors, not your favorites. The winner below ships in week one. The rest get queued in priority order.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Experiment</th>
+          <th>Impact</th>
+          <th>Confidence</th>
+          <th>Ease</th>
+          <th>ICE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="winner">
+          <td>1</td>
+          <td>
+            <div class="exp-name">The Sunday Recap card</div>
+            <div class="exp-desc">"This week, Extra handled 247 emails for you. You actually opened 18. That's 6h 12m back." In-app + email, shareable.</div>
+          </td>
+          <td><span class="score score-high">5</span></td>
+          <td><span class="score score-high">4</span></td>
+          <td><span class="score score-high">4</span></td>
+          <td><span class="ice-total">80</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>
+            <div class="exp-name">Unsubscribe streak counter</div>
+            <div class="exp-desc">Surface a running counter of senders the user has killed forever. Convert the most-praised micro-moment into a habit loop with shareable milestones.</div>
+          </td>
+          <td><span class="score score-mid">4</span></td>
+          <td><span class="score score-high">4</span></td>
+          <td><span class="score score-high">5</span></td>
+          <td><span class="ice-total">80</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>
+            <div class="exp-name">"Bring a friend" reciprocity loop</div>
+            <div class="exp-desc">After the user marks 10 emails done in one day, prompt: "Send your inbox-overloaded friend an invite." One-tap pre-filled text.</div>
+          </td>
+          <td><span class="score score-high">5</span></td>
+          <td><span class="score score-mid">3</span></td>
+          <td><span class="score score-mid">4</span></td>
+          <td><span class="ice-total">60</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>
+            <div class="exp-name">TestFlight → public review pipeline</div>
+            <div class="exp-desc">Identify the 50 most engaged web users, invite to TestFlight beta with a 1-line ask to leave an App Store review after week 2. Drive Apple search rank.</div>
+          </td>
+          <td><span class="score score-mid">4</span></td>
+          <td><span class="score score-mid">3</span></td>
+          <td><span class="score score-high">4</span></td>
+          <td><span class="ice-total">48</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>
+            <div class="exp-name">Creator-led demo videos</div>
+            <div class="exp-desc">Partner with 5 productivity-niche creators (Cal Newport-adjacent, ADHD TikTok, Notion girlies) for honest 60-sec demos. Pay per qualified signup.</div>
+          </td>
+          <td><span class="score score-high">5</span></td>
+          <td><span class="score score-mid">3</span></td>
+          <td><span class="score score-low">2</span></td>
+          <td><span class="ice-total">30</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>
+            <div class="exp-name">"Inbox autopsy" landing page</div>
+            <div class="exp-desc">Public web tool: connect Gmail read-only, get a free 30-second visualization of your inbox's worst senders. CTA to install Extra.</div>
+          </td>
+          <td><span class="score score-high">5</span></td>
+          <td><span class="score score-mid">3</span></td>
+          <td><span class="score score-low">2</span></td>
+          <td><span class="ice-total">30</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size: 13px; color: var(--muted); margin-top: 14px;"><em>Two experiments tied at ICE 80. The Sunday Recap wins because it's the only one that also makes Extra's core value proposition <strong>visible to the user</strong> — "we give you back hours" is invisible without a recap. Unsubscribe streak is queued as experiment #2.</em></p>
+  </div>
+
+  <!-- ============ SECTION 02: THE WINNER, PROTOTYPED ============ -->
+  <div class="section">
+    <div class="section-num">/ 02 / The winning experiment, prototyped</div>
+    <h2>The Sunday Recap card. <em>Generate a real one below.</em></h2>
+    <p>The hypothesis: Extra's pitch is "give back hours every week." But users don't <em>feel</em> hours — they feel small moments of relief. Quantifying the time saved at the right emotional moment (Sunday evening, before the week resets) should drive a measurable lift in week-2 retention and share rate.</p>
+    <p style="margin-bottom: 30px;">Below is a working prototype of what the card would look like inside Extra. Adjust the inputs to simulate different user profiles, then hit "Generate recap" to see the rendered card.</p>
+
+    <div class="demo-wrap">
+      <div class="demo-left">
+        <div class="demo-label">// Simulate a user week</div>
+        <div class="control-group">
+          <label>Emails handled this week</label>
+          <input type="number" id="emailsHandled" value="247" min="10" max="2000">
+        </div>
+        <div class="control-group">
+          <label>Emails the user actually opened</label>
+          <input type="number" id="emailsOpened" value="18" min="1" max="500">
+        </div>
+        <div class="control-group">
+          <label>User first name</label>
+          <input type="text" id="userName" value="Sara" maxlength="20">
+        </div>
+        <div class="control-group">
+          <label>Top sender killed</label>
+          <input type="text" id="topSender" value="LinkedIn" maxlength="40">
+        </div>
+        <button class="gen-btn" id="genBtn">Generate recap</button>
+        <p style="font-size: 11px; color: var(--muted); margin-top: 14px; line-height: 1.5;">
+          The card uses a simple time-saved estimate: 90 seconds per message Extra handled silently. That's deliberately conservative — most inbox time is decision fatigue, not reading. Even at this estimate, a heavy user sees hours saved within a single week.
+        </p>
+      </div>
+
+      <div>
+        <div class="demo-label" style="margin-bottom: 16px;">// Live preview</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-header">
+              <div class="phone-time">Sunday 7:42 PM</div>
+              <div class="phone-app-name">Extra</div>
+            </div>
+            <div id="recapContainer">
+              <div class="placeholder">Click "Generate recap" to render</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="font-family: 'New York', Georgia, serif; font-weight: 500; font-size: 22px; margin: 36px 0 14px;">The full test design</h3>
+
+    <table style="margin-top: 10px;">
+      <tbody>
+        <tr>
+          <td style="width: 30%; font-weight: 600; background: #faf8f4;">Hypothesis</td>
+          <td>Quantifying time saved + surfacing it at end of week 1 lifts week-2 retention by ≥8% and produces ≥5% organic share rate.</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; background: #faf8f4;">Setup</td>
+          <td>Two-cell A/B over 14 days on new signups. Control: standard onboarding. Treatment: same onboarding + Sunday recap at end of week 1.</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; background: #faf8f4;">Sample size</td>
+          <td>500 per cell minimum (scaled up depending on current new-user volume; current launch traction suggests this is comfortably achievable in ~5 days).</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; background: #faf8f4;">Primary metric</td>
+          <td>Week-2 retention (DAU on day 8–14 ÷ signups in cohort).</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; background: #faf8f4;">Secondary</td>
+          <td>Share button taps, in-app referral installs, "would you recommend" prompt response on day 14.</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; background: #faf8f4;">Guardrail</td>
+          <td>Unsubscribe rate on the recap email itself (must stay below 4%). We don't want to become the noise we're killing.</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600; background: #faf8f4;">Ship / kill criteria</td>
+          <td>Ship: retention lift ≥8% with p &lt; 0.1, OR share rate ≥5%. Iterate: 3–8% lift, run a copy variant test. Kill: &lt;3% lift AND share &lt;2%.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============ SECTION 03: WEEK ONE PLAN ============ -->
+  <div class="section">
+    <div class="section-num">/ 03 / What I'd ship in week one</div>
+    <h2>Mon–Fri. <em>Card live by Friday afternoon.</em></h2>
+    <p>Two months, 15 hours a week. That's roughly 120 hours total. Most candidates would burn the first two weeks "ramping up." I'd ship the first experiment live by end of week one.</p>
+
+    <div class="plan">
+      <div class="day">
+        <div class="day-label">MON</div>
+        <div class="day-title">Hypothesis + sample math</div>
+        <div class="day-text">Pull current new-signup volume from the analytics stack. Lock in sample size, randomization, success criteria. 1-pager in Notion. Review with Mariya in 20 min.</div>
+      </div>
+      <div class="day">
+        <div class="day-label">TUE</div>
+        <div class="day-title">Card design + copy variants</div>
+        <div class="day-text">Work with design to spec the recap card (mobile + email). Write 3 copy variants for the headline. Write 2 share-card image templates.</div>
+      </div>
+      <div class="day">
+        <div class="day-label">WED</div>
+        <div class="day-title">Instrumentation + QA</div>
+        <div class="day-text">Engineering ships the card behind a feature flag. Confirm event tracking for opens, clicks, shares, unsubscribes. Send to 10 internal users first.</div>
+      </div>
+      <div class="day">
+        <div class="day-label">THU</div>
+        <div class="day-title">Launch cohort A</div>
+        <div class="day-text">First cohort goes live. Daily watch on the funnel. If unsubscribe rate spikes above guardrail in first 12 hours, kill cleanly and reset.</div>
+      </div>
+      <div class="day">
+        <div class="day-label">FRI</div>
+        <div class="day-title">Memo + Loom</div>
+        <div class="day-text">First 48-hour read posted in #growth. 90-sec Loom walkthrough of what's working, what to watch, and the proposed week-2 iteration.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION 04: WHY ME ============ -->
+  <div class="section">
+    <div class="section-num">/ 04 / Why I'm bringing this to BuildForever</div>
+    <h2>Three reasons this role is a near-perfect match.</h2>
+
+    <div class="why-grid">
+      <div class="why-cell">
+        <div class="why-num">i.</div>
+        <div class="why-title">I already do this work.</div>
+        <div class="why-text">I built similar growth experiment frameworks for two healthtech companies this month — Roon (NYC, $22.5M raised) and TriFetch (SF, AI healthcare admin). Both live, both received interest within a week. Roon at <strong>saraabia.github.io/roon-flywheel.html</strong>. This is the shape of work I do for free, on weekends.</div>
+      </div>
+      <div class="why-cell">
+        <div class="why-num">ii.</div>
+        <div class="why-title">Consumer is where I think.</div>
+        <div class="why-text">My background is Annenberg consumer behavior + analytics on a $4K+ paid campaign (Reddit, Instacart, email) where I identified the winning creative driving 56% of delivery and a 40% open rate, +15pp above benchmark. Before that, four years co-running a consumer hospitality business with my father — 4.8/5 across 300+ reviews.</div>
+      </div>
+      <div class="why-cell">
+        <div class="why-num">iii.</div>
+        <div class="why-title">Real user, real ownership.</div>
+        <div class="why-text">I haven't been an Extra user for months, so I can't fake that. But I read your launch coverage carefully — the unsubscribe loop, the Today tab, the "we don't pitch it as AI" framing — and what I want is exactly what the JD describes: real ownership of experiments end to end, weekly cadence, mentorship from people who shipped at Pinterest. I'd be in NYC for two months and bring this energy to it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CLOSING ============ -->
+  <div class="section" style="text-align: center; margin-top: 60px;">
+    <div class="section-num">/ The ask</div>
+    <h2>I'd love to run these with you. <em>Starting Monday.</em></h2>
+    <p style="text-align: center; max-width: 660px; margin: 0 auto;">The portfolio, the prototype, the week-one plan are what I'd actually ship at BuildForever. Resume is in your inbox. Happy to walk through any of it.</p>
+    <p style="margin-top: 30px; font-family: 'SF Mono', monospace; font-size: 14px;"><strong>Sara Abia</strong> · abia@usc.edu · +1 (626) 731-0863</p>
+  </div>
+
+  <footer>
+    // Built for the BuildForever team · Sara Abia · 2026 //
+  </footer>
+
+</div>
+
+<script>
+(function() {
+  function generateRecap() {
+    var emails = parseInt(document.getElementById('emailsHandled').value, 10) || 247;
+    var opened = parseInt(document.getElementById('emailsOpened').value, 10) || 18;
+    var name = document.getElementById('userName').value || 'you';
+    var sender = document.getElementById('topSender').value || 'LinkedIn';
+
+    if (opened > emails) opened = emails;
+
+    var handled = emails - opened;
+    var secondsSaved = handled * 90;
+    var hours = Math.floor(secondsSaved / 3600);
+    var minutes = Math.floor((secondsSaved % 3600) / 60);
+    var handledPct = emails > 0 ? Math.round((handled / emails) * 100) : 0;
+
+    var container = document.getElementById('recapContainer');
+    container.innerHTML =
+      '<div class="recap-card">' +
+        '<div class="recap-eyebrow">Your week in Extra</div>' +
+        '<div class="recap-headline">' +
+          name + ', Extra handled <strong>' + handled + ' emails</strong> for you this week. ' +
+          'That\'s <strong>' + hours + 'h ' + minutes + 'm</strong> back.' +
+        '</div>' +
+        '<div class="recap-stats">' +
+          '<div class="recap-stat">' +
+            '<div class="recap-stat-num">' + emails + '</div>' +
+            '<div class="recap-stat-label">Total in your inbox</div>' +
+          '</div>' +
+          '<div class="recap-stat">' +
+            '<div class="recap-stat-num">' + opened + '</div>' +
+            '<div class="recap-stat-label">You actually opened</div>' +
+          '</div>' +
+          '<div class="recap-stat">' +
+            '<div class="recap-stat-num">' + handledPct + '%</div>' +
+            '<div class="recap-stat-label">Quietly handled</div>' +
+          '</div>' +
+          '<div class="recap-stat">' +
+            '<div class="recap-stat-num" style="font-size: 17px;">' + sender + '</div>' +
+            '<div class="recap-stat-label">Top sender you killed</div>' +
+          '</div>' +
+        '</div>' +
+        '<button class="recap-share">Share your week &rarr;</button>' +
+      '</div>';
+    setTimeout(function() {
+      var card = container.querySelector('.recap-card');
+      if (card) card.classList.add('shown');
+    }, 50);
+  }
+
+  function init() {
+    var btn = document.getElementById('genBtn');
+    if (btn) btn.addEventListener('click', generateRecap);
+    generateRecap();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>
