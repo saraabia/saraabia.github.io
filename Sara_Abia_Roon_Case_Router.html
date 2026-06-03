@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roon · Case Router</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Spline+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f3ee;--panel:#fff;--ink:#1f1d1a;--soft:#6b665c;
+    --teal:#0f766e;--teal-deep:#0a4f49;--wash:#edf4f2;--line-t:#d4e5e1;
+    --clay:#b0682a;--clay-wash:#f6ecdf;--line:#e6e3da;--hl:#fce7a0;
+    --serif:'Newsreader',Georgia,serif;--sans:'Spline Sans',-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;
+    background-image:radial-gradient(circle at 1px 1px,rgba(0,0,0,.025) 1px,transparent 0);background-size:22px 22px;}
+  .wrap{max-width:860px;margin:0 auto;padding:34px 26px 60px;}
+  header{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:14px;}
+  .mark{font-family:var(--serif);font-size:27px;font-weight:600;color:var(--teal-deep);}
+  .mark .dot{color:var(--clay);}
+  .tag{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--soft);font-weight:600;}
+  .proto{margin-left:auto;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);
+    border:1px solid var(--line-t);background:var(--wash);padding:3px 9px;border-radius:20px;font-weight:600;}
+  .lede{font-family:var(--serif);font-size:18px;line-height:1.5;color:#34312c;margin:20px 0 4px;max-width:680px;}
+  .lede b{font-weight:600;color:var(--teal-deep);}
+  .sub{font-size:13px;color:var(--soft);margin-bottom:20px;}
+
+  /* growth layer */
+  .growth{background:var(--teal-deep);border-radius:14px;padding:16px 18px;margin-bottom:22px;color:#fff;}
+  .growth .gh{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;}
+  .growth .gt{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;opacity:.8;}
+  .growth .gobj{margin-left:auto;font-size:12px;opacity:.85;}
+  .wau{margin-bottom:14px;}
+  .wau .lab{display:flex;justify-content:space-between;font-size:11.5px;opacity:.85;margin-bottom:5px;}
+  .wau .bar{height:8px;background:rgba(255,255,255,.16);border-radius:6px;overflow:hidden;}
+  .wau .fill{height:100%;background:#7fe6d6;border-radius:6px;transition:width .8s ease;}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+  .tile{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:9px;padding:9px 11px;}
+  .tile .n{font-size:21px;font-weight:700;font-family:var(--serif);line-height:1;transition:color .3s;}
+  .tile .l{font-size:10px;opacity:.78;margin-top:4px;line-height:1.3;}
+  .tile.bump .n{color:#7fe6d6;}
+
+  .label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:600;margin-bottom:9px;}
+  .cases{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+  .case{text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:12px 15px;cursor:pointer;transition:border-color .15s,box-shadow .15s;font-family:inherit;}
+  .case:hover{border-color:var(--line-t);box-shadow:0 2px 12px rgba(15,118,110,.06);}
+  .case.sel{border-color:var(--teal);box-shadow:0 0 0 3px var(--wash);}
+  .case .ct{font-weight:600;font-size:13.5px;margin-bottom:2px;}
+  .case .cd{font-size:12.5px;color:var(--soft);line-height:1.45;}
+  textarea{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:12px 15px;font-family:inherit;font-size:13.5px;color:var(--ink);resize:vertical;min-height:70px;line-height:1.5;}
+  textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--wash);}
+  textarea::placeholder{color:#b3aea3;}
+  .runrow{display:flex;align-items:center;gap:14px;margin-top:14px;}
+  .run{background:var(--teal);color:#fff;border:none;border-radius:10px;padding:11px 22px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;}
+  .run:hover{background:var(--teal-deep);}.run:disabled{opacity:.55;cursor:default;}
+  .runnote{font-size:12px;color:var(--soft);}
+  .pipe{margin-top:30px;display:none;}.pipe.on{display:block;}
+  .stage{opacity:0;transform:translateY(8px);transition:opacity .45s,transform .45s;margin-bottom:14px;}
+  .stage.show{opacity:1;transform:none;}
+  .stage-h{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+  .snum{width:23px;height:23px;border-radius:7px;background:var(--teal);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 23px;}
+  .snum.human{background:var(--clay);}
+  .stitle{font-weight:600;font-size:14.5px;}
+  .actor{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:700;padding:2px 7px;border-radius:5px;}
+  .actor.ai{background:var(--wash);color:var(--teal-deep);}.actor.human{background:var(--clay-wash);color:var(--clay);}
+  .think{font-size:12.5px;color:var(--teal);display:flex;align-items:center;gap:7px;padding-left:33px;}
+  .dots{display:inline-flex;gap:3px;}.dots i{width:5px;height:5px;border-radius:50%;background:var(--teal);animation:bl 1s infinite;}
+  .dots i:nth-child(2){animation-delay:.18s;}.dots i:nth-child(3){animation-delay:.36s;}
+  @keyframes bl{0%,80%,100%{opacity:.25;}40%{opacity:1;}}
+  .body{padding-left:33px;}
+  .read{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:13px 16px;display:flex;gap:22px;flex-wrap:wrap;}
+  .read .f .k{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);font-weight:600;margin-bottom:2px;}
+  .read .f .v{font-weight:600;font-size:13px;}
+  .pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;}
+  .pill.routine{background:#eef4f2;color:var(--teal-deep);}.pill.soon{background:#fbf1e0;color:var(--clay);}.pill.urgent{background:#fae9e6;color:#b23b2e;}
+  .experts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;}
+  .exp{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:12px 13px;position:relative;}
+  .exp.senior{border-color:var(--line-t);box-shadow:0 0 0 2px var(--wash);}
+  .exp .spec{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;font-weight:700;color:var(--clay);margin-bottom:4px;}
+  .exp .ttl{font-weight:600;font-size:12.5px;color:var(--teal-deep);margin-bottom:4px;line-height:1.3;}
+  .exp .why{font-size:11.5px;color:var(--soft);line-height:1.4;}
+  .anchor{display:inline-block;margin-top:7px;font-size:9px;letter-spacing:.05em;text-transform:uppercase;font-weight:700;color:var(--teal-deep);background:var(--wash);border:1px solid var(--line-t);padding:2px 7px;border-radius:5px;}
+  .draft{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px 16px;}
+  .draft .from{font-size:11px;color:var(--soft);margin-bottom:8px;border-bottom:1px dotted var(--line);padding-bottom:7px;}
+  .draft .msg{font-family:var(--serif);font-size:14.5px;line-height:1.55;color:#2c2a26;}
+  .attach{display:flex;flex-direction:column;gap:7px;}
+  .att{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:9px 13px;font-size:12.5px;color:#35322c;display:flex;gap:9px;align-items:baseline;}
+  .att .ic{color:var(--teal);font-size:11px;font-weight:700;}
+  .checkpoint{background:var(--clay-wash);border:1px solid #ecd9bf;border-radius:12px;padding:15px 17px;}
+  .checkpoint .ct{font-weight:600;font-size:13.5px;color:#6e4517;margin-bottom:4px;}
+  .checkpoint .cd{font-size:12.5px;color:#7c5a32;margin-bottom:12px;}
+  .cbtns{display:flex;gap:9px;}
+  .approve{background:var(--clay);color:#fff;border:none;border-radius:9px;padding:9px 18px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;}
+  .approve:hover{background:#985719;}
+  .edit{background:transparent;color:var(--clay);border:1px solid #e3c9a4;border-radius:9px;padding:9px 16px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;}
+  .sent{display:none;flex-direction:column;gap:10px;background:var(--wash);border:1px solid var(--line-t);border-radius:10px;padding:13px 15px;margin-top:4px;}
+  .sent.on{display:flex;}
+  .sent .confirm{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--teal-deep);font-weight:600;}
+  .impact{border-top:1px dotted var(--line-t);padding-top:10px;}
+  .impact .il{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-deep);font-weight:700;margin-bottom:6px;}
+  .impact .ir{font-size:12.5px;color:#2c2a26;line-height:1.55;}
+  .impact .ir b{color:var(--teal-deep);}
+  footer{margin-top:34px;border-top:1px solid var(--line);padding-top:16px;font-size:12.5px;color:var(--soft);line-height:1.55;}
+  footer b{color:var(--teal-deep);font-weight:600;}
+  .fnote{margin-top:7px;font-size:11px;color:#a8a294;font-style:italic;}
+  .stack{margin-top:26px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--panel);}
+  .stack .sklabel{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:600;margin-bottom:10px;}
+  .skchips{display:flex;flex-wrap:wrap;gap:8px;}
+  .skchip{font-size:11px;color:#4a463d;background:var(--wash);border:1px solid var(--line-t);border-radius:8px;padding:7px 11px;line-height:1.3;max-width:220px;}
+  .skchip b{color:var(--teal-deep);display:block;font-size:12px;margin-bottom:1px;}
+  @media(max-width:620px){.experts{grid-template-columns:1fr;}.tiles{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="mark">Roon<span class="dot">.</span></span>
+    <span class="tag">Case Router &#183; growth engine</span>
+    <span class="proto">Working prototype</span>
+  </header>
+
+  <p class="lede">Roon already lets doctors get multi-specialty input. <b>This is the growth team&#8217;s engine for it:</b> it routes a neurosurgeon&#8217;s hard case to the right cross-specialty board so the case reliably gets answered, which is what turns a quiet room into a live one.</p>
+  <p class="sub">Every routed case is a growth event. Route one and watch the growth view move.</p>
+
+  <div class="growth">
+    <div class="gh"><span class="gt">Growth view &#183; Neurosurgery</span><span class="gobj">Goal: weekly active 20% &#8594; 50%</span></div>
+    <div class="wau">
+      <div class="lab"><span>Weekly active</span><span id="wauPct">24%</span></div>
+      <div class="bar"><div class="fill" id="wauFill" style="width:48%"></div></div>
+    </div>
+    <div class="tiles">
+      <div class="tile" id="tileCases"><div class="n" id="nCases">12</div><div class="l">cases routed this week</div></div>
+      <div class="tile" id="tileExp"><div class="n" id="nExp">34</div><div class="l">cross-specialty experts pulled in</div></div>
+      <div class="tile" id="tileSen"><div class="n" id="nSen">7</div><div class="l">senior anchors activated</div></div>
+      <div class="tile" id="tileRef"><div class="n" id="nRef">9</div><div class="l">referral openings created</div></div>
+    </div>
+  </div>
+
+  <div class="label">1 &#183; Choose a case (de-identified)</div>
+  <div class="cases" id="cases"></div>
+  <div class="label">Or paste your own hard case</div>
+  <textarea id="custom" placeholder="Paste a de-identified neurosurgery case. e.g. Recurrent glioblastoma, MGMT-unmethylated, progression after chemoradiation, recurrence near the motor strip..."></textarea>
+  <div class="runrow">
+    <button class="run" id="run">Route the case</button>
+    <span class="runnote" id="runnote">Finds the cross-specialty board in seconds.</span>
+  </div>
+
+  <div class="pipe" id="pipe">
+    <div class="stage" id="s1"><div class="stage-h"><span class="snum">1</span><span class="stitle">Read the case</span><span class="actor ai">AI</span></div>
+      <div class="think" id="t1"><span>reading the case</span><span class="dots"><i></i><i></i><i></i></span></div><div class="body" id="b1"></div></div>
+    <div class="stage" id="s2"><div class="stage-h"><span class="snum">2</span><span class="stitle">Assemble the cross-specialty board</span><span class="actor ai">AI</span></div>
+      <div class="think" id="t2"><span>matching experts across specialties</span><span class="dots"><i></i><i></i><i></i></span></div><div class="body" id="b2"></div></div>
+    <div class="stage" id="s3"><div class="stage-h"><span class="snum">3</span><span class="stitle">Draft the consult</span><span class="actor ai">AI</span></div>
+      <div class="think" id="t3"><span>writing a collegial request</span><span class="dots"><i></i><i></i><i></i></span></div><div class="body" id="b3"></div></div>
+    <div class="stage" id="s4"><div class="stage-h"><span class="snum">4</span><span class="stitle">Attach context</span><span class="actor ai">AI</span></div>
+      <div class="think" id="t4"><span>pulling prior cases and evidence</span><span class="dots"><i></i><i></i><i></i></span></div><div class="body" id="b4"></div></div>
+    <div class="stage" id="s5"><div class="stage-h"><span class="snum human">5</span><span class="stitle">Human approves and sends</span><span class="actor human">Human</span></div><div class="body" id="b5"></div></div>
+  </div>
+
+  <div class="stack">
+    <div class="sklabel">How it&#8217;s wired</div>
+    <div class="skchips">
+      <span class="skchip"><b>Airtable</b>operating surface: cases, experts, growth metrics</span>
+      <span class="skchip"><b>n8n</b>automation: triggers and orchestration</span>
+      <span class="skchip"><b>Claude API</b>reads the case, matches the board, drafts the consult</span>
+      <span class="skchip"><b>Roon data</b>member graph and specialty communities</span>
+    </div>
+  </div>
+
+  <footer>
+    <b>AI assembles, drafts, and routes. A human approves every send and owns every clinical judgment.</b> The growth value: every answered case re-activates the surgeon who asked, pulls cross-specialty experts into the neurosurgery orbit, and seeds a referral, the 20 to 50 lever, one case at a time.
+    <div class="fnote">Prototype by Sara Abia for the Roon neurosurgery case. Expert profiles are illustrative role descriptors, not real individuals; references and growth figures are illustrative.</div>
+  </footer>
+</div>
+
+<script>
+const SAMPLES=[
+ {id:'gbm',title:'Recurrent glioblastoma, near motor strip',desc:'MGMT-unmethylated, progression after chemoradiation, recurrence abutting the motor strip.',
+  text:'Recurrent glioblastoma, MGMT-unmethylated, progression after chemoradiation. Recurrence abuts the motor strip. Weighing re-resection with awake mapping vs systemic therapy.',
+  result:{read:'Recurrent high-grade glioma, eloquent location',question:'Re-resect with awake mapping, or move to systemic therapy?',urgency:'soon',
+   experts:[{spec:'Neuro-oncology',ttl:'Surgical neuro-oncology · eloquent gliomas',why:'Largest awake-mapping re-resection experience on the board.',senior:true},
+    {spec:'Medical oncology',ttl:'Neuro-oncology · recurrent GBM trials',why:'Already active on Roon; weighs the systemic arm.'},
+    {spec:'Radiation oncology',ttl:'CNS radiation · re-irradiation',why:'Reads the re-irradiation option against re-operation.'}],
+   draft:'Bringing a recurrent MGMT-unmethylated GBM, now abutting the motor strip after chemoradiation. I am weighing re-resection with awake mapping against systemic therapy and would value the board&#8217;s read on whether the functional risk justifies re-operation. De-identified imaging attached.',
+   priors:['Eloquent GBM recurrence, re-resected with mapping, resolved thread','Motor-adjacent recurrence managed systemically after mapping deemed high-risk'],
+   ref:'Consensus guidance on recurrent high-grade glioma (illustrative)'}},
+ {id:'newgbm',title:'Newly diagnosed glioma, molecular pending',desc:'Frontal lesion, gross-total resection done, IDH and MGMT pending, planning adjuvant therapy.',
+  text:'Newly diagnosed frontal glioma, gross total resection achieved. IDH and MGMT status pending. Planning adjuvant therapy and want multidisciplinary input on sequencing.',
+  result:{read:'Newly diagnosed glioma, post-resection planning',question:'How to sequence adjuvant therapy while molecular markers are pending?',urgency:'routine',
+   experts:[{spec:'Neuropathology',ttl:'Molecular neuropathology',why:'Interprets IDH/MGMT and what to do while results are pending.'},
+    {spec:'Medical oncology',ttl:'Neuro-oncology · adjuvant protocols',why:'Already active on Roon; owns systemic sequencing.',senior:true},
+    {spec:'Radiation oncology',ttl:'CNS radiation oncology',why:'Times radiation against the molecular readout.'}],
+   draft:'Posting a newly diagnosed frontal glioma, gross total resection achieved, with IDH and MGMT still pending. I would value the board&#8217;s input on how to sequence adjuvant therapy in the interval. De-identified pathology and imaging attached.',
+   priors:['Frontal glioma, adjuvant sequencing with markers pending, resolved thread','GTR case where molecular results changed the adjuvant plan'],
+   ref:'CNS tumor classification and adjuvant pathway (illustrative)'}},
+ {id:'mets',title:'Brain metastases, oligometastatic',desc:'Two lesions, controlled primary, deciding surgery vs radiosurgery vs systemic escalation.',
+  text:'Two brain metastases, primary controlled, patient functional. Deciding between resection of the dominant lesion, stereotactic radiosurgery, or escalating systemic therapy.',
+  result:{read:'Oligometastatic brain disease, controlled primary',question:'Resect the dominant lesion, radiosurgery, or escalate systemic therapy?',urgency:'soon',
+   experts:[{spec:'Neurosurgery',ttl:'Neuro-oncologic surgery · metastases',why:'Calls whether the dominant lesion warrants resection.',senior:true},
+    {spec:'Radiation oncology',ttl:'Stereotactic radiosurgery',why:'Owns the radiosurgery option for both lesions.'},
+    {spec:'Medical oncology',ttl:'Oncology · systemic escalation',why:'Already active on Roon; weighs systemic escalation.'}],
+   draft:'Bringing an oligometastatic case: two brain lesions, primary controlled, patient functional. I would value the board&#8217;s read on resection of the dominant lesion versus radiosurgery versus systemic escalation. De-identified imaging attached.',
+   priors:['Oligometastatic brain disease, resection then SRS, resolved thread','Similar case managed with SRS plus systemic escalation'],
+   ref:'Multidisciplinary management of brain metastases (illustrative)'}}
+];
+
+let selected=null;
+const gv={cases:12,exp:34,sen:7,ref:9,wau:24};
+const casesEl=document.getElementById('cases');
+SAMPLES.forEach(s=>{const b=document.createElement('button');b.className='case';b.innerHTML='<div class="ct">'+s.title+'</div><div class="cd">'+s.desc+'</div>';
+  b.onclick=()=>{selected=s.id;document.getElementById('custom').value='';document.querySelectorAll('.case').forEach(c=>c.classList.remove('sel'));b.classList.add('sel');};casesEl.appendChild(b);});
+document.getElementById('custom').addEventListener('input',()=>{selected=null;document.querySelectorAll('.case').forEach(c=>c.classList.remove('sel'));});
+
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+function esc(t){const d=document.createElement('div');d.textContent=t;return d.innerHTML;}
+async function reveal(s,t,bId,html,ms){document.getElementById(s).classList.add('show');await sleep(ms);document.getElementById(t).style.display='none';document.getElementById(bId).innerHTML=html;}
+function rRead(r){return '<div class="read"><div class="f"><div class="k">Reads as</div><div class="v">'+esc(r.read)+'</div></div>'+
+  '<div class="f" style="flex:1;min-width:220px"><div class="k">Core question</div><div class="v">'+esc(r.question)+'</div></div>'+
+  '<div class="f"><div class="k">Urgency</div><div class="v"><span class="pill '+r.urgency+'">'+r.urgency+'</span></div></div></div>';}
+function rExperts(r){return '<div class="experts">'+r.experts.map(e=>'<div class="exp'+(e.senior?' senior':'')+'"><div class="spec">'+esc(e.spec)+'</div><div class="ttl">'+esc(e.ttl)+'</div><div class="why">'+esc(e.why)+'</div>'+(e.senior?'<div class="anchor">senior anchor</div>':'')+'</div>').join('')+'</div>';}
+function rDraft(r){return '<div class="draft"><div class="from">To: the matched cross-specialty board &#183; via Roon</div><div class="msg">'+r.draft+'</div></div>';}
+function rAttach(r){let h='<div class="attach">';r.priors.forEach(p=>h+='<div class="att"><span class="ic">CASE</span><span>'+esc(p)+'</span></div>');h+='<div class="att"><span class="ic">REF</span><span>'+esc(r.ref)+'</span></div>';return h+'</div>';}
+function rCheck(){return '<div class="checkpoint"><div class="ct">Ready to send to the board</div><div class="cd">AI assembled the board, drafted the consult, and pulled context. You decide if it goes out.</div>'+
+  '<div class="cbtns"><button class="approve" id="approve">Approve &amp; send</button><button class="edit" id="editbtn">Edit first</button></div></div><div class="sent" id="sent"></div>';}
+
+function bump(id){const t=document.getElementById(id);t.classList.add('bump');setTimeout(()=>t.classList.remove('bump'),900);}
+function applyGrowth(r){
+  const seniors=r.experts.filter(e=>e.senior).length;
+  gv.cases+=1; gv.exp+=r.experts.length; gv.sen+=seniors; gv.ref+=1; gv.wau=Math.min(50,gv.wau+1);
+  document.getElementById('nCases').textContent=gv.cases; bump('tileCases');
+  document.getElementById('nExp').textContent=gv.exp; bump('tileExp');
+  document.getElementById('nSen').textContent=gv.sen; bump('tileSen');
+  document.getElementById('nRef').textContent=gv.ref; bump('tileRef');
+  document.getElementById('wauPct').textContent=gv.wau+'%';
+  document.getElementById('wauFill').style.width=(gv.wau/50*100)+'%';
+  return seniors;
+}
+function impactHtml(r,seniors){
+  return '<div class="confirm"><span>&#10003;</span><span>Sent. The board is notified; whoever responds does so on their own clinical judgment.</span></div>'+
+    '<div class="impact"><div class="il">Growth impact of this case</div><div class="ir">'+
+    '<b>+1</b> neurosurgeon re-engaged (the asker) &#183; <b>+'+r.experts.length+'</b> cross-specialty experts pulled into the neurosurgery orbit'+
+    (seniors?' &#183; <b>+'+seniors+'</b> senior anchor activated':'')+' &#183; <b>+1</b> referral opening (the peer who would have known). '+
+    'That is the 20 to 50 lever, one case at a time.</div></div>';
+}
+
+async function runPipeline(r){
+  const pipe=document.getElementById('pipe');pipe.classList.add('on');
+  ['s1','s2','s3','s4','s5'].forEach(id=>document.getElementById(id).classList.remove('show'));
+  ['t1','t2','t3','t4'].forEach(id=>document.getElementById(id).style.display='flex');
+  ['b1','b2','b3','b4','b5'].forEach(id=>document.getElementById(id).innerHTML='');
+  pipe.scrollIntoView({behavior:'smooth',block:'start'});
+  await reveal('s1','t1','b1',rRead(r),700);await sleep(220);
+  await reveal('s2','t2','b2',rExperts(r),900);await sleep(220);
+  await reveal('s3','t3','b3',rDraft(r),900);await sleep(220);
+  await reveal('s4','t4','b4',rAttach(r),700);await sleep(220);
+  document.getElementById('s5').classList.add('show');document.getElementById('b5').innerHTML=rCheck();
+  document.getElementById('approve').onclick=function(){
+    this.parentElement.style.display='none';
+    const seniors=applyGrowth(r);
+    const sent=document.getElementById('sent');sent.innerHTML=impactHtml(r,seniors);sent.classList.add('on');
+  };
+  document.getElementById('editbtn').onclick=function(){alert('In the full tool this opens the draft for inline editing before send.');};
+}
+
+async function callClaude(t){
+  const prompt='You are the Roon Case Router, a growth tool for a physician network that already supports multi-specialty input. '+
+    'Given a de-identified neurosurgery case, return ONLY a JSON object, no prose or markdown, with keys: '+
+    'read (string short), question (string one line), urgency (one of "routine","soon","urgent"), '+
+    'experts (array of exactly 3 objects, each "spec": specialty, "ttl": role descriptor NOT a real name, "why": one line, and optional "senior": true on exactly one of them; make the three SPAN specialties), '+
+    'draft (2-3 sentence consult posted to the board, collegial, de-identified), priors (2 short illustrative prior cases), ref (one illustrative guideline ending "(illustrative)"). Case: '+t;
+  const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+  const data=await resp.json();
+  let txt=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('').trim().replace(/```json/gi,'').replace(/```/g,'').trim();
+  const r=JSON.parse(txt);if(!r.experts||r.experts.length!==3||!r.draft)throw new Error('shape');return r;
+}
+function fallback(){return {read:'Complex neurosurgical case',question:'Best multidisciplinary approach for the case described.',urgency:'soon',
+  experts:[{spec:'Neurosurgery',ttl:'Matched neurosurgical expert',why:'Closest match on case type.',senior:true},
+   {spec:'Medical oncology',ttl:'Oncology · already active on Roon',why:'Weighs the systemic arm.'},
+   {spec:'Radiation oncology',ttl:'CNS radiation oncology',why:'Weighs the radiation option.'}],
+  draft:'Bringing the case described above to the board. I would value a cross-specialty read on the main trade-off. De-identified details attached.',
+  priors:['A closely matched prior case, resolved thread','A similar case managed with the alternative approach'],ref:'Relevant multidisciplinary guidance (illustrative)'};}
+
+document.getElementById('run').addEventListener('click',async()=>{
+  const btn=document.getElementById('run'),note=document.getElementById('runnote');
+  const custom=document.getElementById('custom').value.trim();
+  if(selected){await runPipeline(SAMPLES.find(s=>s.id===selected).result);return;}
+  if(!custom){note.textContent='Pick a sample case or paste one first.';return;}
+  btn.disabled=true;btn.textContent='Routing...';note.textContent='Parsing your case with Claude...';
+  let r;try{r=await callClaude(custom);note.textContent='Finds the cross-specialty board in seconds.';}
+  catch(e){r=fallback();note.textContent='Live parse unavailable here, showing the workflow on a fallback read.';}
+  btn.disabled=false;btn.textContent='Route the case';await runPipeline(r);
+});
+</script>
+</body>
+</html>
